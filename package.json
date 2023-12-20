@@ -1,5 +1,5 @@
 {
-  "name": "OpenRoleplay",
+  "name": "openroleplay",
   "private": true,
   "scripts": {
     "build": "turbo build",
