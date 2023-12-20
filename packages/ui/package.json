@@ -21,8 +21,11 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-tooltip": "^1.0.7",
+    "clsx": "^2.0.0",
     "lucide-react": "^0.298.0",
+    "tailwind-merge": "^2.1.0",
     "vaul": "^0.8.0"
   }
 }
