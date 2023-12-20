@@ -19,8 +19,14 @@ export default function NavBar({}: {}) {
         <div
           className={`mx-5 flex h-16 w-full max-w-screen-xl items-center justify-between `}
         >
-          <Link href="/" className="flex items-center text-2xl font-display">
+          <Link
+            href="/"
+            className="flex text-2xl font-display gap-4 items-center"
+          >
             <TextLogo />
+            <div className="text-muted-foreground text-base sm:block hidden">
+              opensource ai characters
+            </div>
           </Link>
           {/* <div>
             <UserDropdown />

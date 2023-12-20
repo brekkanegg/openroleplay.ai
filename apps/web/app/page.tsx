@@ -38,11 +38,11 @@ export default function Page(): JSX.Element {
         value={Array.isArray(activeTab) ? activeTab[0] : activeTab}
         onValueChange={handleTabChange}
       >
-        <TabsList className="w-full grid grid-cols-2 fixed bottom-0 mx-auto left-0 ">
-          <TabsTrigger className="w-full" value="characters">
+        <TabsList className="w-[50%] right-0 grid grid-cols-2 fixed bottom-12 mx-auto left-0 z-10 rounded-full">
+          <TabsTrigger className="w-full rounded-full" value="characters">
             Characters
           </TabsTrigger>
-          <TabsTrigger className="w-full" value="chats">
+          <TabsTrigger className="w-full rounded-full" value="chats">
             Chats
           </TabsTrigger>
         </TabsList>
