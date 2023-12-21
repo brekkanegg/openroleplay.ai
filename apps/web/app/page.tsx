@@ -1,5 +1,5 @@
 "use client";
-import { MessageSquare, Plus, UserRound } from "lucide-react";
+import { CircleUserRound, Home, MessageSquare, Plus } from "lucide-react";
 import Slider from "@repo/ui/src/components/slider";
 import data from "@repo/ui/src/components/data";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import Chats from "./chats";
 import Create from "./create";
+import Persona from "./persona";
 
 export default function Page(): JSX.Element {
   const searchParams = useSearchParams();
@@ -41,16 +42,16 @@ export default function Page(): JSX.Element {
         value={Array.isArray(activeTab) ? activeTab[0] : activeTab}
         onValueChange={handleTabChange}
       >
-        <TabsList className="w-[75%] lg:w-[50%] h-16 right-0 flex gap-2 fixed bottom-12 mx-auto left-0 z-10 rounded-full">
+        <TabsList className="w-[85%] lg:w-[50%] h-16 right-0 flex gap-2 fixed bottom-12 mx-auto left-0 z-10 rounded-full">
           <TabsTrigger
             className="w-full rounded-full flex gap-0.5 flex-col items-center"
             value="characters"
           >
-            <UserRound className="w-5 h-5 p-1" />
-            Characters
+            <Home className="w-5 h-5 p-1" />
+            Discover
           </TabsTrigger>
           <TabsTrigger
-            className="w-[50%] rounded-full flex gap-0.5 flex-col items-center"
+            className="w-full rounded-full flex gap-0.5 flex-col items-center"
             value="create"
           >
             <Plus className="w-5 h-5 p-1" />
@@ -62,6 +63,13 @@ export default function Page(): JSX.Element {
           >
             <MessageSquare className="w-5 h-5 p-1" />
             Chats
+          </TabsTrigger>
+          <TabsTrigger
+            className="w-full rounded-full flex gap-0.5 flex-col items-center"
+            value="persona"
+          >
+            <CircleUserRound className="w-5 h-5 p-1" />
+            Persona
           </TabsTrigger>
         </TabsList>
         <TabsContent value="characters">
@@ -78,6 +86,12 @@ export default function Page(): JSX.Element {
           className="w-[100vw] h-[60vh] max-w-screen-xl"
         >
           <Chats />
+        </TabsContent>
+        <TabsContent
+          value="persona"
+          className="w-[100vw] h-60vh max-w-screen-xl"
+        >
+          <Persona />
         </TabsContent>
       </Tabs>
     </div>

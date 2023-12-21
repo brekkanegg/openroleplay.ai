@@ -16,6 +16,7 @@ import { Input } from "@repo/ui/src/components/input";
 import { Textarea } from "@repo/ui/src/components/textarea";
 import { Button } from "@repo/ui/src/components/button";
 import { Checkbox } from "@repo/ui/src/components/checkbox";
+import { Plus } from "lucide-react";
 
 export default function Create() {
   return (
@@ -27,12 +28,16 @@ export default function Create() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex justify-center items-center">
-            <Avatar>
+            <Avatar className="w-[200px] h-[350px] rounded">
               <AvatarImage
                 alt="Character Avatar"
                 src="/placeholder.svg?height=300&width=200"
               />
-              <AvatarFallback>CA</AvatarFallback>
+              <AvatarFallback className="rounded flex flex-col gap-0.5 text-muted-foreground">
+                <Plus />
+                Add character card
+                <span className="text-xs">Best size: 1024x1792</span>
+              </AvatarFallback>
             </Avatar>
           </div>
           <div className="space-y-2">
@@ -51,7 +56,7 @@ export default function Create() {
             <Textarea
               className="min-h-[100px]"
               id="instructions"
-              placeholder="What does this character do? How does it behave? What should it avoid doing?"
+              placeholder="What does this character do? How does they behave? What should they avoid doing?"
             />
           </div>
           <div className="space-y-2">
@@ -59,13 +64,6 @@ export default function Create() {
             <Input
               id="greeting1"
               placeholder="The first message from character to user"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="starter1">Conversation starters</Label>
-            <Input
-              id="starter1"
-              placeholder="Example for users to start the conversation"
             />
           </div>
           <div className="space-y-2">
@@ -86,9 +84,15 @@ export default function Create() {
                 </Label>
               </div>
               <div className="flex items-center">
-                <Checkbox id="capability1" disabled />
+                <Checkbox id="capability2" disabled />
                 <Label className="ml-2" htmlFor="capability1">
                   Web search
+                </Label>
+              </div>
+              <div className="flex items-center">
+                <Checkbox id="capability3" disabled />
+                <Label className="ml-2" htmlFor="capability1">
+                  Character voice
                 </Label>
               </div>
             </div>

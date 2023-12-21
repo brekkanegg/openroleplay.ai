@@ -73,7 +73,7 @@ const Slider = (props: { activeSlide: any; data: any[] }) => {
           perspective: "1200px",
           transformStyle: "preserve-3d",
         }}
-        className="relative w-[350px] h-[525px] my-0 mx-auto"
+        className="relative w-[300px] h-[525px] my-0 mx-auto"
       >
         {props.data.map((item, i) => (
           <React.Fragment key={item.id}>
@@ -82,7 +82,7 @@ const Slider = (props: { activeSlide: any; data: any[] }) => {
                 background: item.bgColor,
                 boxShadow: `0 5px 20px ${item.bgColor}30`,
                 ...getStyles(i),
-                width: "350px",
+                width: "300px",
                 height: "525px",
                 transition:
                   "transform 500ms ease 0s, opacity 500ms ease 0s, visibility 500ms ease 0s",
