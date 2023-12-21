@@ -70,13 +70,10 @@ const Slider = (props: { activeSlide: any; data: any[] }) => {
     <>
       <div
         style={{
-          position: "relative",
           perspective: "1200px",
           transformStyle: "preserve-3d",
-          width: "350px",
-          height: "525px",
-          margin: "0 auto",
         }}
+        className="relative w-[350px] h-[525px] my-0 mx-auto"
       >
         {props.data.map((item, i) => (
           <React.Fragment key={item.id}>

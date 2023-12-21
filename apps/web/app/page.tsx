@@ -10,6 +10,8 @@ import {
   TabsContent,
 } from "@repo/ui/src/components/tabs";
 import { useEffect, useState } from "react";
+import Chats from "./chats";
+import Create from "./create";
 
 export default function Page(): JSX.Element {
   const searchParams = useSearchParams();
@@ -65,8 +67,17 @@ export default function Page(): JSX.Element {
         <TabsContent value="characters">
           <Slider data={data} activeSlide={2} />
         </TabsContent>
-        <TabsContent value="chats">
-          <Slider data={data} activeSlide={2} />
+        <TabsContent
+          value="create"
+          className="w-[100vw] h-60vh max-w-screen-xl"
+        >
+          <Create />
+        </TabsContent>
+        <TabsContent
+          value="chats"
+          className="w-[100vw] h-[60vh] max-w-screen-xl"
+        >
+          <Chats />
         </TabsContent>
       </Tabs>
     </div>
