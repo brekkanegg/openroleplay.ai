@@ -15,14 +15,14 @@ This is where Open Roleplay steps in. Whether self-hosted or hosted by us, it's 
 
 ## Supported Models
 
-### Smaller, faster models
+### Smaller, Faster Models
 
 - gpt-3.5-turbo-1106 (16k context window)
 - Mistral 8x7b (Coming soon)
 - Perplexity pplx-7b-chat (Coming soon)
 - Perplexity pplx-7b-online (Coming soon)
 
-### Larger models
+### Larger, Accurate Models
 
 - Perplexity pplx-70b-chat (Coming soon)
 - Perplexity pplx-70b-online (Coming soon)
@@ -39,6 +39,7 @@ This is where Open Roleplay steps in. Whether self-hosted or hosted by us, it's 
 - [Tailwind CSS](https://tailwindcss.com/?ref=cal.com)
 - [Vercel](https://vercel.com/)
 - [Convex](https://convex.dev/)
+- [Clerk](https://clerk.com/)
 
 ### Apps and Packages
 
@@ -74,3 +75,7 @@ We use convex for backend as a service and vercel for frontend cloud.
 ## Roadmap and Feedback
 
 Giving perfect memory for agents, adding voice capabilities and image generation, improving user interactions, possibilities are endless. We value your [feedback](https://github.com/Open-Roleplay-AI/OpenRoleplay/issues).
+
+## Support This Project
+
+This project is entirely bootstrapped and was initiated out of personal passion and effort. Your contributions are invaluable and will ensure the continued vitality of this project.

@@ -1,6 +1,6 @@
 "use client";
 import { CircleUserRound, Home, MessageSquare, Plus } from "lucide-react";
-import CharacterSlider from "@repo/ui/src/components/slider";
+import CharacterSlider from "@repo/ui/src/components/character-slider";
 import data from "@repo/ui/src/components/data";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
@@ -77,19 +77,19 @@ export default function Page(): JSX.Element {
         </TabsContent>
         <TabsContent
           value="create"
-          className="w-[100vw] h-60vh max-w-screen-xl"
+          className="w-[100vw] h-60vh max-w-screen-xl flex flex-col"
         >
           <Create />
         </TabsContent>
         <TabsContent
           value="chats"
-          className="w-[100vw] h-[60vh] max-w-screen-xl"
+          className="w-[100vw] h-60vh max-w-screen-xl flex flex-col"
         >
           <Chats />
         </TabsContent>
         <TabsContent
           value="persona"
-          className="w-[100vw] h-60vh max-w-screen-xl"
+          className="w-[100vw] h-60vh max-w-screen-xl flex flex-col"
         >
           <Persona />
         </TabsContent>

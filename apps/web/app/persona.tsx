@@ -20,7 +20,7 @@ import { Plus } from "lucide-react";
 export default function Persona() {
   return (
     <>
-      <Card className="w-full shadow-none lg:shadow-sm border-transparent lg:border-border">
+      <Card className="w-full shadow-none lg:shadow-xl border-transparent lg:border-border">
         <CardHeader>
           <CardTitle>Your persona</CardTitle>
           <CardDescription>Configure your persona details.</CardDescription>

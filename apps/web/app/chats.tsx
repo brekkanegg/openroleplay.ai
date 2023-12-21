@@ -1,3 +1,4 @@
+import { Card, CardHeader, CardTitle } from "@repo/ui/src/components";
 import {
   AvatarImage,
   AvatarFallback,
@@ -6,7 +7,10 @@ import {
 
 export default function Chats() {
   return (
-    <div className="w-full h-full overflow-auto">
+    <Card className="w-full shadow-none lg:shadow-xl border-transparent lg:border-border">
+      <CardHeader>
+        <CardTitle>Chats</CardTitle>
+      </CardHeader>
       <ul className="divide-y divide-gray-200">
         <li className="hover:bg-gray-100 dark:hover:bg-gray-900 p-4">
           <div className="flex items-center space-x-4">
@@ -53,6 +57,6 @@ export default function Chats() {
           </div>
         </li>
       </ul>
-    </div>
+    </Card>
   );
 }
