@@ -1,81 +1,57 @@
-# Turborepo starter
+# Open Roleplay
 
-This is an official starter Turborepo.
+Open Roleplay serves is an open-source alternative to Character.ai.
+You have full control over your data, model, and visual presentation.
 
-## Using this example
+Platforms like Character.ai and other AI agent platforms are fantastic. They sparked our interest in the potential of AI interactions. We utilize them for a variety of purposes, including productivity, entertainment, workflow automation, and more. However, these platforms often lack flexibility, transparency and customization options.
 
-Run the following command:
+This is where Open Roleplay steps in. Whether self-hosted or hosted by us, it's ready to be deployed on your own domain with your personalized model and data.
 
-```sh
-npx create-turbo@latest
-```
+## Features
 
-## What's inside?
+- Chat with your favorite characters
+- Customizable rate limit
+- Full chat history
 
-This Turborepo includes the following packages/apps:
+## Supported Models
+
+- gpt-4-1106-preview (128k context window)
+- gpt-3.5-turbo-1106 (16k context window)
+- Mistral 8x7b (Coming soon)
+- Perplexity pplx-7b-chat (Coming soon)
+- Perplexity pplx-70b-chat (Coming soon)
+- Perplexity pplx-7b-online (Coming soon)
+- Perplexity pplx-70b-online (Coming soon)
+
+### Built With
+
+- [Next.js](https://nextjs.org/?ref=cal.com)
+- [React.js](https://reactjs.org/?ref=cal.com)
+- [Tailwind CSS](https://tailwindcss.com/?ref=cal.com)
+- [Vercel](https://vercel.com/)
+- [Convex](https://convex.dev/)
 
 ### Apps and Packages
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
+- `web`: a [Next.js](https://nextjs.org/) app for the service
+- `docs`: a [Next.js](https://nextjs.org/) app for developer and user documentation
+- `@repo/ui`: a stub React component library
 - `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
 
 ### Build
 
 To build all apps and packages, run the following command:
 
 ```
-cd my-turborepo
 pnpm build
 ```
 
-### Develop
+### Run Openroleplay Locally
 
 To develop all apps and packages, run the following command:
 
 ```
-cd my-turborepo
+pnpm install
 pnpm dev
 ```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
