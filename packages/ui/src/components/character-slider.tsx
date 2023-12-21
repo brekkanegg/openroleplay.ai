@@ -90,17 +90,11 @@ const CharacterSlider = (props: { activeSlide: any; data: any[] }) => {
             <div
               style={{
                 background: item.bgColor,
-                boxShadow: `0 5px 20px ${item.bgColor}30`,
                 ...getStyles(i),
-                width: "300px",
-                height: "525px",
                 transition:
                   "transform 500ms ease 0s, opacity 500ms ease 0s, visibility 500ms ease 0s",
-                position: "absolute",
-                top: "0",
-                borderRadius: "12px",
-                padding: "16px",
               }}
+              className="absolute rounded-lg p-4 top-0 w-[300px] h-[525px] shadow-lg flex items-end"
               role="button"
               onClick={() => {
                 setactiveSlide(i);

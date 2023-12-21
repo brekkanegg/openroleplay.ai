@@ -7,6 +7,7 @@ import { UserButton } from "@clerk/clerk-react";
 import { useConvexAuth } from "convex/react";
 import UserDropdown from "./user-dropdown";
 import { useAuth } from "@clerk/nextjs";
+import { Tooltip } from "@repo/ui/src/components";
 
 export default function NavBar({}: {}) {
   const scrolled = useScroll(50);
@@ -32,14 +33,16 @@ export default function NavBar({}: {}) {
             <Link href="/">
               <TextLogo />
             </Link>
-            <a
-              className="text-muted-foreground text-base sm:block hidden hover:opacity-50"
-              target="_blank"
-              rel="noreferrer"
-              href="https://github.com/Open-Roleplay-AI/OpenRoleplay/stargazers"
-            >
-              opensource ai characters
-            </a>
+            <Tooltip content="Star openroleplay.ai on GitHub">
+              <a
+                className="text-muted-foreground text-base sm:block hidden hover:opacity-50"
+                target="_blank"
+                rel="noreferrer"
+                href="https://github.com/Open-Roleplay-AI/OpenRoleplay/stargazers"
+              >
+                opensource ai characters
+              </a>
+            </Tooltip>
           </div>
 
           <div>
