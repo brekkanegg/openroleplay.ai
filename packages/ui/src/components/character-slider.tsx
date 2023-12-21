@@ -94,7 +94,7 @@ const CharacterSlider = (props: { activeSlide: any; data: any[] }) => {
                 transition:
                   "transform 500ms ease 0s, opacity 500ms ease 0s, visibility 500ms ease 0s",
               }}
-              className="absolute rounded-lg p-4 top-0 w-[300px] h-[525px] shadow-lg flex items-end"
+              className="absolute rounded-lg p-2 top-0 w-[300px] h-[525px] shadow-lg flex items-end ring ring-black/10"
               role="button"
               onClick={() => {
                 setactiveSlide(i);
