@@ -15,13 +15,22 @@ This is where Open Roleplay steps in. Whether self-hosted or hosted by us, it's 
 
 ## Supported Models
 
-- gpt-4-1106-preview (128k context window)
+### Smaller, faster models
+
 - gpt-3.5-turbo-1106 (16k context window)
 - Mistral 8x7b (Coming soon)
 - Perplexity pplx-7b-chat (Coming soon)
-- Perplexity pplx-70b-chat (Coming soon)
 - Perplexity pplx-7b-online (Coming soon)
+
+### Larger models
+
+- Perplexity pplx-70b-chat (Coming soon)
 - Perplexity pplx-70b-online (Coming soon)
+- gpt-4-1106-preview (128k context window)
+
+### Image generation
+
+- Coming soon
 
 ### Built With
 
@@ -55,3 +64,13 @@ To develop all apps and packages, run the following command:
 pnpm install
 pnpm dev
 ```
+
+## Deployment
+
+### Convex and Vercel
+
+We use convex for backend as a service and vercel for frontend cloud.
+
+## Roadmap and Feedback
+
+Giving perfect memory for agents, adding voice capabilities and image generation, improving user interactions, possibilities are endless. We look forward for your feedback.
