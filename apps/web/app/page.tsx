@@ -1,4 +1,5 @@
 "use client";
+import { MessageSquare, Plus, UserRound } from "lucide-react";
 import Slider from "@repo/ui/src/components/slider";
 import data from "@repo/ui/src/components/data";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -38,11 +39,26 @@ export default function Page(): JSX.Element {
         value={Array.isArray(activeTab) ? activeTab[0] : activeTab}
         onValueChange={handleTabChange}
       >
-        <TabsList className="w-[50%] right-0 grid grid-cols-2 fixed bottom-12 mx-auto left-0 z-10 rounded-full">
-          <TabsTrigger className="w-full rounded-full" value="characters">
+        <TabsList className="w-[75%] lg:w-[50%] h-16 right-0 flex gap-2 fixed bottom-12 mx-auto left-0 z-10 rounded-full">
+          <TabsTrigger
+            className="w-full rounded-full flex gap-0.5 flex-col items-center"
+            value="characters"
+          >
+            <UserRound className="w-5 h-5 p-1" />
             Characters
           </TabsTrigger>
-          <TabsTrigger className="w-full rounded-full" value="chats">
+          <TabsTrigger
+            className="w-[50%] rounded-full flex gap-0.5 flex-col items-center"
+            value="create"
+          >
+            <Plus className="w-5 h-5 p-1" />
+            Create
+          </TabsTrigger>
+          <TabsTrigger
+            className="w-full rounded-full flex gap-0.5 flex-col items-center"
+            value="chats"
+          >
+            <MessageSquare className="w-5 h-5 p-1" />
             Chats
           </TabsTrigger>
         </TabsList>
