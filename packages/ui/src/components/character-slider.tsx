@@ -80,7 +80,7 @@ const CharacterSlider = (props: { activeSlide: any; data: any[] }) => {
       </Button>
       <div
         style={{
-          perspective: "1200px",
+          perspective: "2000px",
           transformStyle: "preserve-3d",
         }}
         className="relative w-[300px] h-[525px] my-0 mx-auto"
