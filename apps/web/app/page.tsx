@@ -1,6 +1,6 @@
 "use client";
 import { CircleUserRound, Home, MessageSquare, Plus } from "lucide-react";
-import Slider from "@repo/ui/src/components/slider";
+import CharacterSlider from "@repo/ui/src/components/slider";
 import data from "@repo/ui/src/components/data";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
@@ -73,7 +73,7 @@ export default function Page(): JSX.Element {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="characters">
-          <Slider data={data} activeSlide={2} />
+          <CharacterSlider data={data} activeSlide={2} />
         </TabsContent>
         <TabsContent
           value="create"

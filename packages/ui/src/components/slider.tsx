@@ -1,7 +1,9 @@
 "use client";
 import React, { useState } from "react";
+import { Button } from ".";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const Slider = (props: { activeSlide: any; data: any[] }) => {
+const CharacterSlider = (props: { activeSlide: any; data: any[] }) => {
   const [activeSlide, setactiveSlide] = useState(props.activeSlide);
 
   const next = () =>
@@ -68,6 +70,13 @@ const Slider = (props: { activeSlide: any; data: any[] }) => {
 
   return (
     <>
+      <Button
+        className="hidden md:block fixed left-8 my-auto top-0 bottom-0 z-20 group"
+        onClick={prev}
+        variant="ghost"
+      >
+        <ChevronLeft className="text-muted-foreground group-hover:text-foreground" />
+      </Button>
       <div
         style={{
           perspective: "1200px",
@@ -115,6 +124,13 @@ const Slider = (props: { activeSlide: any; data: any[] }) => {
           </React.Fragment>
         ))}
       </div>
+      <Button
+        className="hidden md:block fixed right-8 my-auto top-0 bottom-0 z-20 group"
+        onClick={next}
+        variant="ghost"
+      >
+        <ChevronRight className="text-muted-foreground group-hover:text-foreground" />
+      </Button>
     </>
   );
 };
@@ -155,4 +171,4 @@ const SliderContent = (props: {
   );
 };
 
-export default Slider;
+export default CharacterSlider;
