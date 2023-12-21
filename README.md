@@ -73,4 +73,4 @@ We use convex for backend as a service and vercel for frontend cloud.
 
 ## Roadmap and Feedback
 
-Giving perfect memory for agents, adding voice capabilities and image generation, improving user interactions, possibilities are endless. We look forward for your feedback.
+Giving perfect memory for agents, adding voice capabilities and image generation, improving user interactions, possibilities are endless. We value your [feedback](https://github.com/Open-Roleplay-AI/OpenRoleplay/issues).
