@@ -19,6 +19,7 @@ import type * as ingest_embed from "../ingest/embed.js";
 import type * as ingest_load from "../ingest/load.js";
 import type * as messages from "../messages.js";
 import type * as serve from "../serve.js";
+import type * as users from "../users.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -34,6 +35,7 @@ declare const fullApi: ApiFromModules<{
   "ingest/load": typeof ingest_load;
   messages: typeof messages;
   serve: typeof serve;
+  users: typeof users;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

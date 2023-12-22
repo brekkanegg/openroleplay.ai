@@ -13,8 +13,10 @@ import { useEffect, useState } from "react";
 import Chats from "./chats";
 import Create from "./create";
 import Persona from "./persona";
+import useStoreUserEffect from "./lib/hooks/use-store-user-effect";
 
 export default function Page(): JSX.Element {
+  useStoreUserEffect();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -37,7 +39,7 @@ export default function Page(): JSX.Element {
   }, [searchParams.get("tab")]);
 
   return (
-    <div>
+    <div className="w-full h-[80vh] max-w-screen-xl flex flex-col justify-self-start">
       <Tabs
         value={Array.isArray(activeTab) ? activeTab[0] : activeTab}
         onValueChange={handleTabChange}
@@ -72,24 +74,18 @@ export default function Page(): JSX.Element {
             Persona
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="characters">
+        <TabsContent value="characters" className="py-32">
           <CharacterSlider data={data} activeSlide={2} />
         </TabsContent>
-        <TabsContent
-          value="create"
-          className="w-[100vw] h-60vh max-w-screen-xl flex flex-col"
-        >
+        <TabsContent value="create" className="w-[100vw] max-w-screen-xl pb-32">
           <Create />
         </TabsContent>
-        <TabsContent
-          value="chats"
-          className="w-[100vw] h-60vh max-w-screen-xl flex flex-col"
-        >
+        <TabsContent value="chats" className="w-[100vw] max-w-screen-xl pb-32">
           <Chats />
         </TabsContent>
         <TabsContent
           value="persona"
-          className="w-[100vw] h-60vh max-w-screen-xl flex flex-col"
+          className="w-[100vw] max-w-screen-xl pb-32"
         >
           <Persona />
         </TabsContent>

@@ -2,15 +2,18 @@ import { v } from "convex/values";
 import { mutation } from "./_generated/server";
 import { query } from "./_generated/server";
 import { internal } from "./_generated/api";
+import { getUser } from "./users";
 
 export const list = query({
   args: {
     sessionId: v.string(),
   },
   handler: async (ctx, args) => {
+    const user = await getUser(ctx);
     return await ctx.db
       .query("messages")
       .withIndex("bySessionId", (q) => q.eq("sessionId", args.sessionId))
+      .filter((q) => q.eq(q.field("userId"), user._id))
       .collect();
   },
 });
@@ -21,9 +24,10 @@ export const send = mutation({
     sessionId: v.string(),
   },
   handler: async (ctx, { message, sessionId }) => {
+    const user = await getUser(ctx);
     await ctx.db.insert("messages", {
-      isViewer: true,
       text: message,
+      userId: user._id,
       sessionId,
     });
     await ctx.scheduler.runAfter(0, internal.serve.answer, {
@@ -37,9 +41,11 @@ export const clear = mutation({
     sessionId: v.string(),
   },
   handler: async (ctx, args) => {
+    const user = await getUser(ctx);
     const messages = await ctx.db
       .query("messages")
       .withIndex("bySessionId", (q) => q.eq("sessionId", args.sessionId))
+      .filter((q) => q.eq(q.field("userId"), user._id))
       .collect();
     await Promise.all(messages.map((message) => ctx.db.delete(message._id)));
   },
