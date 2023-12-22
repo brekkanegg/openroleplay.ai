@@ -3,14 +3,7 @@
 import { ReactElement, useState } from "react";
 import Image from "next/image";
 import { useUser } from "@clerk/clerk-react";
-import {
-  CircleDollarSign,
-  Cog,
-  LogIn,
-  LogOut,
-  Menu,
-  UserPlus,
-} from "lucide-react";
+import { CircleDollarSign, LogIn, LogOut, Menu, Star } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -116,6 +109,12 @@ export default function UserDropdown() {
                 onClick={() => setOpenPopover(false)}
               />
             )}
+            <StyledLink
+              href="/star"
+              text="Star on GitHub"
+              Icon={<Star className="h-4 w-4 stroke-black/25" />}
+              onClick={() => setOpenPopover(false)}
+            />
           </div>
         </PopoverContent>
         <PopoverTrigger

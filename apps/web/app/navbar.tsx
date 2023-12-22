@@ -3,19 +3,11 @@
 import Link from "next/link";
 import TextLogo from "@repo/ui/src/components/text-logo";
 import useScroll from "@repo/ui/src/hooks/use-scroll";
-import { UserButton } from "@clerk/clerk-react";
-import { useConvexAuth } from "convex/react";
 import UserDropdown from "./user-dropdown";
-import { useAuth } from "@clerk/nextjs";
 import { Tooltip } from "@repo/ui/src/components";
 
 export default function NavBar({}: {}) {
   const scrolled = useScroll(50);
-  const { isAuthenticated } = useConvexAuth();
-  const { isSignedIn } = useAuth();
-
-  console.log("isAuthenticated::", isAuthenticated);
-  console.log("isSignedIn::", isSignedIn);
 
   return (
     <>
@@ -34,14 +26,12 @@ export default function NavBar({}: {}) {
               <TextLogo />
             </Link>
             <Tooltip content="Star openroleplay.ai on GitHub">
-              <a
+              <Link
                 className="text-muted-foreground text-base sm:block hidden hover:opacity-50"
-                target="_blank"
-                rel="noreferrer"
-                href="https://github.com/Open-Roleplay-AI/OpenRoleplay/stargazers"
+                href="/star"
               >
                 opensource ai characters
-              </a>
+              </Link>
             </Tooltip>
           </div>
 
