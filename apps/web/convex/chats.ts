@@ -49,6 +49,14 @@ export const remove = mutation({
     id: v.id("chats"),
   },
   handler: async (ctx, args) => {
-    return await ctx.db.delete(args.id);
+    const user = await getUser(ctx);
+    const chat = await ctx.db
+      .query("chats")
+      .filter((q) => q.eq(q.field("_id"), args.id))
+      .filter((q) => q.eq(q.field("userId"), user._id))
+      .first();
+    if (chat) {
+      return await ctx.db.delete(args.id);
+    }
   },
 });
