@@ -18,7 +18,7 @@ export default defineSchema({
     name: v.string(),
     description: v.string(),
     instructions: v.string(),
-    cardImageUrl: v.string(),
+    cardImageStorageId: v.id("_storage"),
     greetings: v.array(v.string()),
     knowledge: v.optional(v.string()),
     capabilities: v.optional(v.array(v.string())),
