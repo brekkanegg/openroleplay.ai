@@ -6,7 +6,6 @@ export default defineSchema({
     chatId: v.id("chats"),
     characterId: v.optional(v.id("characters")),
     personaId: v.optional(v.id("personas")),
-    userId: v.optional(v.id("users")),
     text: v.string(),
   })
     .index("byCharacterId", ["characterId"])
@@ -14,7 +13,7 @@ export default defineSchema({
   users: defineTable({
     name: v.string(),
     tokenIdentifier: v.string(),
-  }).index("by_token", ["tokenIdentifier"]),
+  }).index("byToken", ["tokenIdentifier"]),
   characters: defineTable({
     name: v.string(),
     description: v.string(),
@@ -58,4 +57,9 @@ export default defineSchema({
     .index("byChatId", ["chatName"])
     .index("byUserId", ["userId"])
     .index("byCharacterId", ["characterId"]),
+  usage: defineTable({
+    userId: v.id("users"),
+    rateType: v.optional(v.union(v.literal("smallLLM"), v.literal("largeLLM"))),
+    timeUnit: v.string(),
+  }).index("byUserId", ["userId"]),
 });

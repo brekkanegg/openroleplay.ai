@@ -1,5 +1,4 @@
 import { v } from "convex/values";
-import { map } from "modern-async";
 import OpenAI from "openai";
 import { ChatCompletionMessageParam } from "openai/resources/index";
 import {
@@ -7,36 +6,50 @@ import {
   internalMutation,
   internalQuery,
 } from "./_generated/server";
-import { embedTexts } from "./ingest/embed";
-import { internal } from "./_generated/api";
+import { api, internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
 
 const OPENAI_MODEL = "gpt-3.5-turbo";
 
 export const answer = internalAction({
   args: {
-    sessionId: v.string(),
+    userId: v.id("users"),
+    chatId: v.id("chats"),
+    characterId: v.id("characters"),
+    personaId: v.optional(v.id("personas")),
   },
-  handler: async (ctx, { sessionId }) => {
+  handler: async (ctx, { userId, chatId, characterId, personaId }) => {
     const messages = await ctx.runQuery(internal.serve.getMessages, {
-      sessionId,
+      chatId,
     });
-    const lastUserMessage = messages.at(-1)!.text;
-
-    const [embedding] = await embedTexts([lastUserMessage]);
-
-    const searchResults = await ctx.vectorSearch("embeddings", "byEmbedding", {
-      vector: embedding,
-      limit: 8,
+    const character = await ctx.runQuery(api.characters.get, {
+      id: characterId,
     });
-
-    const relevantDocuments = await ctx.runQuery(internal.serve.getChunks, {
-      embeddingIds: searchResults.map(({ _id }) => _id),
+    const persona = personaId
+      ? await ctx.runQuery(api.personas.get, {
+          id: personaId,
+        })
+      : undefined;
+    await ctx.runMutation(internal.serve.rateLimit, {
+      userId,
+      rateType: "smallLLM",
     });
-
-    const messageId = await ctx.runMutation(internal.serve.addBotMessage, {
-      sessionId,
-    });
+    // const lastUserMessage = messages.at(-1)!.text;
+    // const [embedding] = await embedTexts([lastUserMessage]);
+    // const searchResults = await ctx.vectorSearch("embeddings", "byEmbedding", {
+    //   vector: embedding,
+    //   limit: 8,
+    // });
+    // const relevantDocuments = await ctx.runQuery(internal.serve.getChunks, {
+    //   embeddingIds: searchResults.map(({ _id }) => _id),
+    // });
+    const messageId = await ctx.runMutation(
+      internal.serve.addCharacterMessage,
+      {
+        chatId,
+        characterId,
+      }
+    );
 
     try {
       const openai = new OpenAI();
@@ -46,18 +59,30 @@ export const answer = internalAction({
         messages: [
           {
             role: "system",
-            content:
-              "Answer the user question based on the provided documents " +
-              "or report that the question cannot be answered based on " +
-              "these documents. Keep the answer informative but brief, " +
-              "do not enumerate all possibilities.",
+            content: `You are roleplaying with user. you are
+            {
+              name: ${character?.name}
+              description: ${character?.description}
+              instruction: ${character?.instructions}
+            }
+            ${
+              persona
+                ? `
+              and the user is
+              {
+                name: ${persona?.name}
+                description: ${persona?.description}
+              }`
+                : ""
+            }
+            `,
           },
-          ...(relevantDocuments.map(({ text }) => ({
-            role: "system",
-            content: "Relevant document:\n\n" + text,
-          })) as ChatCompletionMessageParam[]),
-          ...(messages.map(({ isViewer, text }) => ({
-            role: isViewer ? "user" : "assistant",
+          // ...(relevantDocuments.map(({ text }) => ({
+          //   role: "system",
+          //   content: "Relevant document:\n\n" + text,
+          // })) as ChatCompletionMessageParam[]),
+          ...(messages.map(({ characterId, text }) => ({
+            role: characterId ? "assistant" : "user",
             content: text,
           })) as ChatCompletionMessageParam[]),
         ],
@@ -67,16 +92,16 @@ export const answer = internalAction({
         const replyDelta = choices[0].delta.content;
         if (typeof replyDelta === "string" && replyDelta.length > 0) {
           text += replyDelta;
-          await ctx.runMutation(internal.serve.updateBotMessage, {
+          await ctx.runMutation(internal.serve.updateCharacterMessage, {
             messageId,
             text,
           });
         }
       }
     } catch (error: any) {
-      await ctx.runMutation(internal.serve.updateBotMessage, {
+      await ctx.runMutation(internal.serve.updateCharacterMessage, {
         messageId,
-        text: "I cannot reply at this time. Reach out to the team on Discord",
+        text: "I cannot reply at this time.",
       });
       throw error;
     }
@@ -84,38 +109,59 @@ export const answer = internalAction({
 });
 
 export const getMessages = internalQuery(
-  async (ctx, { sessionId }: { sessionId: string }) => {
+  async (ctx, { chatId }: { chatId: Id<"chats"> }) => {
     return await ctx.db
       .query("messages")
-      .withIndex("bySessionId", (q) => q.eq("sessionId", sessionId))
+      .withIndex("byChatId", (q) => q.eq("chatId", chatId))
       .collect();
   }
 );
 
-export const getChunks = internalQuery(
-  async (ctx, { embeddingIds }: { embeddingIds: Id<"embeddings">[] }) => {
-    return await map(
-      embeddingIds,
-      async (embeddingId) =>
-        (await ctx.db
-          .query("chunks")
-          .withIndex("byEmbeddingId", (q) => q.eq("embeddingId", embeddingId))
-          .unique())!
-    );
-  }
-);
-
-export const addBotMessage = internalMutation(
-  async (ctx, { sessionId }: { sessionId: string }) => {
+export const addCharacterMessage = internalMutation(
+  async (
+    ctx,
+    {
+      chatId,
+      characterId,
+    }: { chatId: Id<"chats">; characterId: Id<"characters"> }
+  ) => {
     return await ctx.db.insert("messages", {
-      isViewer: false,
       text: "",
-      sessionId,
+      chatId,
+      characterId,
     });
   }
 );
 
-export const updateBotMessage = internalMutation(
+export const rateLimit = internalMutation(
+  async (
+    ctx,
+    {
+      userId,
+      rateType,
+    }: { userId: Id<"users">; rateType: "smallLLM" | "largeLLM" }
+  ) => {
+    const currentMinute = new Date().getMinutes().toString();
+    const rateLimits = await ctx.db
+      .query("usage")
+      .withIndex("byUserId", (q) => q.eq("userId", userId))
+      .filter((q) => q.eq(q.field("rateType"), rateType))
+      .filter((q) => q.eq(q.field("timeUnit"), currentMinute))
+      .collect();
+
+    if (rateLimits.length >= 10) {
+      throw new Error("Rate limit exceeded");
+    }
+
+    await ctx.db.insert("usage", {
+      userId,
+      rateType,
+      timeUnit: currentMinute,
+    });
+  }
+);
+
+export const updateCharacterMessage = internalMutation(
   async (
     ctx,
     { messageId, text }: { messageId: Id<"messages">; text: string }

@@ -6,13 +6,13 @@ import { getUser } from "./users";
 
 export const list = query({
   args: {
-    sessionId: v.string(),
+    chatId: v.id("chats"),
   },
   handler: async (ctx, args) => {
-    const user = await getUser(ctx);
+    await getUser(ctx);
     return await ctx.db
       .query("messages")
-      .filter((q) => q.eq(q.field("userId"), user._id))
+      .withIndex("byChatId", (q) => q.eq("chatId", args.chatId))
       .collect();
   },
 });
@@ -20,17 +20,22 @@ export const list = query({
 export const send = mutation({
   args: {
     message: v.string(),
-    sessionId: v.string(),
+    chatId: v.id("chats"),
+    characterId: v.id("characters"),
+    personaId: v.optional(v.id("personas")),
   },
-  handler: async (ctx, { message, sessionId }) => {
+  handler: async (ctx, { message, chatId, characterId, personaId }) => {
     const user = await getUser(ctx);
     await ctx.db.insert("messages", {
       text: message,
-      userId: user._id,
-      sessionId,
+      chatId,
+      personaId,
     });
     await ctx.scheduler.runAfter(0, internal.serve.answer, {
-      sessionId,
+      chatId,
+      characterId,
+      personaId,
+      userId: user._id,
     });
   },
 });
@@ -40,11 +45,10 @@ export const clear = mutation({
     chatId: v.id("chats"),
   },
   handler: async (ctx, args) => {
-    const user = await getUser(ctx);
+    await getUser(ctx);
     const messages = await ctx.db
       .query("messages")
       .withIndex("byChatId", (q) => q.eq("chatId", args.chatId))
-      .filter((q) => q.eq(q.field("userId"), user._id))
       .collect();
     await Promise.all(messages.map((message) => ctx.db.delete(message._id)));
   },
