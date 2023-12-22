@@ -31,3 +31,12 @@ export const list = query({
     return await ctx.db.query("characters").collect();
   },
 });
+
+export const get = query({
+  args: {
+    id: v.id("characters"),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.get(args.id);
+  },
+});
