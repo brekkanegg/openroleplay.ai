@@ -12,7 +12,6 @@ export const list = query({
     const user = await getUser(ctx);
     return await ctx.db
       .query("messages")
-      .withIndex("bySessionId", (q) => q.eq("sessionId", args.sessionId))
       .filter((q) => q.eq(q.field("userId"), user._id))
       .collect();
   },
@@ -38,13 +37,13 @@ export const send = mutation({
 
 export const clear = mutation({
   args: {
-    sessionId: v.string(),
+    chatId: v.id("chats"),
   },
   handler: async (ctx, args) => {
     const user = await getUser(ctx);
     const messages = await ctx.db
       .query("messages")
-      .withIndex("bySessionId", (q) => q.eq("sessionId", args.sessionId))
+      .withIndex("byChatId", (q) => q.eq("chatId", args.chatId))
       .filter((q) => q.eq(q.field("userId"), user._id))
       .collect();
     await Promise.all(messages.map((message) => ctx.db.delete(message._id)));

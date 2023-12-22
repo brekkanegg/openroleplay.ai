@@ -3,15 +3,14 @@ import { v } from "convex/values";
 
 export default defineSchema({
   messages: defineTable({
-    sessionId: v.string(),
-    chatId: v.optional(v.id("chats")),
+    chatId: v.id("chats"),
     characterId: v.optional(v.id("characters")),
     personaId: v.optional(v.id("personas")),
     userId: v.optional(v.id("users")),
     text: v.string(),
   })
-    .index("bySessionId", ["sessionId"])
-    .index("byCharacterId", ["characterId"]),
+    .index("byCharacterId", ["characterId"])
+    .index("byChatId", ["chatId"]),
   documents: defineTable({
     url: v.string(),
     text: v.string(),
@@ -47,6 +46,7 @@ export default defineSchema({
     creatorId: v.id("users"),
     isPrivate: v.boolean(),
     isBlacklisted: v.boolean(),
+    numChats: v.optional(v.number()),
     createdAt: v.string(),
     updatedAt: v.string(),
   }).index("byUserId", ["creatorId"]),
@@ -60,11 +60,14 @@ export default defineSchema({
     updatedAt: v.string(),
   }).index("byUserId", ["creatorId"]),
   chats: defineTable({
-    characterId: v.id("characters"),
-    userId: v.id("users"),
+    chatName: v.optional(v.string()),
     createdAt: v.string(),
     updatedAt: v.string(),
+    userId: v.optional(v.id("users")),
+    characterId: v.optional(v.id("characters")),
+    joinedAt: v.string(),
   })
-    .index("byCharacterId", ["characterId"])
-    .index("byUserId", ["userId"]),
+    .index("byChatId", ["chatName"])
+    .index("byUserId", ["userId"])
+    .index("byCharacterId", ["characterId"]),
 });
