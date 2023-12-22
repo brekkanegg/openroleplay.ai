@@ -107,7 +107,15 @@ npx convex dev
 
 We use convex for backend as a service and vercel for frontend cloud to ship features faster.
 
-Check out ['Using Convex with Vercel'](https://docs.convex.dev/production/hosting/vercel) for detailed guide.
+Check out [Using Convex with Vercel](https://docs.convex.dev/production/hosting/vercel) for detailed guide.
+
+### Clerk
+
+Clerk is an authentication platform providing login via passwords, social identity providers, one-time email or SMS access codes, and multi-factor authentication and basic user management.
+
+We use Clerk for simplified and secure user authentication.
+
+Check out [Convex Clerk](https://docs.convex.dev/auth/clerk) for detailed guide.
 
 ## Roadmap and Feedback
 
