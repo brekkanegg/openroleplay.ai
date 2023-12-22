@@ -87,20 +87,27 @@ To build all apps and packages, run the following command:
 pnpm build
 ```
 
-### Run Openroleplay Locally
+### Run Locally
 
 To develop all apps and packages, run the following command:
 
 ```
+# Run frontend server
 pnpm install
 pnpm dev
+
+# Run backend server
+cd apps/web
+npx convex dev
 ```
 
 ## Deployment
 
 ### Convex and Vercel
 
-We use convex for backend as a service and vercel for frontend cloud.
+We use convex for backend as a service and vercel for frontend cloud to ship features faster.
+
+Check out ['Using Convex with Vercel'](https://docs.convex.dev/production/hosting/vercel) for detailed guide.
 
 ## Roadmap and Feedback
 
