@@ -15,7 +15,6 @@ import { Label } from "@repo/ui/src/components/label";
 import { Input } from "@repo/ui/src/components/input";
 import { Textarea } from "@repo/ui/src/components/textarea";
 import { Button } from "@repo/ui/src/components/button";
-import { Checkbox } from "@repo/ui/src/components/checkbox";
 import { Plus } from "lucide-react";
 
 export default function Create() {
