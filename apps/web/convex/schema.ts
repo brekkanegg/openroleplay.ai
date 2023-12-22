@@ -11,26 +11,6 @@ export default defineSchema({
   })
     .index("byCharacterId", ["characterId"])
     .index("byChatId", ["chatId"]),
-  documents: defineTable({
-    url: v.string(),
-    text: v.string(),
-  }).index("byUrl", ["url"]),
-  chunks: defineTable({
-    documentId: v.id("documents"),
-    text: v.string(),
-    embeddingId: v.union(v.id("embeddings"), v.null()),
-  })
-    .index("byDocumentId", ["documentId"])
-    .index("byEmbeddingId", ["embeddingId"]),
-  embeddings: defineTable({
-    embedding: v.array(v.number()),
-    chunkId: v.id("chunks"),
-  })
-    .index("byChunkId", ["chunkId"])
-    .vectorIndex("byEmbedding", {
-      vectorField: "embedding",
-      dimensions: 1536,
-    }),
   users: defineTable({
     name: v.string(),
     tokenIdentifier: v.string(),
@@ -47,9 +27,17 @@ export default defineSchema({
     isPrivate: v.boolean(),
     isBlacklisted: v.boolean(),
     numChats: v.optional(v.number()),
+    embedding: v.optional(v.array(v.float64())),
+    model: v.optional(v.union(v.literal("gpt-3.5"), v.literal("gpt-4"))),
     createdAt: v.string(),
     updatedAt: v.string(),
-  }).index("byUserId", ["creatorId"]),
+  })
+    .index("byUserId", ["creatorId"])
+    .vectorIndex("byEmbedding", {
+      vectorField: "embedding",
+      dimensions: 512,
+      filterFields: ["name", "description", "instructions"],
+    }),
   personas: defineTable({
     name: v.string(),
     description: v.string(),

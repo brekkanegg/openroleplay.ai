@@ -66,7 +66,7 @@ export default function Create() {
               placeholder="The first message from character to user"
             />
           </div>
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <Label htmlFor="knowledge">Knowledge</Label>
             <Textarea
               className="min-h-[200px]"
@@ -96,7 +96,7 @@ export default function Create() {
                 </Label>
               </div>
             </div>
-          </div>
+          </div> */}
         </CardContent>
         <CardFooter>
           <Button className="ml-auto">Save</Button>

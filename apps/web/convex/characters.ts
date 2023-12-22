@@ -1,6 +1,7 @@
-import { mutation, query } from "./_generated/server";
+import { action, mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 import { getUser } from "./users";
+import { embedText } from "./ingest/embed";
 
 export const create = mutation({
   args: {
@@ -47,5 +48,18 @@ export const remove = mutation({
   },
   handler: async (ctx, args) => {
     return await ctx.db.delete(args.id);
+  },
+});
+
+export const similarCharacters = action({
+  args: {
+    query: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const embedding = await embedText(args.query);
+    return await ctx.vectorSearch("characters", "byEmbedding", {
+      vector: embedding[0],
+      limit: 16,
+    });
   },
 });
