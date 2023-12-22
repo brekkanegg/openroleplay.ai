@@ -40,3 +40,12 @@ export const get = query({
     return await ctx.db.get(args.id);
   },
 });
+
+export const remove = mutation({
+  args: {
+    id: v.id("characters"),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.delete(args.id);
+  },
+});
