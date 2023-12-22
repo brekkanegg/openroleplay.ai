@@ -1,8 +1,8 @@
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 import { getUser } from "./users";
 
-export const createCharacter = mutation({
+export const create = mutation({
   args: {
     name: v.string(),
     description: v.string(),
@@ -23,5 +23,11 @@ export const createCharacter = mutation({
       updatedAt: new Date().toISOString(),
     });
     return character;
+  },
+});
+
+export const list = query({
+  handler: async (ctx) => {
+    return await ctx.db.query("characters").collect();
   },
 });
