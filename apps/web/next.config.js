@@ -2,7 +2,26 @@
 module.exports = {
   transpilePackages: ["@repo/ui"],
   images: {
-    domains: ["lh3.googleusercontent.com", "img.clerk.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "img.clerk.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "*.convex.cloud",
+        port: "",
+        pathname: "/**",
+      },
+    ],
   },
   async redirects() {
     return [

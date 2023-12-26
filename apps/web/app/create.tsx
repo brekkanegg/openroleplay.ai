@@ -142,7 +142,7 @@ export default function Create() {
           <div className="w-full flex justify-center my-4">
             <Label
               htmlFor="card"
-              className="w-[200px] h-[350px] rounded bg-muted flex items-center justify-center flex-col relative"
+              className="w-[200px] h-[350px] rounded bg-muted flex items-center justify-center flex-col relative cursor-pointer"
             >
               <Plus />
               Add character card
