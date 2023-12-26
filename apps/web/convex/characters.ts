@@ -1,29 +1,77 @@
 import { action, mutation, query } from "./_generated/server";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { getUser } from "./users";
 import { embedText } from "./ingest/embed";
 
-export const create = mutation({
+export const upsert = mutation({
   args: {
-    name: v.string(),
-    description: v.string(),
-    instructions: v.string(),
-    cardImageUrl: v.string(),
-    greetings: v.array(v.string()),
+    id: v.optional(v.id("characters")),
+    name: v.optional(v.string()),
+    description: v.optional(v.string()),
+    instructions: v.optional(v.string()),
+    cardImageUrl: v.optional(v.string()),
+    greetings: v.optional(v.array(v.string())),
     knowledge: v.optional(v.string()),
     capabilities: v.optional(v.array(v.string())),
-    isPrivate: v.boolean(),
-    isBlacklisted: v.boolean(),
   },
   handler: async (ctx, args) => {
     const user = await getUser(ctx);
-    const character = await ctx.db.insert("characters", {
-      ...args,
-      creatorId: user._id,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+    const updatedAt = new Date().toISOString();
+    if (args.id) {
+      const characterDraft = await ctx.db.get(args.id);
+      if (characterDraft && user._id !== characterDraft.creatorId) {
+        throw new Error(
+          "User does not have permission to modify this character."
+        );
+      }
+      const { id, ...rest } = args;
+      const character = await ctx.db.patch(id, {
+        ...rest,
+        updatedAt,
+      });
+      return character;
+    } else {
+      const character = await ctx.db.insert("characters", {
+        ...args,
+        creatorId: user._id,
+        createdAt: updatedAt,
+        updatedAt,
+        isDraft: true,
+        isBlacklisted: false,
+      });
+      return character;
+    }
+  },
+});
+
+export const publish = mutation({
+  args: {
+    id: v.id("characters"),
+    visibility: v.optional(v.union(v.literal("private"), v.literal("public"))),
+  },
+  handler: async (ctx, args) => {
+    const user = await getUser(ctx);
+    const character = await ctx.db.get(args.id);
+    if (!character) {
+      throw new ConvexError({ message: "Character does not exist." });
+    }
+    if (user._id !== character.creatorId) {
+      throw new ConvexError({
+        message: "User does not have permission to modify this character.",
+      });
+    }
+    if (!character.name || !character.description || !character.instructions) {
+      throw new ConvexError({
+        message: "Character must have a name, description, and instructions.",
+      });
+    }
+    const updatedAt = new Date().toISOString();
+    const updatedCharacter = await ctx.db.patch(args.id, {
+      isDraft: false,
+      ...(args.visibility ? { visibility: args.visibility } : {}),
+      updatedAt,
     });
-    return character;
+    return updatedCharacter;
   },
 });
 

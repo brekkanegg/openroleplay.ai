@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^4.28.1",
+    "@hookform/resolvers": "^3.3.2",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@repo/ui": "workspace:*",
     "@tailwindcss/forms": "^0.5.7",
@@ -29,10 +30,13 @@
     "postcss": "^8.4.32",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.49.2",
     "sonner": "^1.2.4",
     "tailwind-merge": "^2.1.0",
     "tailwindcss": "^3.4.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "use-debounce": "^10.0.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.0.2",

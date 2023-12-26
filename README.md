@@ -39,8 +39,8 @@ This is where Open Roleplay steps in. Whether self-hosted or hosted by us, it's 
 
 ## Features
 
-- Chat with your favorite characters
-- Customizable rate limit
+- Chat with your favorite AI models and characters
+- Customize your characters and personas
 - Full chat history
 
 ## Supported Models

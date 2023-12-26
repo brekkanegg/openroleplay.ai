@@ -11,7 +11,7 @@ export default function Chats() {
       <CardHeader>
         <CardTitle>Chats</CardTitle>
       </CardHeader>
-      <ul className="divide-y divide-gray-200">
+      <ul className="divide-y divide-border">
         <li className="hover:bg-gray-100 dark:hover:bg-gray-900 p-4">
           <div className="flex items-center space-x-4">
             <Avatar>

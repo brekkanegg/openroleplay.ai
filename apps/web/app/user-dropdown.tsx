@@ -2,7 +2,6 @@
 
 import { ReactElement, useState } from "react";
 import Image from "next/image";
-import { useUser } from "@clerk/clerk-react";
 import { CircleDollarSign, LogIn, LogOut, Menu, Star } from "lucide-react";
 import {
   Popover,
@@ -10,6 +9,7 @@ import {
   PopoverTrigger,
 } from "@repo/ui/src/components/popover";
 import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
 
 type StyledLinkProps = {
   href: string;
@@ -42,7 +42,11 @@ const StyledLink: React.FC<StyledLinkProps> = ({
   );
 };
 
-const StyledButton: React.FC<StyledButtonProps> = ({ text, Icon, onClick }) => {
+export const StyledButton: React.FC<StyledButtonProps> = ({
+  text,
+  Icon,
+  onClick,
+}) => {
   return (
     <button
       className="relative flex w-full items-center justify-start space-x-2 rounded-md p-4 text-left text-sm transition-all duration-75 hover:bg-gray-100 sm:p-1"
@@ -84,7 +88,7 @@ export default function UserDropdown() {
             {user ? (
               <StyledButton
                 text="Logout"
-                Icon={<LogOut className="h-4 w-4 stroke-black/25" />}
+                Icon={<LogOut className="h-4 w-4 text-muted-foreground" />}
                 onClick={() => {
                   setOpenPopover(false);
                 }}
@@ -93,7 +97,7 @@ export default function UserDropdown() {
               <>
                 <StyledLink
                   text="Login"
-                  Icon={<LogIn className="h-4 w-4 stroke-black/25" />}
+                  Icon={<LogIn className="h-4 w-4 text-muted-foreground" />}
                   onClick={() => {
                     setOpenPopover(false);
                   }}
@@ -105,14 +109,16 @@ export default function UserDropdown() {
               <StyledLink
                 href="/pricing"
                 text="Pricing"
-                Icon={<CircleDollarSign className="h-4 w-4 stroke-black/25" />}
+                Icon={
+                  <CircleDollarSign className="h-4 w-4 text-muted-foreground" />
+                }
                 onClick={() => setOpenPopover(false)}
               />
             )}
             <StyledLink
               href="/star"
               text="Star on GitHub"
-              Icon={<Star className="h-4 w-4 stroke-black/25" />}
+              Icon={<Star className="h-4 w-4 text-muted-foreground" />}
               onClick={() => setOpenPopover(false)}
             />
           </div>

@@ -13,7 +13,7 @@ const convex = new ConvexReactClient(
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider defaultTheme="system" attribute="class" enableSystem>
+    <ThemeProvider defaultTheme="system" attribute="class">
       <ClerkProvider
         publishableKey={
           "pk_test_bmF0aW9uYWwtbW9zcXVpdG8tMjUuY2xlcmsuYWNjb3VudHMuZGV2JA"
