@@ -6,11 +6,6 @@ import {
   CardFooter,
   Card,
 } from "@repo/ui/src/components/card";
-import {
-  AvatarImage,
-  AvatarFallback,
-  Avatar,
-} from "@repo/ui/src/components/avatar";
 import { Input } from "@repo/ui/src/components/input";
 import { Textarea } from "@repo/ui/src/components/textarea";
 import { Button } from "@repo/ui/src/components/button";
@@ -28,7 +23,7 @@ import {
 } from "@repo/ui/src/components/form";
 import { useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import {
   Popover,
@@ -38,6 +33,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@repo/ui/src/components/radio";
 import { Label } from "@repo/ui/src/components/label";
 import { toast } from "sonner";
+import { Id } from "../convex/_generated/dataModel";
 
 const formSchema = z.object({
   name: z.string(),
@@ -49,8 +45,14 @@ const formSchema = z.object({
 export default function Create() {
   const upsert = useMutation(api.characters.upsert);
   const publish = useMutation(api.characters.publish);
+  const generateUploadUrl = useMutation(api.characters.generateUploadUrl);
+
+  const [characterId, setCharacterId] = useState<Id<"characters">>();
+
+  const imageInput = useRef<HTMLInputElement>(null);
   const [openPopover, setOpenPopover] = useState(false);
-  const [characterId, setCharacterId] = useState() as any;
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -68,7 +70,38 @@ export default function Create() {
       greetings: [greetings],
       ...otherValues,
     });
-    setCharacterId(character);
+    character && setCharacterId(character);
+  }
+
+  async function handleUploadImage(uploadedImage: File) {
+    const promise = generateUploadUrl()
+      .then((postUrl) =>
+        fetch(postUrl, {
+          method: "POST",
+          headers: { "Content-Type": uploadedImage!.type },
+          body: uploadedImage,
+        })
+      )
+      .then((result) => result.json())
+      .then(({ storageId }) =>
+        upsert({
+          ...(characterId ? { id: characterId } : {}),
+          cardImageStorageId: storageId,
+        })
+      );
+
+    toast.promise(promise, {
+      loading: "Uploading character card...",
+      success: (character) => {
+        character && setCharacterId(character);
+        return `Character card has been uploaded.`;
+      },
+      error: (error) => {
+        return error
+          ? (error.data as { message: string }).message
+          : "Unexpected error occurred";
+      },
+    });
   }
 
   const debouncedSubmitHandle = useDebouncedCallback(onSubmit, 1000);
@@ -106,24 +139,42 @@ export default function Create() {
         </CardHeader>
 
         <CardContent>
+          <div className="w-full flex justify-center my-4">
+            <Label
+              htmlFor="card"
+              className="w-[200px] h-[350px] rounded bg-muted flex items-center justify-center flex-col relative"
+            >
+              <Plus />
+              Add character card
+              <span className="text-xs text-muted-foreground">
+                Best size: 1024x1792
+              </span>
+              {selectedImage && (
+                <img
+                  src={URL.createObjectURL(selectedImage)}
+                  alt={"Preview of character card"}
+                  className="absolute w-full h-full object-cover rounded pointer-events-none"
+                />
+              )}
+            </Label>
+            <Input
+              id="card"
+              type="file"
+              accept="image/*"
+              ref={imageInput}
+              onChange={(event: any) => {
+                setSelectedImage(event.target.files![0]);
+                handleUploadImage(event.target.files![0]);
+              }}
+              disabled={selectedImage !== null}
+              className="hidden"
+            />
+          </div>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(debouncedSubmitHandle)}
               className="space-y-4"
             >
-              <div className="flex justify-center items-center">
-                <Avatar className="w-[200px] h-[350px] rounded">
-                  <AvatarImage
-                    alt="Character Avatar"
-                    src="/placeholder.svg?height=300&width=200"
-                  />
-                  <AvatarFallback className="rounded flex flex-col gap-0.5 text-muted-foreground">
-                    <Plus />
-                    Add character card
-                    <span className="text-xs">Best size: 1024x1792</span>
-                  </AvatarFallback>
-                </Avatar>
-              </div>
               <FormField
                 control={form.control}
                 name="name"
@@ -217,9 +268,9 @@ export default function Create() {
                 <div className="flex justify-center pt-4">
                   <Button
                     onClick={() => {
+                      onSubmit(form.getValues());
                       characterId &&
                         (() => {
-                          onSubmit(form.getValues());
                           const promise = publish({
                             id: characterId,
                             visibility: "public",

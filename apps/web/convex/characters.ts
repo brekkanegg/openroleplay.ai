@@ -9,7 +9,7 @@ export const upsert = mutation({
     name: v.optional(v.string()),
     description: v.optional(v.string()),
     instructions: v.optional(v.string()),
-    cardImageUrl: v.optional(v.string()),
+    cardImageStorageId: v.optional(v.id("_storage")),
     greetings: v.optional(v.array(v.string())),
     knowledge: v.optional(v.string()),
     capabilities: v.optional(v.array(v.string())),
@@ -20,19 +20,34 @@ export const upsert = mutation({
     if (args.id) {
       const characterDraft = await ctx.db.get(args.id);
       if (characterDraft && user._id !== characterDraft.creatorId) {
-        throw new Error(
-          "User does not have permission to modify this character."
-        );
+        throw new ConvexError({
+          message: "User does not have permission to modify this character.",
+        });
       }
-      const { id, ...rest } = args;
+      const { id, cardImageStorageId, ...rest } = args;
       const character = await ctx.db.patch(id, {
         ...rest,
+        ...(cardImageStorageId
+          ? {
+              cardImageUrl: (await ctx.storage.getUrl(
+                cardImageStorageId
+              )) as string,
+            }
+          : {}),
         updatedAt,
       });
       return character;
     } else {
+      const { cardImageStorageId, ...rest } = args;
       const character = await ctx.db.insert("characters", {
-        ...args,
+        ...rest,
+        ...(cardImageStorageId
+          ? {
+              cardImageUrl: (await ctx.storage.getUrl(
+                cardImageStorageId
+              )) as string,
+            }
+          : {}),
         creatorId: user._id,
         createdAt: updatedAt,
         updatedAt,
@@ -110,4 +125,8 @@ export const similarCharacters = action({
       limit: 16,
     });
   },
+});
+
+export const generateUploadUrl = mutation(async (ctx) => {
+  return await ctx.storage.generateUploadUrl();
 });

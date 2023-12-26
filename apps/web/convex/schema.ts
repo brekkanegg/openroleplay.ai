@@ -18,7 +18,7 @@ export default defineSchema({
     name: v.optional(v.string()),
     description: v.optional(v.string()),
     instructions: v.optional(v.string()),
-    cardImageStorageId: v.optional(v.id("_storage")),
+    cardImageUrl: v.optional(v.string()),
     greetings: v.optional(v.array(v.string())),
     knowledge: v.optional(v.string()),
     capabilities: v.optional(v.array(v.string())),

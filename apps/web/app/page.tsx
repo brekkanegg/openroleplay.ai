@@ -1,7 +1,5 @@
 "use client";
 import { CircleUserRound, Home, MessageSquare, Plus } from "lucide-react";
-import CharacterSlider from "@repo/ui/src/components/character-slider";
-import data from "@repo/ui/src/components/data";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   Tabs,
@@ -14,6 +12,7 @@ import Chats from "./chats";
 import Create from "./create";
 import Persona from "./persona";
 import useStoreUserEffect from "./lib/hooks/use-store-user-effect";
+import Characters from "./characters";
 
 export default function Page(): JSX.Element {
   useStoreUserEffect();
@@ -74,8 +73,8 @@ export default function Page(): JSX.Element {
             Persona
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="characters" className="py-32">
-          <CharacterSlider data={data} activeSlide={2} />
+        <TabsContent value="characters" className="pb-32">
+          <Characters />
         </TabsContent>
         <TabsContent value="create" className="w-[100vw] max-w-screen-xl pb-32">
           <Create />
