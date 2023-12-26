@@ -1,7 +1,7 @@
-import CharacterCard from "@repo/ui/src/components/character-card";
-import CharacterCardPlaceholder from "@repo/ui/src/components/character-card-placeholder";
 import { useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
+import CharacterCard from "./character-card";
+import CharacterCardPlaceholder from "./character-card-placeholder";
 
 const Characters = () => {
   const characters = useQuery(api.characters.list);
@@ -12,6 +12,7 @@ const Characters = () => {
             (character) =>
               character.name && (
                 <CharacterCard
+                  id={character._id}
                   key={character._id}
                   name={character.name}
                   cardImageUrl={character.cardImageUrl as string}
