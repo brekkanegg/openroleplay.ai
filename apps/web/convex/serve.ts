@@ -75,6 +75,13 @@ export const answer = internalAction({
               }`
                 : ""
             }
+
+            You can use parentheses or Markdown to indicate different types of things the Character might say,
+            narrator type descriptions of actions, muttering asides or emotional reactions.
+
+            In Markdown, you can indicate italics by putting a single asterisk * on each side of a phrase,
+            like *this*. This can be used to indicate action or emotion in a definition.
+
             `,
           },
           // ...(relevantDocuments.map(({ text }) => ({
