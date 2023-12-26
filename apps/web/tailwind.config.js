@@ -133,6 +133,7 @@ module.exports = {
   plugins: [
     require("tailwindcss-animate"),
     require("@tailwindcss/forms"),
+    require("tailwind-scrollbar-hide"),
     require("@tailwindcss/line-clamp"),
     plugin(({ addVariant }) => {
       addVariant("radix-side-top", '&[data-side="top"]');

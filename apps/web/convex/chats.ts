@@ -9,14 +9,22 @@ export const create = mutation({
   },
   handler: async (ctx, args) => {
     const user = await getUser(ctx);
-    const chat = await ctx.db.insert("chats", {
+    let chat = await ctx.db
+      .query("chats")
+      .filter((q) => q.eq(q.field("characterId"), args.characterId))
+      .filter((q) => q.eq(q.field("userId"), user._id))
+      .first();
+
+    if (chat) {
+      return chat._id;
+    }
+    return await ctx.db.insert("chats", {
       ...args,
       userId: user._id,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       joinedAt: new Date().toISOString(),
     });
-    return chat;
   },
 });
 

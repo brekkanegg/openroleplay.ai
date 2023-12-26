@@ -84,10 +84,6 @@ export const answer = internalAction({
 
             `,
           },
-          // ...(relevantDocuments.map(({ text }) => ({
-          //   role: "system",
-          //   content: "Relevant document:\n\n" + text,
-          // })) as ChatCompletionMessageParam[]),
           ...(messages.map(({ characterId, text }) => ({
             role: characterId ? "assistant" : "user",
             content: text,
@@ -105,7 +101,8 @@ export const answer = internalAction({
           });
         }
       }
-    } catch (error: any) {
+    } catch (error) {
+      console.log(error);
       await ctx.runMutation(internal.serve.updateCharacterMessage, {
         messageId,
         text: "I cannot reply at this time.",
