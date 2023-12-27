@@ -138,7 +138,9 @@ export default function UserDropdown() {
                 alt={user?.primaryEmailAddress?.emailAddress as string}
                 src={
                   user?.imageUrl ||
-                  `https://avatars.dicebear.com/api/micah/${email}.svg`
+                  `https://avatars.dicebear.com/api/micah/${
+                    user?.primaryEmailAddress?.emailAddress as string
+                  }.svg`
                 }
                 width={40}
                 height={40}
