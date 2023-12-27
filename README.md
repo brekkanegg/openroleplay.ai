@@ -39,9 +39,9 @@ This is where Open Roleplay steps in. Whether self-hosted or hosted by us, it's 
 
 ## Features
 
-- Chat with your favorite AI models and characters
-- Customize your characters and personas
-- Full chat history
+- **Model Agnostic:** Open Roleplay is compatible with a variety of AI models, allowing you to interact with your preferred AI characters.
+- **Highly Customizable:** Open Roleplay allows you to personalize your characters, personas and UI, providing a unique roleplaying experience.
+- **Roleplay-Focused:** Open Roleplay is designed with a focus on roleplaying and storytelling, ensuring an immersive and engaging experience.
 
 ## Supported Models
 
