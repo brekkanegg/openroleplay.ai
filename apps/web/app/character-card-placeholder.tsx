@@ -5,7 +5,6 @@ import {
   CardTitle,
 } from "@repo/ui/src/components";
 import { AspectRatio } from "@repo/ui/src/components/aspect-ratio";
-import Image from "next/image";
 
 const CharacterCardPlaceholder = (props: {}) => {
   return (

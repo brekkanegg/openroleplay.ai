@@ -36,7 +36,7 @@ export default function Page({ params }: { params: { id: string } }) {
           <CardTitle className="text-white text-xl z-[1]">
             {data?.name}
           </CardTitle>
-          <p className="text-white z-[1] lg:line-clamp-5 line-clamp-3">
+          <p className="text-white z-[1] lg:line-clamp-5 line-clamp-3 text-sm">
             {data?.description}
           </p>
         </CardHeader>

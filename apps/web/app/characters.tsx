@@ -15,6 +15,7 @@ const Characters = () => {
                   id={character._id}
                   key={character._id}
                   name={character.name}
+                  numChats={character.numChats as number}
                   cardImageUrl={character.cardImageUrl as string}
                   description={character.description}
                 />
