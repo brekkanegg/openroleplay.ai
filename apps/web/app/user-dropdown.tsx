@@ -2,7 +2,8 @@
 
 import { ReactElement, useState } from "react";
 import Image from "next/image";
-import { CircleDollarSign, LogIn, LogOut, Menu, Star } from "lucide-react";
+import { LogIn, LogOut, Menu, Star } from "lucide-react";
+import { Discord } from "@repo/ui/src/components/social-icons";
 import {
   Popover,
   PopoverContent,
@@ -111,6 +112,12 @@ export default function UserDropdown() {
               href="/star"
               text="Star on GitHub"
               Icon={<Star className="h-4 w-4 text-muted-foreground" />}
+              onClick={() => setOpenPopover(false)}
+            />
+            <StyledLink
+              href="/discord"
+              text="Join Discord"
+              Icon={<Discord className="h-4 w-4 text-muted-foreground" />}
               onClick={() => setOpenPopover(false)}
             />
           </div>

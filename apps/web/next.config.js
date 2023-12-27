@@ -31,6 +31,16 @@ module.exports = {
           "https://github.com/Open-Roleplay-AI/OpenRoleplay/stargazers",
         permanent: true,
       },
+      {
+        source: "/github",
+        destination: "https://github.com/Open-Roleplay-AI/OpenRoleplay",
+        permanent: true,
+      },
+      {
+        source: "/discord",
+        destination: "https://discord.gg/bM5zzMEtdW",
+        permanent: true,
+      },
     ];
   },
 };
