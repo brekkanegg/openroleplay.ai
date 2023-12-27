@@ -257,9 +257,15 @@ importers:
       lucide-react:
         specifier: ^0.298.0
         version: 0.298.0(react@18.2.0)
+      next-themes:
+        specifier: ^0.2.1
+        version: 0.2.1(next@14.0.3)(react-dom@18.2.0)(react@18.2.0)
       react-hook-form:
         specifier: ^7.49.2
         version: 7.49.2(react@18.2.0)
+      sonner:
+        specifier: ^1.2.4
+        version: 1.2.4(react-dom@18.2.0)(react@18.2.0)
       tailwind-merge:
         specifier: ^2.1.0
         version: 2.1.0

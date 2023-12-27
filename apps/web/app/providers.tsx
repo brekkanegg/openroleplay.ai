@@ -1,7 +1,7 @@
 "use client";
 
 import { ThemeProvider } from "next-themes";
-import { Toaster } from "sonner";
+import { Toaster } from "@repo/ui/src/components/toaster";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { ClerkProvider, useAuth } from "@clerk/nextjs";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
