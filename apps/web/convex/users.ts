@@ -1,4 +1,4 @@
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { internalQuery } from "./_generated/server";
 import { v } from "convex/values";
 
@@ -84,3 +84,13 @@ export const getUser = async (ctx: any) => {
   }
   return user;
 };
+
+export const getUsername = query({
+  args: {
+    id: v.id("users"),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db.get(args.id);
+    return user ? user.name : null;
+  },
+});
