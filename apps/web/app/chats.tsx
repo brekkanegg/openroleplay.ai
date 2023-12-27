@@ -49,7 +49,7 @@ const Chat = ({
           <div className="flex-1">
             <div className="flex items-center gap-2">
               <h2 className="text-lg font-medium">
-                {name ? name : character?.name}
+                {name ? name : character?.name ? character?.name : "Loading"}
               </h2>
               <p className="text-xs text-muted-foreground">
                 {formatDistanceToNow(new Date(recentMessageAt), {
@@ -58,7 +58,7 @@ const Chat = ({
               </p>
             </div>
             <p className="text-sm text-muted-foreground line-clamp-1">
-              {message?.text}
+              {message?.text ? message?.text : "Click here to chat."}
             </p>
           </div>
         </div>
