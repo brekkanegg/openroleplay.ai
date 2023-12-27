@@ -29,7 +29,6 @@ export default defineSchema({
     numChats: v.optional(v.number()),
     embedding: v.optional(v.array(v.float64())),
     model: v.optional(v.union(v.literal("gpt-3.5"), v.literal("gpt-4"))),
-    createdAt: v.string(),
     updatedAt: v.string(),
   })
     .index("byUserId", ["creatorId"])
@@ -46,12 +45,10 @@ export default defineSchema({
     isPrivate: v.boolean(),
     isBlacklisted: v.boolean(),
     creatorId: v.id("users"),
-    createdAt: v.string(),
     updatedAt: v.string(),
   }).index("byUserId", ["creatorId"]),
   chats: defineTable({
     chatName: v.optional(v.string()),
-    createdAt: v.string(),
     updatedAt: v.string(),
     userId: v.optional(v.id("users")),
     characterId: v.optional(v.id("characters")),
@@ -59,7 +56,8 @@ export default defineSchema({
   })
     .index("byChatId", ["chatName"])
     .index("byUserId", ["userId"])
-    .index("byCharacterId", ["characterId"]),
+    .index("byCharacterId", ["characterId"])
+    .index("byUpdatedAt", ["updatedAt"]),
   usage: defineTable({
     userId: v.id("users"),
     rateType: v.optional(v.union(v.literal("smallLLM"), v.literal("largeLLM"))),

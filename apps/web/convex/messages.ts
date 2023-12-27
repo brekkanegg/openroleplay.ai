@@ -20,6 +20,20 @@ export const list = query({
   },
 });
 
+export const mostRecentMessage = query({
+  args: {
+    chatId: v.id("chats"),
+  },
+  handler: async (ctx, args) => {
+    await getUser(ctx);
+    return await ctx.db
+      .query("messages")
+      .withIndex("byChatId", (q) => q.eq("chatId", args.chatId))
+      .order("desc")
+      .first();
+  },
+});
+
 export const send = mutation({
   args: {
     message: v.string(),

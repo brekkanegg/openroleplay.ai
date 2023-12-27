@@ -1,6 +1,7 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 import { getUser } from "./users";
+import { paginationOptsValidator } from "convex/server";
 
 export const create = mutation({
   args: {
@@ -29,12 +30,17 @@ export const create = mutation({
 });
 
 export const list = query({
-  handler: async (ctx) => {
+  args: {
+    paginationOpts: paginationOptsValidator,
+  },
+  handler: async (ctx, args) => {
     const user = await getUser(ctx);
-    return await ctx.db
+    const results = await ctx.db
       .query("chats")
       .filter((q) => q.eq(q.field("userId"), user._id))
-      .collect();
+      .order("desc")
+      .paginate(args.paginationOpts);
+    return results;
   },
 });
 

@@ -13,12 +13,14 @@ import Create from "./create";
 import Persona from "./persona";
 import useStoreUserEffect from "./lib/hooks/use-store-user-effect";
 import Characters from "./characters";
+import { useConvexAuth } from "convex/react";
 
 export default function Page(): JSX.Element {
   useStoreUserEffect();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
+  const { isAuthenticated } = useConvexAuth();
 
   const initialTab =
     typeof searchParams.get("tab") === "string"
@@ -80,7 +82,7 @@ export default function Page(): JSX.Element {
           <Create />
         </TabsContent>
         <TabsContent value="chats" className="w-[100vw] max-w-screen-xl pb-32">
-          <Chats />
+          {isAuthenticated && <Chats />}
         </TabsContent>
         <TabsContent
           value="persona"
