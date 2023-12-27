@@ -91,7 +91,8 @@ export const publish = mutation({
 });
 
 export const list = query({
-  handler: async (ctx) => {
+  args: {},
+  handler: async (ctx, args) => {
     return await ctx.db
       .query("characters")
       .withIndex("byNumChats")
@@ -125,12 +126,15 @@ export const similarCharacters = action({
   handler: async (ctx, args) => {
     const embedding = await embedText(args.query);
     return await ctx.vectorSearch("characters", "byEmbedding", {
-      vector: embedding[0],
+      vector: embedding[0] as number[],
       limit: 16,
     });
   },
 });
 
-export const generateUploadUrl = mutation(async (ctx) => {
-  return await ctx.storage.generateUploadUrl();
+export const generateUploadUrl = mutation({
+  args: {},
+  handler: async (ctx, args) => {
+    return await ctx.storage.generateUploadUrl();
+  },
 });

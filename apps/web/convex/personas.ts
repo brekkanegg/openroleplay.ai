@@ -30,7 +30,8 @@ export const create = mutation({
 });
 
 export const list = query({
-  handler: async (ctx) => {
+  args: {},
+  handler: async (ctx, args) => {
     const user = await getUser(ctx);
     return await ctx.db
       .query("personas")
