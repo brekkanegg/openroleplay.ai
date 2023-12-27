@@ -14,6 +14,7 @@ import Persona from "./persona";
 import useStoreUserEffect from "./lib/hooks/use-store-user-effect";
 import Characters from "./characters";
 import { useConvexAuth } from "convex/react";
+import { SignIn } from "@clerk/nextjs";
 
 export default function Page(): JSX.Element {
   useStoreUserEffect();
@@ -79,16 +80,34 @@ export default function Page(): JSX.Element {
           <Characters />
         </TabsContent>
         <TabsContent value="create" className="w-[100vw] max-w-screen-xl pb-32">
-          <Create />
+          {isAuthenticated ? (
+            <Create />
+          ) : (
+            <div className="w-full h-full items-center justify-center flex py-32">
+              <SignIn />
+            </div>
+          )}
         </TabsContent>
         <TabsContent value="chats" className="w-[100vw] max-w-screen-xl pb-32">
-          {isAuthenticated && <Chats />}
+          {isAuthenticated ? (
+            <Chats />
+          ) : (
+            <div className="w-full h-full items-center justify-center flex py-32">
+              <SignIn />
+            </div>
+          )}
         </TabsContent>
         <TabsContent
           value="persona"
           className="w-[100vw] max-w-screen-xl pb-32"
         >
-          <Persona />
+          {isAuthenticated ? (
+            <Persona />
+          ) : (
+            <div className="w-full h-full items-center justify-center flex py-32">
+              <SignIn />
+            </div>
+          )}
         </TabsContent>
       </Tabs>
     </div>

@@ -107,16 +107,6 @@ export default function UserDropdown() {
                 />
               </>
             )}
-            {!user && (
-              <StyledLink
-                href="/pricing"
-                text="Pricing"
-                Icon={
-                  <CircleDollarSign className="h-4 w-4 text-muted-foreground" />
-                }
-                onClick={() => setOpenPopover(false)}
-              />
-            )}
             <StyledLink
               href="/star"
               text="Star on GitHub"
