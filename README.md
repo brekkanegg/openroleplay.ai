@@ -47,16 +47,18 @@ This is where Open Roleplay steps in. Whether self-hosted or hosted by us, it's 
 
 ### Smaller, Faster Models
 
-- gpt-3.5-turbo-1106 (16k context window)
+- OpenAI gpt-3.5-turbo-1106 (16k context window)
 - Mistral 8x7b (Coming soon)
 - Perplexity pplx-7b-chat (Coming soon)
 - Perplexity pplx-7b-online (Coming soon)
+- ...and more!
 
 ### Larger, Accurate Models
 
+- OpenAI gpt-4-1106-preview (128k context window)
 - Perplexity pplx-70b-chat (Coming soon)
 - Perplexity pplx-70b-online (Coming soon)
-- gpt-4-1106-preview (128k context window)
+- ...and more!
 
 ### Image generation
 

@@ -34,7 +34,7 @@ const StyledLink: React.FC<StyledLinkProps> = ({
   return (
     <Link
       href={href}
-      className="relative flex w-full items-center justify-start space-x-2 rounded-md p-4 text-left text-sm transition-all duration-75 hover:bg-gray-100 sm:p-1"
+      className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100 sm:p-1"
       onClick={onClick}
     >
       {Icon}
@@ -50,7 +50,7 @@ export const StyledButton: React.FC<StyledButtonProps> = ({
 }) => {
   return (
     <button
-      className="relative flex w-full items-center justify-start space-x-2 rounded-md p-4 text-left text-sm transition-all duration-75 hover:bg-gray-100 sm:p-1"
+      className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100 sm:p-1"
       onClick={onClick}
     >
       {Icon}
@@ -72,7 +72,7 @@ export default function UserDropdown() {
         onOpenChange={() => setOpenPopover(!openPopover)}
       >
         <PopoverContent asChild>
-          <div className="w-full rounded-lg bg-white p-4 sm:w-40 sm:p-1">
+          <div className="w-full rounded-lg bg-white p-2 sm:w-40 sm:p-1">
             {user && (
               <div className="p-2">
                 {user?.firstName && (
