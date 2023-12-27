@@ -40,8 +40,9 @@ export default defineSchema({
       filterFields: ["name", "description", "instructions"],
     }),
   personas: defineTable({
-    name: v.string(),
-    description: v.string(),
+    name: v.optional(v.string()),
+    description: v.optional(v.string()),
+    cardImageUrl: v.optional(v.string()),
     isPrivate: v.boolean(),
     isBlacklisted: v.boolean(),
     creatorId: v.id("users"),

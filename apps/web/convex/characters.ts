@@ -51,6 +51,7 @@ export const upsert = mutation({
         creatorId: user._id,
         createdAt: updatedAt,
         updatedAt,
+        numChats: 0,
         isDraft: true,
         isBlacklisted: false,
       });

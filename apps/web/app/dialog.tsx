@@ -3,17 +3,25 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { api } from "../convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
 import { Id } from "../convex/_generated/dataModel";
-import { Send } from "lucide-react";
+import { Plus, Send } from "lucide-react";
+import Image from "next/image";
 import { Button } from "@repo/ui/src/components";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@repo/ui/src/components/avatar";
 
 export function Dialog({
   name,
   welcomeMessage,
+  cardImageUrl,
   chatId,
   characterId,
 }: {
   name: string;
   welcomeMessage?: string;
+  cardImageUrl?: string;
   chatId: Id<"chats">;
   characterId: Id<"characters">;
 }) {
@@ -60,7 +68,7 @@ export function Dialog({
   return (
     <div className="w-full h-full">
       <div
-        className="flex-grow overflow-y-scroll scrollbar-hide gap-2 flex flex-col mx-2 p-4 rounded-lg h-[90%]"
+        className="flex-grow overflow-y-scroll scrollbar-hide gap-8 flex flex-col mx-2 p-4 rounded-lg h-[90%]"
         ref={listRef}
         onWheel={() => {
           setScrolled(true);
@@ -75,9 +83,23 @@ export function Dialog({
           messages.map((message) => (
             <div
               key={message._id}
-              className={message?.characterId ? "self-start" : "self-end"}
+              className={`flex flex-col gap-2 ${
+                message?.characterId ? "self-start" : "self-end"
+              }`}
             >
-              <div className={"text-neutral-400 text-sm "}>
+              <div
+                className={`text-sm font-medium flex items-center gap-2 ${
+                  message?.characterId ? "justify-start" : "justify-end"
+                }`}
+              >
+                <Avatar className="h-8 w-8">
+                  <AvatarImage
+                    alt={`Character card of ${name}`}
+                    src={message?.characterId ? cardImageUrl : "undefined"}
+                    className="object-cover"
+                  />
+                  <AvatarFallback>Y</AvatarFallback>
+                </Avatar>
                 {message?.characterId ? <>{name}</> : <>You</>}
               </div>
               {message.text === "" ? (
@@ -85,7 +107,7 @@ export function Dialog({
               ) : (
                 <div
                   className={
-                    "lg:w-[40rem] md:w-[30rem] w-[20rem] rounded-xl px-3 py-2 whitespace-pre-wrap" +
+                    "lg:max-w-[40rem] md:max-w-[30rem] max-w-[20rem] rounded-xl px-3 py-2 whitespace-pre-wrap" +
                     (message?.characterId
                       ? " bg-muted rounded-tl-none "
                       : " bg-foreground text-muted rounded-tr-none ")

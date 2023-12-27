@@ -182,7 +182,11 @@ export default function Create() {
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Name your character" {...field} />
+                      <Input
+                        placeholder="Name your character"
+                        {...field}
+                        onBlur={form.handleSubmit(debouncedSubmitHandle)}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -216,6 +220,7 @@ export default function Create() {
                         className="min-h-[100px]"
                         placeholder="What does this character do? How does they behave? What should they avoid doing?"
                         {...field}
+                        onBlur={form.handleSubmit(debouncedSubmitHandle)}
                       />
                     </FormControl>
                     <FormMessage />
@@ -232,6 +237,7 @@ export default function Create() {
                       <Input
                         placeholder="The first message from character to user"
                         {...field}
+                        onBlur={form.handleSubmit(debouncedSubmitHandle)}
                       />
                     </FormControl>
                     <FormMessage />

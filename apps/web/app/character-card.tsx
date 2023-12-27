@@ -18,13 +18,13 @@ const CharacterCard = (props: {
   return (
     <AspectRatio ratio={1 / 1.75}>
       <Link href={`/character/${props?.id}`} className="group">
-        <Card className="rounded-lg p-2 w-[calc(100%-1rem)] h-[calc(100%-1rem)] flex items-end ring ring-black/10 hover:shadow-lg duration-200 group-hover:opacity-75">
+        <Card className="rounded-lg p-2 w-[calc(100%-1rem)] h-[calc(100%-1rem)] flex items-end shadow hover:shadow-xl duration-200">
           <CardHeader className="relative w-full p-4">
             <div className="bg-gradient-to-b from-transparent to-black/75 absolute -left-2 -bottom-2 w-[calc(100%+16px)] h-[calc(100%+2rem)] rounded-b-lg" />
-            <CardTitle className="text-white text-xl select-none line-clamp-1 z-[1]">
+            <CardTitle className="text-white text-xl select-none line-clamp-1 z-[1] group-hover:opacity-80 duration-200">
               {props.name}
             </CardTitle>
-            <CardDescription className="text-white select-none line-clamp-3 z-[1]">
+            <CardDescription className="text-white select-none line-clamp-3 z-[1] group-hover:opacity-80 duration-200">
               {props.description}
             </CardDescription>
           </CardHeader>

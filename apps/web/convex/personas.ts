@@ -4,16 +4,25 @@ import { getUser } from "./users";
 
 export const create = mutation({
   args: {
-    name: v.string(),
-    description: v.string(),
+    name: v.optional(v.string()),
+    description: v.optional(v.string()),
+    cardImageStorageId: v.optional(v.id("_storage")),
     isPrivate: v.boolean(),
-    isBlacklisted: v.boolean(),
   },
   handler: async (ctx, args) => {
     const user = await getUser(ctx);
+    const { cardImageStorageId, ...rest } = args;
     const persona = await ctx.db.insert("personas", {
-      ...args,
+      ...rest,
       creatorId: user._id,
+      isBlacklisted: false,
+      ...(cardImageStorageId
+        ? {
+            cardImageUrl: (await ctx.storage.getUrl(
+              cardImageStorageId
+            )) as string,
+          }
+        : {}),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     });
@@ -50,8 +59,8 @@ export const update = mutation({
     id: v.id("personas"),
     name: v.optional(v.string()),
     description: v.optional(v.string()),
+    cardImageStorageId: v.optional(v.id("_storage")),
     isPrivate: v.optional(v.boolean()),
-    isBlacklisted: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
     const user = await getUser(ctx);
@@ -61,8 +70,16 @@ export const update = mutation({
       .filter((q) => q.eq(q.field("creatorId"), user._id))
       .first();
     if (persona) {
+      const { id, cardImageStorageId, ...rest } = args;
       return await ctx.db.patch(args.id, {
-        ...args,
+        ...rest,
+        ...(cardImageStorageId
+          ? {
+              cardImageUrl: (await ctx.storage.getUrl(
+                cardImageStorageId
+              )) as string,
+            }
+          : {}),
         updatedAt: new Date().toISOString(),
       });
     }

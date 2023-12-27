@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    --sheet: 210 40% 98%;
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -36,6 +37,7 @@
   }
 
   .dark {
+    --sheet: 229 84% 5%;
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
 
@@ -71,7 +73,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background lg:bg-sheet text-foreground;
   }
 
   ::-moz-selection {
