@@ -33,6 +33,7 @@ export default defineSchema({
     updatedAt: v.string(),
   })
     .index("byUserId", ["creatorId"])
+    .index("byNumChats", ["numChats"])
     .vectorIndex("byEmbedding", {
       vectorField: "embedding",
       dimensions: 512,

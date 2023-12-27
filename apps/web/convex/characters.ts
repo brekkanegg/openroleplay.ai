@@ -92,7 +92,11 @@ export const publish = mutation({
 
 export const list = query({
   handler: async (ctx) => {
-    return await ctx.db.query("characters").collect();
+    return await ctx.db
+      .query("characters")
+      .withIndex("byNumChats")
+      .order("desc")
+      .collect();
   },
 });
 

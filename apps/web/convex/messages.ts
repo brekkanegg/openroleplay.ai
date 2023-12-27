@@ -37,6 +37,10 @@ export const send = mutation({
       personaId,
       userId: user._id,
     });
+    const character = await ctx.db.get(characterId);
+    await ctx.db.patch(characterId, {
+      numChats: character?.numChats ? character?.numChats + 1 : 1,
+    });
   },
 });
 
