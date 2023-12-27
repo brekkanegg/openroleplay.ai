@@ -62,7 +62,7 @@ export default function Page({ params }: { params: { id: string } }) {
               characterId={data?._id as any}
               cardImageUrl={data?.cardImageUrl}
             />
-          ) : isAuthenticated && isLoading ? (
+          ) : isAuthenticated && !isLoading ? (
             <div className="w-full h-full items-center justify-center flex">
               <Spinner />
             </div>
