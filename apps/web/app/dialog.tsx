@@ -85,10 +85,10 @@ export function Dialog({
               ) : (
                 <div
                   className={
-                    "w-96 rounded-xl px-3 py-2 whitespace-pre-wrap" +
+                    "lg:w-[40rem] md:w-[30rem] w-[20rem] rounded-xl px-3 py-2 whitespace-pre-wrap" +
                     (message?.characterId
                       ? " bg-muted rounded-tl-none "
-                      : " border rounded-tr-none ")
+                      : " bg-foreground text-muted rounded-tr-none ")
                   }
                 >
                   {message.text}
@@ -99,7 +99,7 @@ export function Dialog({
         )}
       </div>
       <form
-        className="border-solid border-0 border-t-[1px] flex"
+        className="border-solid border-0 border-t-[1px] flex sticky bottom-0 bg-background"
         onSubmit={(event) => void handleSend(event)}
       >
         <input

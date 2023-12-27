@@ -1,5 +1,5 @@
 "use client";
-import { useMutation, useQuery } from "convex/react";
+import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
 import {
@@ -10,6 +10,7 @@ import {
 } from "@repo/ui/src/components";
 import Image from "next/image";
 import { Dialog } from "../../dialog";
+import Spinner from "@repo/ui/src/components/spinner";
 import useStoreChatEffect from "../../lib/hooks/use-store-chat-effect";
 
 export default function Page({ params }: { params: { id: string } }) {
@@ -18,8 +19,8 @@ export default function Page({ params }: { params: { id: string } }) {
   });
   const chatId = useStoreChatEffect(params.id as Id<"characters">);
   return (
-    <div className="w-full h-[80vh] max-w-screen-xl flex flex-col justify-self-start">
-      <Card className="w-full h-[42rem] shadow-none lg:shadow-xl border-transparent lg:border-border flex lg:flex-row flex-col">
+    <div className="w-full max-w-screen-xl flex flex-col justify-self-start">
+      <Card className="w-full h-full lg:h-[42rem] shadow-none lg:shadow-xl border-transparent lg:border-border flex lg:flex-row flex-col">
         <CardHeader className="border-b lg:border-b-0 lg:border-r lg:w-96 lg:h-[42rem] relative justify-end">
           {data?.cardImageUrl && (
             <Image
@@ -35,7 +36,9 @@ export default function Page({ params }: { params: { id: string } }) {
           <CardTitle className="text-white text-xl z-[1]">
             {data?.name}
           </CardTitle>
-          <p className="text-white z-[1] line-clamp-5">{data?.description}</p>
+          <p className="text-white z-[1] lg:line-clamp-5 line-clamp-3">
+            {data?.description}
+          </p>
         </CardHeader>
         <CardContent className="w-full h-full p-0">
           {chatId ? (
@@ -48,7 +51,9 @@ export default function Page({ params }: { params: { id: string } }) {
               characterId={data?._id as any}
             />
           ) : (
-            <div>Loading...</div>
+            <div className="w-full h-full items-center justify-center flex">
+              <Spinner />
+            </div>
           )}
         </CardContent>
       </Card>

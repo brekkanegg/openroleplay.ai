@@ -22,7 +22,7 @@ export default async function RootLayout({
       <body className={cx(calSans.variable, inter.variable)}>
         <Providers>
           <NavBar />
-          <main className="flex min-h-screen w-full flex-col items-center justify-center py-32 font-default">
+          <main className="flex min-h-screen w-full flex-col items-center lg:justify-center lg:py-32 py-16 font-default">
             {children}
           </main>
           <Analytics />
