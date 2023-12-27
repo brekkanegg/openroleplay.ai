@@ -129,7 +129,7 @@ export function Dialog({
         )}
       </div>
       <form
-        className="border-solid border-0 border-t-[1px] flex sticky bottom-0 bg-background"
+        className="border-solid border-0 border-t-[1px] flex sticky bottom-0 bg-background h-16 items-center"
         onSubmit={(event) => void handleSend(event)}
       >
         <input
