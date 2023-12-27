@@ -3,6 +3,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  Tooltip,
 } from "@repo/ui/src/components";
 import { AspectRatio } from "@repo/ui/src/components/aspect-ratio";
 import { MessagesSquare } from "lucide-react";
@@ -28,10 +29,12 @@ const CharacterCard = (props: {
             <div className="bg-gradient-to-b from-transparent via-black/60 to-black absolute -left-2 -bottom-2 w-[calc(100%+16px)] h-[calc(100%+2rem)] rounded-b-lg z-0" />
             <CardTitle className="text-white text-lg line-clamp-1 select-none group-hover:opacity-80 duration-200 z-[3] flex justify-between">
               <div className="w-[80%] truncate">{props.name}</div>
-              <div className="text-white text-xs rounded-full group-hover:opacity-80 duration-200 z-[3] flex gap-1 items-center">
-                <MessagesSquare className="w-4 h-4 aspect-square" />
-                {nFormatter(props.numChats)}
-              </div>
+              <Tooltip content={`Number of chats with ${props.name}`}>
+                <div className="text-white text-xs rounded-full group-hover:opacity-80 duration-200 z-[3] flex gap-0.5 items-center">
+                  <MessagesSquare className="w-5 h-5 p-1 aspect-square" />
+                  {nFormatter(props.numChats)}
+                </div>
+              </Tooltip>
             </CardTitle>
 
             <CardDescription className="text-white select-none text-xs line-clamp-3 group-hover:opacity-80 duration-200 z-[3]">
