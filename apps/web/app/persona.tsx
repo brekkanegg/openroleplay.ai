@@ -32,6 +32,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@repo/ui/src/components/form";
+import { useUser } from "@clerk/nextjs";
 
 const formSchema = z.object({
   name: z.string(),
@@ -43,6 +44,7 @@ export default function Persona() {
   const create = useMutation(api.personas.create);
   const update = useMutation(api.personas.update);
   const generateUploadUrl = useMutation(api.characters.generateUploadUrl);
+  const { user } = useUser();
 
   const imageInput = useRef<HTMLInputElement>(null);
   const [personaId, setPersonaId] = useState<Id<"personas">>();
@@ -51,7 +53,7 @@ export default function Persona() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      name: user?.fullName as string,
       description: "",
       isPrivate: false,
     },

@@ -1,10 +1,10 @@
 "use client";
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { api } from "../convex/_generated/api";
-import { useMutation, useQuery } from "convex/react";
+import { useMutation, usePaginatedQuery } from "convex/react";
 import { Id } from "../convex/_generated/dataModel";
-import { Plus, Send } from "lucide-react";
-import Image from "next/image";
+import { Send } from "lucide-react";
+import { motion } from "framer-motion";
 import { Button } from "@repo/ui/src/components";
 import {
   Avatar,
@@ -25,7 +25,12 @@ export function Dialog({
   chatId: Id<"chats">;
   characterId: Id<"characters">;
 }) {
-  const remoteMessages = useQuery(api.messages.list, { chatId });
+  const { results, status, loadMore } = usePaginatedQuery(
+    api.messages.list,
+    { chatId },
+    { initialNumItems: 5 }
+  );
+  const remoteMessages = results.reverse();
   const messages = useMemo(
     () =>
       [{ text: welcomeMessage, characterId, _id: "0" }].concat(
@@ -80,12 +85,15 @@ export function Dialog({
             <div className="animate-pulse rounded-md bg-black/10 h-9" />
           </>
         ) : (
-          messages.map((message) => (
-            <div
+          messages.map((message, i) => (
+            <motion.div
               key={message._id}
               className={`flex flex-col gap-2 ${
                 message?.characterId ? "self-start" : "self-end"
               }`}
+              onViewportEnter={() => {
+                if (i === 0 && isScrolled) loadMore(5);
+              }}
             >
               <div
                 className={`text-sm font-medium flex items-center gap-2 ${
@@ -116,7 +124,7 @@ export function Dialog({
                   {message.text}
                 </div>
               )}
-            </div>
+            </motion.div>
           ))
         )}
       </div>

@@ -3,17 +3,20 @@ import { mutation } from "./_generated/server";
 import { query } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { getUser } from "./users";
+import { paginationOptsValidator } from "convex/server";
 
 export const list = query({
   args: {
     chatId: v.id("chats"),
+    paginationOpts: paginationOptsValidator,
   },
   handler: async (ctx, args) => {
     await getUser(ctx);
     return await ctx.db
       .query("messages")
       .withIndex("byChatId", (q) => q.eq("chatId", args.chatId))
-      .collect();
+      .order("desc")
+      .paginate(args.paginationOpts);
   },
 });
 
