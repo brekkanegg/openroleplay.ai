@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from "@repo/ui/src/components/popover";
 import Link from "next/link";
-import { useUser } from "@clerk/nextjs";
+import { useClerk, useUser } from "@clerk/nextjs";
 
 type StyledLinkProps = {
   href: string;
@@ -62,6 +62,7 @@ export default function UserDropdown() {
   const { user } = useUser();
 
   const [openPopover, setOpenPopover] = useState(false);
+  const { signOut } = useClerk();
 
   return (
     <div className="relative inline-block text-left">
@@ -91,6 +92,7 @@ export default function UserDropdown() {
                 Icon={<LogOut className="h-4 w-4 text-muted-foreground" />}
                 onClick={() => {
                   setOpenPopover(false);
+                  signOut();
                 }}
               />
             ) : (
