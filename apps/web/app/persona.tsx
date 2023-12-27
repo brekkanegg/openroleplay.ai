@@ -107,13 +107,13 @@ export default function Persona() {
       .then((result) => result.json())
       .then(async ({ storageId }) => {
         if (personaId) {
-          return create({
-            isPrivate: false,
+          await update({
+            id: personaId as Id<"personas">,
             cardImageStorageId: storageId,
           });
         } else {
-          await update({
-            id: personaId as Id<"personas">,
+          return create({
+            isPrivate: false,
             cardImageStorageId: storageId,
           });
         }

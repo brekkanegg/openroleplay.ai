@@ -45,7 +45,7 @@ export default function Page(): JSX.Element {
         value={Array.isArray(activeTab) ? activeTab[0] : activeTab}
         onValueChange={handleTabChange}
       >
-        <TabsList className="w-[85%] lg:w-[50%] h-16 right-0 flex gap-2 fixed bottom-12 mx-auto left-0 z-10 rounded-full">
+        <TabsList className="w-[85%] lg:w-[50%] h-16 right-0 flex gap-2 fixed bottom-12 mx-auto left-0 z-10 rounded-full border">
           <TabsTrigger
             className="w-full rounded-full flex gap-0.5 flex-col items-center"
             value="characters"

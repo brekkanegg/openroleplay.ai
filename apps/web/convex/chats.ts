@@ -22,7 +22,6 @@ export const create = mutation({
     return await ctx.db.insert("chats", {
       ...args,
       userId: user._id,
-      createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       joinedAt: new Date().toISOString(),
     });

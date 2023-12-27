@@ -1,5 +1,5 @@
 import { mutation, query } from "./_generated/server";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { getUser } from "./users";
 
 export const create = mutation({
@@ -23,7 +23,6 @@ export const create = mutation({
             )) as string,
           }
         : {}),
-      createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     });
     return persona;
@@ -64,25 +63,24 @@ export const update = mutation({
   },
   handler: async (ctx, args) => {
     const user = await getUser(ctx);
-    const persona = await ctx.db
-      .query("personas")
-      .filter((q) => q.eq(q.field("_id"), args.id))
-      .filter((q) => q.eq(q.field("creatorId"), user._id))
-      .first();
-    if (persona) {
-      const { id, cardImageStorageId, ...rest } = args;
-      return await ctx.db.patch(args.id, {
-        ...rest,
-        ...(cardImageStorageId
-          ? {
-              cardImageUrl: (await ctx.storage.getUrl(
-                cardImageStorageId
-              )) as string,
-            }
-          : {}),
-        updatedAt: new Date().toISOString(),
+    const persona = await ctx.db.get(args.id);
+    if (persona && user._id !== persona.creatorId) {
+      throw new ConvexError({
+        message: "User does not have permission to modify this persona.",
       });
     }
+    const { id, cardImageStorageId, ...rest } = args;
+    return await ctx.db.patch(args.id, {
+      ...rest,
+      ...(cardImageStorageId
+        ? {
+            cardImageUrl: (await ctx.storage.getUrl(
+              cardImageStorageId
+            )) as string,
+          }
+        : {}),
+      updatedAt: new Date().toISOString(),
+    });
   },
 });
 
