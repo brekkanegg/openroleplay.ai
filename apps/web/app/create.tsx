@@ -107,7 +107,7 @@ export default function Create() {
   const debouncedSubmitHandle = useDebouncedCallback(onSubmit, 1000);
   return (
     <>
-      <Card className="w-full shadow-none lg:shadow-xl border-transparent lg:border-border">
+      <Card className="w-full shadow-none lg:shadow-xl border-transparent lg:border-border overflow-hidden h-full rounded-b-none">
         <CardHeader>
           <CardTitle className="flex items-center">
             New Character

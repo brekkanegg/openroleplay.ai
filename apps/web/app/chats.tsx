@@ -75,7 +75,7 @@ export default function Chats() {
   );
   console.log("results::", results);
   return (
-    <Card className="w-full shadow-none lg:shadow-xl border-transparent lg:border-border overflow-hidden">
+    <Card className="w-full shadow-none lg:shadow-xl border-transparent lg:border-border overflow-hidden h-full rounded-b-none">
       <CardHeader>
         <CardTitle>Chats</CardTitle>
       </CardHeader>
