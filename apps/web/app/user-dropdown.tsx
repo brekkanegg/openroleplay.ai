@@ -10,7 +10,8 @@ import {
   PopoverTrigger,
 } from "@repo/ui/src/components/popover";
 import Link from "next/link";
-import { useClerk, useUser } from "@clerk/nextjs";
+import { SignedOut, useClerk, useUser } from "@clerk/nextjs";
+import { Button } from "@repo/ui/src/components";
 
 type StyledLinkProps = {
   href: string;
@@ -97,7 +98,7 @@ export default function UserDropdown() {
                 }}
               />
             ) : (
-              <>
+              <div className="md:hidden">
                 <StyledLink
                   text="Login"
                   Icon={<LogIn className="h-4 w-4 text-muted-foreground" />}
@@ -106,7 +107,7 @@ export default function UserDropdown() {
                   }}
                   href="/sign-in"
                 />
-              </>
+              </div>
             )}
             <StyledLink
               href="/star"
@@ -124,8 +125,8 @@ export default function UserDropdown() {
         </PopoverContent>
         <PopoverTrigger
           onClick={() => setOpenPopover(!openPopover)}
-          className={`flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border-none outline-none transition-all duration-75 active:scale-95 sm:h-9 sm:w-9 ${
-            user ? "border border-gray-300" : ""
+          className={`flex items-center justify-center overflow-hidden rounded-full border-none outline-none transition-all duration-75 active:scale-95  ${
+            user ? "border border-gray-300 h-8 w-8 sm:h-9 sm:w-9" : ""
           }`}
         >
           {user ? (
@@ -146,7 +147,17 @@ export default function UserDropdown() {
               />
             </button>
           ) : (
-            <Menu className="h-4 w-4" />
+            <>
+              <SignedOut>
+                <Button
+                  variant="outline"
+                  className="rounded-full md:block hidden"
+                >
+                  Join community
+                </Button>
+              </SignedOut>
+              <Menu className="h-4 w-4 block md:hidden" />
+            </>
           )}
         </PopoverTrigger>
       </Popover>

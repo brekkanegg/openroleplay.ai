@@ -4,7 +4,8 @@ import Link from "next/link";
 import TextLogo from "@repo/ui/src/components/text-logo";
 import useScroll from "@repo/ui/src/hooks/use-scroll";
 import UserDropdown from "./user-dropdown";
-import { Tooltip } from "@repo/ui/src/components";
+import { Button, Tooltip } from "@repo/ui/src/components";
+import { SignedOut } from "@clerk/nextjs";
 
 export default function NavBar({}: {}) {
   const scrolled = useScroll(50);
@@ -35,8 +36,13 @@ export default function NavBar({}: {}) {
             </Tooltip>
           </div>
 
-          <div>
+          <div className="flex items-center gap-2">
             <UserDropdown />
+            <SignedOut>
+              <Link href="/sign-in">
+                <Button className="rounded-full hidden md:block">Log in</Button>
+              </Link>
+            </SignedOut>
           </div>
         </div>
       </div>

@@ -101,7 +101,7 @@ export default function Page({ params }: { params: { id: string } }) {
               <Spinner />
             </div>
           ) : (
-            <div className="w-full h-full items-center justify-center flex">
+            <div className="w-full h-full items-center justify-center flex min-h-[60vh] lg:min-h-fit">
               <SignIn />
             </div>
           )}
