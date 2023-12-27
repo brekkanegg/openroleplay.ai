@@ -66,9 +66,11 @@ export default function Page({ params }: { params: { id: string } }) {
               <p className="text-white z-[1] lg:line-clamp-5 line-clamp-3 text-sm">
                 {data?.description}
               </p>
-              <p className="text-muted z-[1] lg:line-clamp-5 line-clamp-3 text-xs">
-                Created by @{creatorName}
-              </p>
+              {creatorName && (
+                <p className="text-muted z-[1] lg:line-clamp-5 line-clamp-3 text-xs">
+                  Created by @{creatorName}
+                </p>
+              )}
             </CardHeader>
           </DrawerTrigger>
           <DrawerContent>
