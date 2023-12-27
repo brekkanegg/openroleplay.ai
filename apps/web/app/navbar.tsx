@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import TextLogo from "@repo/ui/src/components/text-logo";
+import { Badge } from "@repo/ui/src/components/badge";
 import useScroll from "@repo/ui/src/hooks/use-scroll";
 import UserDropdown from "./user-dropdown";
 import { Button, Tooltip } from "@repo/ui/src/components";
@@ -28,10 +29,10 @@ export default function NavBar({}: {}) {
             </Link>
             <Tooltip content="Star openroleplay.ai on GitHub">
               <Link
-                className="text-muted-foreground text-base sm:block hidden hover:opacity-50"
+                className="text-muted-foreground text-base sm:flex hidden hover:opacity-50 gap-2 items-center"
                 href="/star"
               >
-                opensource ai characters
+                opensource ai characters <Badge>alpha</Badge>
               </Link>
             </Tooltip>
           </div>
