@@ -31,7 +31,7 @@ const CharacterCard = (props: {
         <Card className="rounded-lg p-2 w-full h-full flex items-end">
           {props.onEdit && (
             <Button
-              className="absolute z-[3] right-4 top-4 h-8 rounded-full"
+              className="absolute z-[4] right-4 top-4 h-8 rounded-full"
               variant="outline"
               onClick={(e) => {
                 e.preventDefault();

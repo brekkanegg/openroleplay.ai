@@ -7,12 +7,12 @@ const ModelBadge = ({ modelName }: { modelName: string }) => {
     case "mixtral-8x7b-instruct":
     case "mistral-7b-instruct":
       return (
-        <Badge className="flex gap-2 w-fit" variant="model">
+        <Badge className="flex gap-1 w-fit" variant="model">
           <Image
             src="/models/mistral.png"
             width={32}
             height={32}
-            className="w-4 h-4"
+            className="w-4 h-4 p-0.5"
             alt="Company logo of Mistral AI"
           />
           {modelName}
@@ -20,12 +20,12 @@ const ModelBadge = ({ modelName }: { modelName: string }) => {
       );
     case "pplx-7b-online":
       return (
-        <Badge className="flex gap-2 w-fit" variant="model">
+        <Badge className="flex gap-1 w-fit" variant="model">
           <Image
             src="/models/perplexity.png"
             width={32}
             height={32}
-            className="w-4 h-4"
+            className="w-4 h-4 p-0.5"
             alt="Company logo of Perplexity AI"
           />
           {modelName}
@@ -33,12 +33,12 @@ const ModelBadge = ({ modelName }: { modelName: string }) => {
       );
     default:
       return (
-        <Badge className="flex gap-2 w-fit" variant="model">
+        <Badge className="flex gap-1 w-fit" variant="model">
           <Image
             src="/models/openai.png"
             width={32}
             height={32}
-            className="w-4 h-4"
+            className="w-4 h-4 p-0.5"
             alt="Company logo of Open AI"
           />
           {defaultModelName}
