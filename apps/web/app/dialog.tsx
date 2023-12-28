@@ -111,7 +111,16 @@ export function Dialog({
                 {message?.characterId ? <>{name}</> : <>You</>}
               </div>
               {message.text === "" ? (
-                <div className="animate-pulse rounded-md bg-black/10 h-9" />
+                <div
+                  className={
+                    "lg:max-w-[40rem] md:max-w-[30rem] max-w-[20rem] rounded-xl px-3 py-2 whitespace-pre-wrap" +
+                    (message?.characterId
+                      ? " bg-muted rounded-tl-none "
+                      : " bg-foreground text-muted rounded-tr-none ")
+                  }
+                >
+                  Hi.
+                </div>
               ) : (
                 <div
                   className={

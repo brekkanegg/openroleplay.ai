@@ -53,8 +53,14 @@ export default function Page({ params }: { params: { id: string } }) {
                   className="object-cover absolute w-full h-full lg:rounded-l-lg left-0 top-0 pointer-events-none"
                 />
               )}
-              <div className="bg-gradient-to-b from-transparent to-black/75 absolute -left-0 -bottom-0 w-full h-full lg:rounded-l-lg" />
-              <CardTitle className="text-white text-xl z-[1] flex justify-between">
+              {data?.cardImageUrl && (
+                <div className="bg-gradient-to-b from-transparent to-black/75 absolute -left-0 -bottom-0 w-full h-full lg:rounded-l-lg" />
+              )}
+              <CardTitle
+                className={`${
+                  data?.cardImageUrl ? "text-white" : "text-foreground"
+                } text-xl z-[1] flex justify-between`}
+              >
                 <div className="w-[80%] truncate">{data?.name}</div>
                 <Tooltip content={`Number of chats with ${data?.name}`}>
                   <div className="text-white text-xs rounded-full group-hover:opacity-80 duration-200 z-[3] flex gap-0.5 items-center">
@@ -63,11 +69,19 @@ export default function Page({ params }: { params: { id: string } }) {
                   </div>
                 </Tooltip>
               </CardTitle>
-              <p className="text-white z-[1] lg:line-clamp-5 line-clamp-3 text-sm">
+              <p
+                className={`${
+                  data?.cardImageUrl ? "text-white" : "text-foreground"
+                } z-[1] lg:line-clamp-5 line-clamp-3 text-sm`}
+              >
                 {data?.description}
               </p>
               {creatorName && (
-                <p className="text-muted z-[1] lg:line-clamp-5 line-clamp-3 text-xs">
+                <p
+                  className={`${
+                    data?.cardImageUrl ? "text-muted" : "text-muted-foreground"
+                  } z-[1] lg:line-clamp-5 line-clamp-3 text-xs`}
+                >
                   Created by @{creatorName}
                 </p>
               )}

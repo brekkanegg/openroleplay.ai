@@ -31,7 +31,7 @@ const CharacterCard = (props: {
             )}
             <CardTitle
               className={`${
-                props.cardImageUrl ? "text-white" : "text-black"
+                props.cardImageUrl ? "text-white" : "text-foreground"
               } text-lg line-clamp-1 select-none group-hover:opacity-80 duration-200 z-[3] flex justify-between`}
             >
               <div className="w-[80%] truncate">{props.name}</div>
@@ -46,7 +46,7 @@ const CharacterCard = (props: {
             </CardTitle>
             <CardDescription
               className={`${
-                props.cardImageUrl ? "text-white" : "text-black"
+                props.cardImageUrl ? "text-white" : "text-foreground"
               } select-none text-xs line-clamp-3 group-hover:opacity-80 duration-200 z-[3]`}
             >
               {props.description}
