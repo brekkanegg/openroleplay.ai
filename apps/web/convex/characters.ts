@@ -96,7 +96,19 @@ export const list = query({
     return await ctx.db
       .query("characters")
       .withIndex("byNumChats")
+      .filter((q) => q.eq(q.field("isDraft"), false))
       .order("desc")
+      .collect();
+  },
+});
+
+export const listMy = query({
+  args: {},
+  handler: async (ctx, args) => {
+    const user = await getUser(ctx);
+    return await ctx.db
+      .query("characters")
+      .filter((q) => q.eq(q.field("creatorId"), user._id))
       .collect();
   },
 });

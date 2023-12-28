@@ -5,8 +5,8 @@
   },
   "include": [
     "src",
-    "../../apps/web/app/character-card-placeholder.tsx",
-    "../../apps/web/app/character-card.tsx"
+    "../../apps/web/components/cards/character-card-placeholder.tsx",
+    "../../apps/web/components/cards/character-card.tsx"
   ],
   "exclude": ["node_modules", "dist"]
 }

@@ -29,7 +29,7 @@ export const create = mutation({
   },
 });
 
-export const list = query({
+export const listMy = query({
   args: {},
   handler: async (ctx, args) => {
     const user = await getUser(ctx);

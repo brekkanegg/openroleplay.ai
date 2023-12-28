@@ -12,6 +12,7 @@ export default defineSchema({
     .index("byChatId", ["chatId"]),
   users: defineTable({
     name: v.string(),
+    primaryPersonaId: v.optional(v.id("personas")),
     tokenIdentifier: v.string(),
   }).index("byToken", ["tokenIdentifier"]),
   characters: defineTable({

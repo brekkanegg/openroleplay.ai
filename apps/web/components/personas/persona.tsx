@@ -6,24 +6,19 @@ import {
   CardFooter,
   Card,
 } from "@repo/ui/src/components/card";
-import {
-  AvatarImage,
-  AvatarFallback,
-  Avatar,
-} from "@repo/ui/src/components/avatar";
 import { Label } from "@repo/ui/src/components/label";
 import { Input } from "@repo/ui/src/components/input";
 import { Textarea } from "@repo/ui/src/components/textarea";
 import { Button } from "@repo/ui/src/components/button";
-import { Plus } from "lucide-react";
+import { ArrowLeft, Plus } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useMutation } from "convex/react";
-import { api } from "../convex/_generated/api";
+import { api } from "../../convex/_generated/api";
 import { toast } from "sonner";
 import { useRef, useState } from "react";
-import { Id } from "../convex/_generated/dataModel";
+import { Id } from "../../convex/_generated/dataModel";
 import {
   Form,
   FormControl,
@@ -40,7 +35,21 @@ const formSchema = z.object({
   isPrivate: z.boolean(),
 });
 
-export default function Persona() {
+interface PersonaProps {
+  name?: string;
+  description?: string;
+  cardImageUrl?: string;
+  isEdit?: boolean;
+  onClickGoBack: any;
+}
+
+export default function Persona({
+  name = "",
+  description = "",
+  cardImageUrl = "",
+  isEdit = false,
+  onClickGoBack,
+}: PersonaProps) {
   const create = useMutation(api.personas.create);
   const update = useMutation(api.personas.update);
   const generateUploadUrl = useMutation(api.characters.generateUploadUrl);
@@ -53,8 +62,8 @@ export default function Persona() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: user?.fullName as string,
-      description: "",
+      name: name ? name : (user?.fullName as string),
+      description: description,
       isPrivate: false,
     },
   });
@@ -137,14 +146,21 @@ export default function Persona() {
     <>
       <Card className="w-full shadow-none lg:shadow-xl border-transparent lg:border-border overflow-hidden h-full rounded-b-none">
         <CardHeader>
-          <CardTitle>Your persona</CardTitle>
-          <CardDescription>Configure your persona details.</CardDescription>
+          <CardTitle className="flex items-center gap-2">
+            {onClickGoBack && (
+              <Button variant="ghost" onClick={onClickGoBack} size="icon">
+                <ArrowLeft className="w-5 h-5" />
+              </Button>
+            )}
+            My persona
+          </CardTitle>
+          <CardDescription>Configure persona details.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="w-full flex justify-center my-4">
             <Label
               htmlFor="card"
-              className="w-[200px] h-[350px] rounded bg-muted flex items-center justify-center flex-col relative cursor-pointer border hover:border-border duration-200 border-transparent"
+              className="w-[200px] h-[350px] rounded flex items-center justify-center flex-col relative cursor-pointer border hover:border-border duration-200 border-dashed hover:-translate-y-1 hover:shadow-lg"
             >
               <Plus />
               Add persona card

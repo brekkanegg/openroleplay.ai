@@ -9,12 +9,12 @@ import { AspectRatio } from "@repo/ui/src/components/aspect-ratio";
 import { MessagesSquare } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { nFormatter } from "./lib/utils";
+import { nFormatter } from "../../app/lib/utils";
 
 const CharacterCard = (props: {
   id: string;
   name: any;
-  numChats: number;
+  numChats?: number;
   cardImageUrl?: string;
   description: any;
 }) => {
@@ -26,18 +26,29 @@ const CharacterCard = (props: {
       <Link href={`/character/${props?.id}`}>
         <Card className="rounded-lg p-2 w-full h-full flex items-end">
           <CardHeader className="relative w-full p-4 z-[2]">
-            <div className="bg-gradient-to-b from-transparent via-black/60 to-black absolute -left-2 -bottom-2 w-[calc(100%+16px)] h-[calc(100%+2rem)] rounded-b-lg z-0" />
-            <CardTitle className="text-white text-lg line-clamp-1 select-none group-hover:opacity-80 duration-200 z-[3] flex justify-between">
+            {props.cardImageUrl && (
+              <div className="bg-gradient-to-b from-transparent via-black/60 to-black absolute -left-2 -bottom-2 w-[calc(100%+16px)] h-[calc(100%+2rem)] rounded-b-lg" />
+            )}
+            <CardTitle
+              className={`${
+                props.cardImageUrl ? "text-white" : "text-black"
+              } text-lg line-clamp-1 select-none group-hover:opacity-80 duration-200 z-[3] flex justify-between`}
+            >
               <div className="w-[80%] truncate">{props.name}</div>
-              <Tooltip content={`Number of chats with ${props.name}`}>
-                <div className="text-white text-xs rounded-full group-hover:opacity-80 duration-200 z-[3] flex gap-0.5 items-center">
-                  <MessagesSquare className="w-5 h-5 p-1 aspect-square" />
-                  {nFormatter(props.numChats)}
-                </div>
-              </Tooltip>
+              {props.numChats && (
+                <Tooltip content={`Number of chats with ${props.name}`}>
+                  <div className="text-white text-xs rounded-full group-hover:opacity-80 duration-200 z-[3] flex gap-0.5 items-center">
+                    <MessagesSquare className="w-5 h-5 p-1 aspect-square" />
+                    {nFormatter(props.numChats)}
+                  </div>
+                </Tooltip>
+              )}
             </CardTitle>
-
-            <CardDescription className="text-white select-none text-xs line-clamp-3 group-hover:opacity-80 duration-200 z-[3]">
+            <CardDescription
+              className={`${
+                props.cardImageUrl ? "text-white" : "text-black"
+              } select-none text-xs line-clamp-3 group-hover:opacity-80 duration-200 z-[3]`}
+            >
               {props.description}
             </CardDescription>
           </CardHeader>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import TextLogo from "@repo/ui/src/components/text-logo";
 import { Badge } from "@repo/ui/src/components/badge";
 import useScroll from "@repo/ui/src/hooks/use-scroll";
-import UserDropdown from "./user-dropdown";
+import UserDropdown from "../components/user/user-dropdown";
 import { Button, Tooltip } from "@repo/ui/src/components";
 import { SignedOut } from "@clerk/nextjs";
 
@@ -29,10 +29,11 @@ export default function NavBar({}: {}) {
             </Link>
             <Tooltip content="Star openroleplay.ai on GitHub">
               <Link
-                className="text-muted-foreground text-base sm:flex hidden hover:opacity-50 gap-2 items-center"
+                className="text-muted-foreground text-base hover:opacity-50 gap-2 items-center flex"
                 href="/star"
               >
-                opensource ai characters <Badge>alpha</Badge>
+                <div className="sm:block hidden">opensource ai characters</div>
+                <Badge>alpha</Badge>
               </Link>
             </Tooltip>
           </div>

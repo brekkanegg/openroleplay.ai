@@ -1,7 +1,7 @@
 import { useQuery } from "convex/react";
-import { api } from "../convex/_generated/api";
-import CharacterCard from "./character-card";
-import CharacterCardPlaceholder from "./character-card-placeholder";
+import { api } from "../../convex/_generated/api";
+import CharacterCard from "../cards/character-card";
+import CharacterCardPlaceholder from "../cards/character-card-placeholder";
 
 const Characters = () => {
   const characters = useQuery(api.characters.list);
