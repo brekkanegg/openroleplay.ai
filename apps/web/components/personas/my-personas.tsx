@@ -75,25 +75,17 @@ export function MyPersonas() {
               ? personas.map(
                   (persona) =>
                     persona.name && (
-                      <div className="relative">
-                        <Button
-                          className="absolute z-[2] right-4 top-4 h-8 rounded-full"
-                          variant="outline"
-                          onClick={() => setDraftPersona(persona)}
-                        >
-                          Edit
-                        </Button>
-                        <PersonaCard
-                          id={persona._id}
-                          key={persona._id}
-                          name={persona.name}
-                          cardImageUrl={persona.cardImageUrl as string}
-                          description={persona.description}
-                          isDefault={
-                            currentUser?.primaryPersonaId === persona?._id
-                          }
-                        />
-                      </div>
+                      <PersonaCard
+                        id={persona._id}
+                        key={persona._id}
+                        name={persona.name}
+                        cardImageUrl={persona.cardImageUrl as string}
+                        description={persona.description}
+                        isDefault={
+                          currentUser?.primaryPersonaId === persona?._id
+                        }
+                        onEdit={() => setDraftPersona(persona)}
+                      />
                     )
                 )
               : Array.from({ length: 12 }).map((_, index) => (

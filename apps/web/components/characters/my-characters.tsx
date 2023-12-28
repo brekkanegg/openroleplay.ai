@@ -74,23 +74,15 @@ export function MyCharacters() {
               ? characters.map(
                   (character) =>
                     character.name && (
-                      <div className="relative">
-                        <Button
-                          className="absolute z-[2] right-4 top-4 h-8 rounded-full"
-                          variant="outline"
-                          onClick={() => setDraftCharacter(character)}
-                        >
-                          Edit
-                        </Button>
-                        <CharacterCard
-                          id={character._id}
-                          key={character._id}
-                          name={character.name}
-                          numChats={character.numChats as number}
-                          cardImageUrl={character.cardImageUrl as string}
-                          description={character.description}
-                        />
-                      </div>
+                      <CharacterCard
+                        id={character._id}
+                        key={character._id}
+                        name={character.name}
+                        onEdit={() => setDraftCharacter(character)}
+                        numChats={character.numChats as number}
+                        cardImageUrl={character.cardImageUrl as string}
+                        description={character.description}
+                      />
                     )
                 )
               : Array.from({ length: 12 }).map((_, index) => (

@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardDescription,
   CardHeader,
@@ -13,6 +14,7 @@ const PersonaCard = (props: {
   name: any;
   cardImageUrl?: string;
   description: any;
+  onEdit?: any;
   isDefault?: boolean;
 }) => {
   return (
@@ -21,6 +23,15 @@ const PersonaCard = (props: {
       className="group w-full h-full hover:-translate-y-1 duration-200 shadow hover:shadow-lg place-content-center rounded-lg"
     >
       <Card className="rounded-lg p-2 w-full h-full flex items-end">
+        {props.onEdit && (
+          <Button
+            className="absolute z-[3] right-4 top-4 h-8 rounded-full"
+            variant="outline"
+            onClick={props.onEdit}
+          >
+            Edit
+          </Button>
+        )}
         <CardHeader className="relative w-full p-4 z-[2]">
           {props.cardImageUrl && (
             <div className="bg-gradient-to-b from-transparent via-black/60 to-black absolute -left-2 -bottom-2 w-[calc(100%+16px)] h-[calc(100%+2rem)] rounded-b-lg" />
