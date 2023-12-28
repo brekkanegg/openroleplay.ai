@@ -53,7 +53,7 @@ export default function Page({ params }: { params: { id: string } }) {
                   className="object-cover absolute w-full h-full lg:rounded-l-lg left-0 top-0 pointer-events-none"
                 />
               )}
-              <div className="bg-gradient-to-b from-transparent to-black/75 absolute -left-0 -bottom-0 w-full h-full lg:rounded-b-lg" />
+              <div className="bg-gradient-to-b from-transparent to-black/75 absolute -left-0 -bottom-0 w-full h-full lg:rounded-l-lg" />
               <CardTitle className="text-white text-xl z-[1] flex justify-between">
                 <div className="w-[80%] truncate">{data?.name}</div>
                 <Tooltip content={`Number of chats with ${data?.name}`}>
