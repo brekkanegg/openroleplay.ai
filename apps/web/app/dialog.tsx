@@ -94,142 +94,145 @@ export function Dialog({
 
   return (
     <div className="w-full h-full">
-      <div
-        className="flex-grow overflow-y-scroll scrollbar-hide gap-8 flex flex-col mx-2 p-4 rounded-lg h-[90%]"
-        ref={listRef}
-        onWheel={() => {
-          setScrolled(true);
-        }}
-      >
-        {chatId && (
-          <div className="w-full flex items-center justify-end py-2">
-            <Popover>
-              <AlertDialog>
-                <AlertDialogTrigger>
-                  <PopoverContent asChild>
-                    <Button variant="ghost" className="text-muted-foreground">
-                      Delete Chat
-                    </Button>
-                  </PopoverContent>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Are you absolutely sure?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      {`This action cannot be undone. This will permanently delete chat.`}
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      onClick={() => {
-                        const promise = remove({
-                          id: chatId as Id<"chats">,
-                        });
-                        toast.promise(promise, {
-                          loading: "Deleting chat...",
-                          success: () => {
-                            goBack();
-                            return `Chat has been deleted.`;
-                          },
-                          error: (error) => {
-                            console.log("error:::", error);
-                            return error
-                              ? (error.data as { message: string })?.message
-                              : "Unexpected error occurred";
-                          },
-                        });
-                      }}
-                    >
-                      Continue
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-              <PopoverTrigger
-                className={`flex items-center justify-center overflow-hidden rounded-full border-none outline-none transition-all duration-75 active:scale-95`}
-              >
-                <MoreHorizontal className="h-4 w-4" />
-              </PopoverTrigger>
-            </Popover>
+      {chatId && (
+        <div className="w-full flex items-center justify-between p-2 sticky top-0 bg-white border-b h-[5%] rounded-t-lg px-6">
+          <div className="text-muted-foreground font-medium text-xs">
+            AI characters can make mistakes.
           </div>
-        )}
-        {remoteMessages === undefined ? (
-          <>
-            <div className="animate-pulse rounded-md bg-black/10 h-5" />
-            <div className="animate-pulse rounded-md bg-black/10 h-9" />
-          </>
-        ) : (
-          messages.map((message, i) => (
-            <motion.div
-              key={message._id}
-              className={`flex flex-col gap-2 ${
-                message?.characterId ? "self-start" : "self-end"
-              }`}
-              onViewportEnter={() => {
-                if (i === 0 && isScrolled) loadMore(5);
-              }}
+          <Popover>
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <PopoverContent asChild>
+                  <Button variant="ghost" className="text-muted-foreground">
+                    Delete Chat
+                  </Button>
+                </PopoverContent>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    {`This action cannot be undone. This will permanently delete chat.`}
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => {
+                      const promise = remove({
+                        id: chatId as Id<"chats">,
+                      });
+                      toast.promise(promise, {
+                        loading: "Deleting chat...",
+                        success: () => {
+                          goBack();
+                          return `Chat has been deleted.`;
+                        },
+                        error: (error) => {
+                          console.log("error:::", error);
+                          return error
+                            ? (error.data as { message: string })?.message
+                            : "Unexpected error occurred";
+                        },
+                      });
+                    }}
+                  >
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+            <PopoverTrigger
+              className={`flex items-center justify-center overflow-hidden rounded-full border-none outline-none transition-all duration-75 active:scale-95`}
             >
-              <div
-                className={`text-sm font-medium flex items-center gap-2 ${
-                  message?.characterId ? "justify-start" : "justify-end"
+              <MoreHorizontal className="h-4 w-4" />
+            </PopoverTrigger>
+          </Popover>
+        </div>
+      )}
+      <div className="h-[calc(100%-2rem)] relative flex flex-col ">
+        <div
+          className="grow overflow-y-scroll scrollbar-hide gap-8 flex flex-col mx-2 p-4 rounded-lg h-[90vh]"
+          ref={listRef}
+          onWheel={() => {
+            setScrolled(true);
+          }}
+        >
+          {remoteMessages === undefined ? (
+            <>
+              <div className="animate-pulse rounded-md bg-black/10 h-5" />
+              <div className="animate-pulse rounded-md bg-black/10 h-9" />
+            </>
+          ) : (
+            messages.map((message, i) => (
+              <motion.div
+                key={message._id}
+                className={`flex flex-col gap-2 ${
+                  message?.characterId ? "self-start" : "self-end"
                 }`}
+                onViewportEnter={() => {
+                  if (i === 0 && isScrolled) loadMore(5);
+                }}
               >
-                <Avatar className="h-8 w-8">
-                  <AvatarImage
-                    alt={`Character card of ${name}`}
-                    src={message?.characterId ? cardImageUrl : "undefined"}
-                    className="object-cover"
-                  />
-                  <AvatarFallback>Y</AvatarFallback>
-                </Avatar>
-                {message?.characterId ? <>{name}</> : <>You</>}
-              </div>
-              {message.text === "" ? (
                 <div
-                  className={
-                    "lg:max-w-[40rem] md:max-w-[30rem] max-w-[20rem] rounded-xl px-3 py-2 whitespace-pre-wrap" +
-                    (message?.characterId
-                      ? " bg-muted rounded-tl-none "
-                      : " bg-foreground text-muted rounded-tr-none ")
-                  }
+                  className={`text-sm font-medium flex items-center gap-2 ${
+                    message?.characterId ? "justify-start" : "justify-end"
+                  }`}
                 >
-                  Thinking...
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage
+                      alt={`Character card of ${name}`}
+                      src={message?.characterId ? cardImageUrl : "undefined"}
+                      className="object-cover"
+                    />
+                    <AvatarFallback>Y</AvatarFallback>
+                  </Avatar>
+                  {message?.characterId ? <>{name}</> : <>You</>}
                 </div>
-              ) : (
-                <div
-                  className={
-                    "lg:max-w-[40rem] md:max-w-[30rem] max-w-[20rem] rounded-xl px-3 py-2 whitespace-pre-wrap" +
-                    (message?.characterId
-                      ? " bg-muted rounded-tl-none "
-                      : " bg-foreground text-muted rounded-tr-none ")
-                  }
-                >
-                  {message.text}
-                </div>
-              )}
-            </motion.div>
-          ))
-        )}
+                {message.text === "" ? (
+                  <div
+                    className={
+                      "lg:max-w-[40rem] md:max-w-[30rem] max-w-[20rem] rounded-xl px-3 py-2 whitespace-pre-wrap" +
+                      (message?.characterId
+                        ? " bg-muted rounded-tl-none "
+                        : " bg-foreground text-muted rounded-tr-none ")
+                    }
+                  >
+                    Thinking...
+                  </div>
+                ) : (
+                  <div
+                    className={
+                      "lg:max-w-[40rem] md:max-w-[30rem] max-w-[20rem] rounded-xl px-3 py-2 whitespace-pre-wrap" +
+                      (message?.characterId
+                        ? " bg-muted rounded-tl-none "
+                        : " bg-foreground text-muted rounded-tr-none ")
+                    }
+                  >
+                    {message.text}
+                  </div>
+                )}
+              </motion.div>
+            ))
+          )}
+        </div>
+        <form
+          className="border-solid border-0 border-t-[1px] flex fixed lg:sticky bottom-0 w-full bg-background h-16 items-center rounded-b-lg"
+          onSubmit={(event) => void handleSend(event)}
+        >
+          <input
+            className="w-full ml-4 my-3 border-none focus-visible:ring-0"
+            autoFocus
+            name="message"
+            placeholder="Send a message"
+            value={input}
+            onChange={(event) => setInput(event.target.value)}
+          />
+          <Button disabled={input === ""} variant="ghost" className="my-3 mr-4">
+            <Send className="w-5 h-5" />
+          </Button>
+        </form>
       </div>
-      <form
-        className="border-solid border-0 border-t-[1px] flex sticky bottom-0 bg-background h-16 items-center"
-        onSubmit={(event) => void handleSend(event)}
-      >
-        <input
-          className="w-full ml-4 my-3 border-none focus-visible:ring-0"
-          autoFocus
-          name="message"
-          placeholder="Send a message"
-          value={input}
-          onChange={(event) => setInput(event.target.value)}
-        />
-        <Button disabled={input === ""} variant="ghost" className="my-3 mr-4">
-          <Send className="w-5 h-5" />
-        </Button>
-      </form>
     </div>
   );
 }

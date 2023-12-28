@@ -33,7 +33,7 @@ export default function NavBar({}: {}) {
                 href="/star"
               >
                 <div className="sm:block hidden">opensource ai characters</div>
-                <Badge>alpha</Badge>
+                <Badge className="font-default">alpha</Badge>
               </Link>
             </Tooltip>
           </div>

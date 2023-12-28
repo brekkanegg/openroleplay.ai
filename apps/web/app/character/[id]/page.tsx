@@ -6,6 +6,7 @@ import {
   Button,
   Card,
   CardContent,
+  CardFooter,
   CardHeader,
   CardTitle,
   Tooltip,
@@ -27,6 +28,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@repo/ui/src/components/drawer";
+import { Label } from "@repo/ui/src/components/label";
 
 export default function Page({ params }: { params: { id: string } }) {
   const { isAuthenticated, isLoading } = useConvexAuth();
