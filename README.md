@@ -85,7 +85,7 @@ This is where Open Roleplay steps in. Whether self-hosted or hosted by us, it's 
 
 To build all apps and packages, run the following command:
 
-```
+```bash
 pnpm build
 ```
 
@@ -93,7 +93,7 @@ pnpm build
 
 To develop all apps and packages, run the following command:
 
-```
+```bash
 # Run frontend server
 pnpm install
 pnpm dev
