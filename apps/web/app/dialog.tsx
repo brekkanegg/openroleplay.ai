@@ -3,7 +3,7 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { api } from "../convex/_generated/api";
 import { useMutation, usePaginatedQuery } from "convex/react";
 import { Id } from "../convex/_generated/dataModel";
-import { Send } from "lucide-react";
+import { Menu, MoreHorizontal, MoreVertical, Send } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@repo/ui/src/components";
 import {
@@ -11,6 +11,24 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@repo/ui/src/components/avatar";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@repo/ui/src/components/alert-dialog";
+import { toast } from "sonner";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@repo/ui/src/components/popover";
+import { useRouter } from "next/navigation";
 
 export function Dialog({
   name,
@@ -25,6 +43,10 @@ export function Dialog({
   chatId: Id<"chats">;
   characterId: Id<"characters">;
 }) {
+  const router = useRouter();
+  const goBack = router.back;
+  const remove = useMutation(api.chats.remove);
+  const [openPopover, setOpenPopover] = useState(false);
   const { results, status, loadMore } = usePaginatedQuery(
     api.messages.list,
     { chatId },
@@ -79,6 +101,61 @@ export function Dialog({
           setScrolled(true);
         }}
       >
+        {chatId && (
+          <div className="w-full flex items-center justify-end py-2">
+            <Popover>
+              <AlertDialog>
+                <AlertDialogTrigger>
+                  <PopoverContent asChild>
+                    <Button variant="ghost" className="text-muted-foreground">
+                      Delete Chat
+                    </Button>
+                  </PopoverContent>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      {`This action cannot be undone. This will permanently delete chat.`}
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={() => {
+                        const promise = remove({
+                          id: chatId as Id<"chats">,
+                        });
+                        toast.promise(promise, {
+                          loading: "Deleting chat...",
+                          success: () => {
+                            goBack();
+                            return `Chat has been deleted.`;
+                          },
+                          error: (error) => {
+                            console.log("error:::", error);
+                            return error
+                              ? (error.data as { message: string })?.message
+                              : "Unexpected error occurred";
+                          },
+                        });
+                      }}
+                    >
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+              <PopoverTrigger
+                className={`flex items-center justify-center overflow-hidden rounded-full border-none outline-none transition-all duration-75 active:scale-95`}
+              >
+                <MoreHorizontal className="h-4 w-4" />
+              </PopoverTrigger>
+            </Popover>
+          </div>
+        )}
         {remoteMessages === undefined ? (
           <>
             <div className="animate-pulse rounded-md bg-black/10 h-5" />
