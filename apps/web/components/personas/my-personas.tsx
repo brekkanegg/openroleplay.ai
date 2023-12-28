@@ -38,6 +38,7 @@ export function MyPersonas() {
     <>
       {draftPersona ? (
         <PersonaForm
+          id={draftPersona?._id}
           name={draftPersona?.name}
           description={draftPersona?.description}
           cardImageUrl={draftPersona?.cardImageUrl}

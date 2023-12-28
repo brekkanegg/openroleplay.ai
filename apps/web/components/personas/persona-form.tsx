@@ -8,9 +8,20 @@ import {
 } from "@repo/ui/src/components/card";
 import { Label } from "@repo/ui/src/components/label";
 import { Input } from "@repo/ui/src/components/input";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@repo/ui/src/components/alert-dialog";
 import { Textarea } from "@repo/ui/src/components/textarea";
 import { Button } from "@repo/ui/src/components/button";
-import { ArrowLeft, Plus } from "lucide-react";
+import { ArrowLeft, Plus, Trash } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -36,6 +47,7 @@ const formSchema = z.object({
 });
 
 interface PersonaProps {
+  id?: Id<"personas">;
   name?: string;
   description?: string;
   cardImageUrl?: string;
@@ -44,6 +56,7 @@ interface PersonaProps {
 }
 
 export default function PersonaForm({
+  id,
   name = "",
   description = "",
   cardImageUrl = "",
@@ -52,11 +65,12 @@ export default function PersonaForm({
 }: PersonaProps) {
   const create = useMutation(api.personas.create);
   const update = useMutation(api.personas.update);
+  const remove = useMutation(api.personas.remove);
   const generateUploadUrl = useMutation(api.characters.generateUploadUrl);
   const { user } = useUser();
 
   const imageInput = useRef<HTMLInputElement>(null);
-  const [personaId, setPersonaId] = useState<Id<"personas">>();
+  const [personaId, setPersonaId] = useState<Id<"personas"> | undefined>(id);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -150,13 +164,59 @@ export default function PersonaForm({
     <>
       <Card className="w-full shadow-none lg:shadow-xl border-transparent lg:border-border overflow-hidden h-full rounded-b-none">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            {onClickGoBack && (
-              <Button variant="ghost" onClick={onClickGoBack} size="icon">
-                <ArrowLeft className="w-5 h-5" />
-              </Button>
+          <CardTitle className="flex justify-between">
+            <div className="flex items-center gap-2">
+              {onClickGoBack && (
+                <Button variant="ghost" onClick={onClickGoBack} size="icon">
+                  <ArrowLeft className="w-5 h-5" />
+                </Button>
+              )}
+              {isEdit ? `Edit persona` : "My persona"}
+            </div>
+            {personaId && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="ghost" className="text-muted-foreground">
+                    Delete persona
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      {`This action cannot be undone. This will permanently delete
+                     persona ${name}.`}
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={() => {
+                        const promise = remove({
+                          id: personaId as Id<"personas">,
+                        });
+                        toast.promise(promise, {
+                          loading: "Deleting persona...",
+                          success: () => {
+                            onClickGoBack();
+                            return `Persona has been deleted.`;
+                          },
+                          error: (error) => {
+                            return error
+                              ? (error.data as { message: string }).message
+                              : "Unexpected error occurred";
+                          },
+                        });
+                      }}
+                    >
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             )}
-            {isEdit ? `Edit persona` : "My persona"}
           </CardTitle>
           <CardDescription>Configure persona details.</CardDescription>
         </CardHeader>
