@@ -43,7 +43,7 @@ interface PersonaProps {
   onClickGoBack: any;
 }
 
-export default function Persona({
+export default function PersonaForm({
   name = "",
   description = "",
   cardImageUrl = "",
@@ -142,6 +142,10 @@ export default function Persona({
     });
   }
 
+  const imageUrl = selectedImage
+    ? URL.createObjectURL(selectedImage)
+    : cardImageUrl;
+
   return (
     <>
       <Card className="w-full shadow-none lg:shadow-xl border-transparent lg:border-border overflow-hidden h-full rounded-b-none">
@@ -152,7 +156,7 @@ export default function Persona({
                 <ArrowLeft className="w-5 h-5" />
               </Button>
             )}
-            My persona
+            {isEdit ? `Edit persona` : "My persona"}
           </CardTitle>
           <CardDescription>Configure persona details.</CardDescription>
         </CardHeader>
@@ -167,9 +171,9 @@ export default function Persona({
               <span className="text-xs text-muted-foreground">
                 Best size: 1024x1792
               </span>
-              {selectedImage && (
+              {imageUrl && (
                 <img
-                  src={URL.createObjectURL(selectedImage)}
+                  src={imageUrl}
                   alt={"Preview of character card"}
                   className="absolute w-full h-full object-cover rounded pointer-events-none"
                 />

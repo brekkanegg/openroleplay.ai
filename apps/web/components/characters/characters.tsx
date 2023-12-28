@@ -4,7 +4,8 @@ import CharacterCard from "../cards/character-card";
 import CharacterCardPlaceholder from "../cards/character-card-placeholder";
 
 const Characters = () => {
-  const characters = useQuery(api.characters.list);
+  const allCharacters = useQuery(api.characters.list) || [];
+  const characters = allCharacters.filter((character) => character.name);
   return (
     <div className="px-4 2xl:px-0 flex flex-col sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full gap-4">
       {characters
@@ -24,6 +25,9 @@ const Characters = () => {
         : Array.from({ length: 12 }).map((_, index) => (
             <CharacterCardPlaceholder key={index} />
           ))}
+      {Array.from({ length: 10 - characters?.length }).map((_, index) => (
+        <CharacterCardPlaceholder key={index} />
+      ))}
     </div>
   );
 };

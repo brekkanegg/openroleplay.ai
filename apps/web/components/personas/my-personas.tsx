@@ -12,7 +12,7 @@ import CharacterCardPlaceholder from "../cards/character-card-placeholder";
 import { AspectRatio } from "@repo/ui/src/components/aspect-ratio";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import Persona from "./persona";
+import PersonaForm from "./persona-form";
 import PersonaCard from "../cards/persona-card";
 
 const NewPersona = ({ onClick }: { onClick: any }) => {
@@ -37,10 +37,11 @@ export function MyPersonas() {
   return (
     <>
       {draftPersona ? (
-        <Persona
+        <PersonaForm
           name={draftPersona?.name}
           description={draftPersona?.description}
           cardImageUrl={draftPersona?.cardImageUrl}
+          isEdit={draftPersona === true ? false : true}
           onClickGoBack={() => setDraftPersona(false)}
         />
       ) : (
