@@ -30,7 +30,14 @@ export default defineSchema({
     visibility: v.optional(v.union(v.literal("private"), v.literal("public"))),
     numChats: v.optional(v.number()),
     embedding: v.optional(v.array(v.float64())),
-    model: v.optional(v.union(v.literal("gpt-3.5"), v.literal("gpt-4"))),
+    model: v.optional(
+      v.union(
+        v.literal("gpt-3.5-turbo-1106"),
+        v.literal("mistral-7b-instruct"),
+        v.literal("mixtral-8x7b-instruct"),
+        v.literal("pplx-7b-online")
+      )
+    ),
     updatedAt: v.string(),
   })
     .index("byUserId", ["creatorId"])

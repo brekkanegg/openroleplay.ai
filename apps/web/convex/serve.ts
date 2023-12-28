@@ -9,7 +9,20 @@ import {
 import { api, internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
 
-const OPENAI_MODEL = "gpt-3.5-turbo";
+const DEFAULT_MODEL = "gpt-3.5-turbo-1106";
+const PERPLEXITY_API_URL = "https://api.perplexity.ai";
+const OPENAI_API_URL = "https://api.openai.com/v1";
+
+const getBaseURL = (modelName: string) => {
+  switch (modelName) {
+    case "mixtral-8x7b-instruct":
+    case "mistral-7b-instruct":
+    case "pplx-7b-online":
+      return PERPLEXITY_API_URL;
+    default:
+      return OPENAI_API_URL;
+  }
+};
 
 export const answer = internalAction({
   args: {
@@ -59,7 +72,16 @@ export const answer = internalAction({
       return;
     }
     try {
-      const openai = new OpenAI();
+      const model = character?.model ? character.model : DEFAULT_MODEL;
+      const baseURL = getBaseURL(model);
+      const apiKey =
+        baseURL === PERPLEXITY_API_URL
+          ? process.env.PERPLEXITY_API_KEY
+          : process.env.OPENAI_API_KEY;
+      const openai = new OpenAI({
+        baseURL,
+        apiKey,
+      });
       const instruction = `You are 
             {
               name: ${character?.name}
@@ -86,7 +108,7 @@ export const answer = internalAction({
 
             `;
       const stream = await openai.chat.completions.create({
-        model: OPENAI_MODEL,
+        model,
         stream: true,
         messages: [
           {

@@ -11,6 +11,7 @@ import { MessagesSquare } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { nFormatter } from "../../app/lib/utils";
+import ModelBadge from "../characters/model-badge";
 
 const CharacterCard = (props: {
   id: string;
@@ -19,6 +20,7 @@ const CharacterCard = (props: {
   cardImageUrl?: string;
   onEdit?: any;
   description: any;
+  model: any;
 }) => {
   return (
     <AspectRatio
@@ -39,6 +41,9 @@ const CharacterCard = (props: {
               Edit
             </Button>
           )}
+          <div className="absolute z-[3] top-4">
+            <ModelBadge modelName={props.model as string} />
+          </div>
           <CardHeader className="relative w-full p-4 z-[2]">
             {props.cardImageUrl && (
               <div className="bg-gradient-to-b from-transparent via-black/60 to-black absolute -left-2 -bottom-2 w-[calc(100%+16px)] h-[calc(100%+2rem)] rounded-b-lg" />

@@ -8,6 +8,14 @@ export const upsert = mutation({
     id: v.optional(v.id("characters")),
     name: v.optional(v.string()),
     description: v.optional(v.string()),
+    model: v.optional(
+      v.union(
+        v.literal("gpt-3.5-turbo-1106"),
+        v.literal("mistral-7b-instruct"),
+        v.literal("mixtral-8x7b-instruct"),
+        v.literal("pplx-7b-online")
+      )
+    ),
     instructions: v.optional(v.string()),
     cardImageStorageId: v.optional(v.id("_storage")),
     greetings: v.optional(v.array(v.string())),

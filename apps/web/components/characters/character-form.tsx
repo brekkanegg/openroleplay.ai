@@ -6,6 +6,13 @@ import {
   CardFooter,
   Card,
 } from "@repo/ui/src/components/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@repo/ui/src/components/select";
 import { Input } from "@repo/ui/src/components/input";
 import { Textarea } from "@repo/ui/src/components/textarea";
 import { Button } from "@repo/ui/src/components/button";
@@ -16,6 +23,7 @@ import { z } from "zod";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -51,6 +59,12 @@ const formSchema = z.object({
   description: z.string(),
   instructions: z.string(),
   greetings: z.string(),
+  model: z.union([
+    z.literal("mistral-7b-instruct"),
+    z.literal("mixtral-8x7b-instruct"),
+    z.literal("gpt-3.5-turbo-1106"),
+    z.literal("pplx-7b-online"),
+  ]),
 });
 
 interface CreateProps {
@@ -60,6 +74,7 @@ interface CreateProps {
   instructions?: string;
   greetings?: string;
   cardImageUrl?: string;
+  model?: any;
   isEdit?: boolean;
   onClickGoBack: any;
 }
@@ -71,6 +86,7 @@ export default function CharacterForm({
   instructions = "",
   greetings = "",
   cardImageUrl = "",
+  model = "gpt-3.5-turbo-1106",
   isEdit = false,
   onClickGoBack,
 }: CreateProps) {
@@ -93,7 +109,8 @@ export default function CharacterForm({
       name,
       description,
       instructions,
-      greetings,
+      greetings: Array.isArray(greetings) ? greetings[0] : greetings,
+      model,
     },
   });
 
@@ -324,6 +341,49 @@ export default function CharacterForm({
                       onBlur={form.handleSubmit(debouncedSubmitHandle)}
                     />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="model"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>AI Model</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value ? field.value : model}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select an AI model for character." />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="gpt-3.5-turbo-1106">
+                        GPT-3.5 Turbo - Capable of generating realistic text,
+                        16,384 Context Length, provided by OpenAI
+                      </SelectItem>
+                      <SelectItem value="mistral-7b-instruct">
+                        Mistral 7B Instruct - Fastest response, 4096 Context
+                        Length, provided by Perplexity AI
+                      </SelectItem>
+                      <SelectItem value="mixtral-8x7b-instruct">
+                        Mixtral 8x7B Instruct - Faster response, 4096 Context
+                        Length, provided by Perplexity AI
+                      </SelectItem>
+                      <SelectItem value="pplx-7b-online">
+                        Perplexity 7B Online - Latest Internet Knowledge, Faster
+                        response, 4096 Context Length, provided by Perplexity AI
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    Customize the AI model for your characters. Each model has
+                    unique performance characteristics, response speeds, and
+                    conversation domains.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

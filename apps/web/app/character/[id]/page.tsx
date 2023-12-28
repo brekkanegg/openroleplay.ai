@@ -29,6 +29,7 @@ import {
   DrawerTrigger,
 } from "@repo/ui/src/components/drawer";
 import { Label } from "@repo/ui/src/components/label";
+import ModelBadge from "../../../components/characters/model-badge";
 
 export default function Page({ params }: { params: { id: string } }) {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -108,6 +109,7 @@ export default function Page({ params }: { params: { id: string } }) {
               welcomeMessage={
                 data?.greetings ? (data.greetings[0] as string) : undefined
               }
+              model={data?.model as string}
               chatId={chatId}
               characterId={data?._id as any}
               cardImageUrl={data?.cardImageUrl}

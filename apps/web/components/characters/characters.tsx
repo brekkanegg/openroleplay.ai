@@ -19,6 +19,7 @@ const Characters = () => {
                   numChats={character.numChats as number}
                   cardImageUrl={character.cardImageUrl as string}
                   description={character.description}
+                  model={character.model}
                 />
               )
           )

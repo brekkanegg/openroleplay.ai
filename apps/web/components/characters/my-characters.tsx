@@ -49,6 +49,7 @@ export function MyCharacters() {
           greetings={draftCharacter?.greetings}
           cardImageUrl={draftCharacter?.cardImageUrl}
           isEdit={draftCharacter === true ? false : true}
+          model={draftCharacter?.model}
           onClickGoBack={() => setDraftCharacter(false)}
         />
       ) : (

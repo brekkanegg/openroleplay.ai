@@ -3,9 +3,12 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { api } from "../convex/_generated/api";
 import { useMutation, usePaginatedQuery } from "convex/react";
 import { Id } from "../convex/_generated/dataModel";
-import { Menu, MoreHorizontal, MoreVertical, Send } from "lucide-react";
+import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import { MoreHorizontal, Send } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@repo/ui/src/components";
+import { CodeBlock } from "@repo/ui/src/components/codeblock";
 import {
   Avatar,
   AvatarFallback,
@@ -29,15 +32,19 @@ import {
   PopoverTrigger,
 } from "@repo/ui/src/components/popover";
 import { useRouter } from "next/navigation";
+import { MemoizedReactMarkdown } from "./markdown";
+import ModelBadge from "../components/characters/model-badge";
 
 export function Dialog({
   name,
+  model,
   welcomeMessage,
   cardImageUrl,
   chatId,
   characterId,
 }: {
   name: string;
+  model: string;
   welcomeMessage?: string;
   cardImageUrl?: string;
   chatId: Id<"chats">;
@@ -46,7 +53,6 @@ export function Dialog({
   const router = useRouter();
   const goBack = router.back;
   const remove = useMutation(api.chats.remove);
-  const [openPopover, setOpenPopover] = useState(false);
   const { results, status, loadMore } = usePaginatedQuery(
     api.messages.list,
     { chatId },
@@ -96,8 +102,9 @@ export function Dialog({
     <div className="w-full h-full">
       {chatId && (
         <div className="w-full flex items-center justify-between p-2 sticky top-0 bg-white border-b h-[5%] rounded-t-lg px-6">
-          <div className="text-muted-foreground font-medium text-xs">
+          <div className="text-muted-foreground font-medium text-xs flex items-center gap-2">
             AI characters can make mistakes.
+            <ModelBadge modelName={model as string} />
           </div>
           <Popover>
             <AlertDialog>
@@ -209,7 +216,29 @@ export function Dialog({
                         : " bg-foreground text-muted rounded-tr-none ")
                     }
                   >
-                    {message.text}
+                    <MemoizedReactMarkdown
+                      className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
+                      remarkPlugins={[remarkGfm, remarkMath]}
+                      components={{
+                        p({ children }) {
+                          return <p className="mb-2 last:mb-0">{children}</p>;
+                        },
+                        code({ node, className, children, ...props }: any) {
+                          const match = /language-(\w+)/.exec(className || "");
+
+                          return (
+                            <CodeBlock
+                              key={Math.random()}
+                              language={(match && match[1]) || ""}
+                              value={String(children).replace(/\n$/, "")}
+                              {...props}
+                            />
+                          );
+                        },
+                      }}
+                    >
+                      {message.text}
+                    </MemoizedReactMarkdown>
                   </div>
                 )}
               </motion.div>
