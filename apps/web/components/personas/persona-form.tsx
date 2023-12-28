@@ -39,6 +39,7 @@ import {
   FormMessage,
 } from "@repo/ui/src/components/form";
 import { useUser } from "@clerk/nextjs";
+import { RadioGroup, RadioGroupItem } from "@repo/ui/src/components/radio";
 
 const formSchema = z.object({
   name: z.string(),
@@ -52,6 +53,7 @@ interface PersonaProps {
   description?: string;
   cardImageUrl?: string;
   isEdit?: boolean;
+  isPrivate?: boolean;
   onClickGoBack: any;
 }
 
@@ -61,6 +63,7 @@ export default function PersonaForm({
   description = "",
   cardImageUrl = "",
   isEdit = false,
+  isPrivate = true,
   onClickGoBack,
 }: PersonaProps) {
   const create = useMutation(api.personas.create);
@@ -72,13 +75,16 @@ export default function PersonaForm({
   const imageInput = useRef<HTMLInputElement>(null);
   const [personaId, setPersonaId] = useState<Id<"personas"> | undefined>(id);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [visibility, setVisibility] = useState(
+    isPrivate ? "private" : "public"
+  );
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: name ? name : (user?.fullName as string),
       description: description,
-      isPrivate: false,
+      isPrivate: visibility === "private",
     },
   });
 
@@ -253,7 +259,7 @@ export default function PersonaForm({
             />
           </div>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
                 control={form.control}
                 name="name"
@@ -306,10 +312,33 @@ Talents: Painting, Cooking, and Chess.
                   </FormItem>
                 )}
               />
+              <div className="space-y-2 flex flex-col">
+                <FormLabel>Publish to</FormLabel>
+                <span className="text-muted-foreground text-xs">
+                  Public persona will be visible to other users.
+                </span>
+                <RadioGroup
+                  defaultValue={visibility}
+                  onValueChange={setVisibility}
+                >
+                  <div className="flex items-center space-x-2 pt-2">
+                    <RadioGroupItem value="public" id="public" />
+                    <Label className="font-normal" htmlFor="public">
+                      Public
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="private" id="private" />
+                    <Label className="font-normal" htmlFor="private">
+                      Only me
+                    </Label>
+                  </div>
+                </RadioGroup>
+              </div>
             </form>
           </Form>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="pb-32">
           <Button className="ml-auto" onClick={form.handleSubmit(onSubmit)}>
             Save
           </Button>

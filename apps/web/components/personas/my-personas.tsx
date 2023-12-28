@@ -43,6 +43,7 @@ export function MyPersonas() {
           description={draftPersona?.description}
           cardImageUrl={draftPersona?.cardImageUrl}
           isEdit={draftPersona === true ? false : true}
+          isPrivate={draftPersona.isPrivate}
           onClickGoBack={() => setDraftPersona(false)}
         />
       ) : (
