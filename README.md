@@ -55,7 +55,7 @@ This is where Open Roleplay steps in. Whether self-hosted or hosted by us, it's 
 
 ### Larger, Accurate Models
 
-- OpenAI gpt-4-1106-preview (128k context window)
+- OpenAI gpt-4-1106-preview (Coming soon)
 - Perplexity pplx-70b-chat (Coming soon)
 - Perplexity pplx-70b-online (Coming soon)
 - ...and more!

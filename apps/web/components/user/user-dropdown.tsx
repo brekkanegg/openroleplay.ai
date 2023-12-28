@@ -2,7 +2,7 @@
 
 import { ReactElement, useState } from "react";
 import Image from "next/image";
-import { LogIn, LogOut, Menu, Star } from "lucide-react";
+import { ChevronDown, LogIn, LogOut, Menu, Star } from "lucide-react";
 import { Discord } from "@repo/ui/src/components/social-icons";
 import {
   Popover,
@@ -150,10 +150,10 @@ export default function UserDropdown() {
             <>
               <SignedOut>
                 <Button
-                  variant="outline"
-                  className="rounded-full md:block hidden"
+                  variant="ghost"
+                  className="rounded-full md:flex items-center gap-2 hidden"
                 >
-                  Join community
+                  Join community <ChevronDown className="w-4 h-4" />
                 </Button>
               </SignedOut>
               <Menu className="h-4 w-4 block md:hidden" />
