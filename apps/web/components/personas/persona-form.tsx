@@ -33,6 +33,7 @@ import { Id } from "../../convex/_generated/dataModel";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -40,11 +41,14 @@ import {
 } from "@repo/ui/src/components/form";
 import { useUser } from "@clerk/nextjs";
 import { RadioGroup, RadioGroupItem } from "@repo/ui/src/components/radio";
+import { Checkbox } from "@repo/ui/src/components/checkbox";
+import useCurrentUser from "../../app/lib/hooks/use-current-user";
 
 const formSchema = z.object({
   name: z.string(),
   description: z.string(),
   isPrivate: z.boolean(),
+  isDefault: z.boolean(),
 });
 
 interface PersonaProps {
@@ -71,6 +75,7 @@ export default function PersonaForm({
   const remove = useMutation(api.personas.remove);
   const generateUploadUrl = useMutation(api.characters.generateUploadUrl);
   const { user } = useUser();
+  const currentUser = useCurrentUser();
 
   const imageInput = useRef<HTMLInputElement>(null);
   const [personaId, setPersonaId] = useState<Id<"personas"> | undefined>(id);
@@ -85,6 +90,7 @@ export default function PersonaForm({
       name: name ? name : (user?.fullName as string),
       description: description,
       isPrivate: visibility === "private",
+      isDefault: personaId && currentUser?.primaryPersonaId === personaId,
     },
   });
 
@@ -335,6 +341,32 @@ Talents: Painting, Cooking, and Chess.
                   </div>
                 </RadioGroup>
               </div>
+              <FormField
+                control={form.control}
+                name="isDefault"
+                render={({ field }) => (
+                  <div className="space-y-2 flex flex-col">
+                    <FormLabel>Default persona</FormLabel>
+                    <FormItem className="flex items-center space-x-2 pt-2">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+
+                      <div className="space-y-1 leading-none">
+                        <FormLabel className="text-xs">
+                          Use this persona as default.
+                        </FormLabel>
+                        <FormDescription className="text-xs">
+                          Characters will recognize your default persona.
+                        </FormDescription>
+                      </div>
+                    </FormItem>
+                  </div>
+                )}
+              />
             </form>
           </Form>
         </CardContent>

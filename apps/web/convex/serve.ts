@@ -26,7 +26,7 @@ export const answer = internalAction({
       id: characterId,
     });
     const persona = personaId
-      ? await ctx.runQuery(api.personas.get, {
+      ? await ctx.runQuery(internal.personas.getPersona, {
           id: personaId,
         })
       : undefined;
@@ -60,22 +60,17 @@ export const answer = internalAction({
     }
     try {
       const openai = new OpenAI();
-      const stream = await openai.chat.completions.create({
-        model: OPENAI_MODEL,
-        stream: true,
-        messages: [
-          {
-            role: "system",
-            content: `You are roleplaying with user. you are
+      const instruction = `You are 
             {
               name: ${character?.name}
               description: ${character?.description}
               instruction: ${character?.instructions}
             }
+
             ${
               persona
                 ? `
-              and the user is
+              and you are talking with
               {
                 name: ${persona?.name}
                 description: ${persona?.description}
@@ -89,7 +84,14 @@ export const answer = internalAction({
             In Markdown, you can indicate italics by putting a single asterisk * on each side of a phrase,
             like *this*. This can be used to indicate action or emotion in a definition.
 
-            `,
+            `;
+      const stream = await openai.chat.completions.create({
+        model: OPENAI_MODEL,
+        stream: true,
+        messages: [
+          {
+            role: "system",
+            content: instruction,
           },
           ...(messages.map(({ characterId, text }) => ({
             role: characterId ? "assistant" : "user",

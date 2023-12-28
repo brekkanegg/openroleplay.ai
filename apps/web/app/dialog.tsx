@@ -196,7 +196,7 @@ export function Dialog({
                       : " bg-foreground text-muted rounded-tr-none ")
                   }
                 >
-                  Hi.
+                  Thinking...
                 </div>
               ) : (
                 <div

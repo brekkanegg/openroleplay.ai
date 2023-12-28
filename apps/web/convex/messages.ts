@@ -51,7 +51,7 @@ export const send = mutation({
     await ctx.scheduler.runAfter(0, internal.serve.answer, {
       chatId,
       characterId,
-      personaId,
+      personaId: personaId ? personaId : user?.primaryPersonaId,
       userId: user._id,
     });
     const character = await ctx.db.get(characterId);

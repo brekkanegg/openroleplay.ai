@@ -1,4 +1,4 @@
-import { mutation, query } from "./_generated/server";
+import { internalQuery, mutation, query } from "./_generated/server";
 import { ConvexError, v } from "convex/values";
 import { getUser } from "./users";
 
@@ -8,10 +8,11 @@ export const create = mutation({
     description: v.optional(v.string()),
     cardImageStorageId: v.optional(v.id("_storage")),
     isPrivate: v.boolean(),
+    isDefault: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
     const user = await getUser(ctx);
-    const { cardImageStorageId, ...rest } = args;
+    const { cardImageStorageId, isDefault, ...rest } = args;
     const persona = await ctx.db.insert("personas", {
       ...rest,
       creatorId: user._id,
@@ -25,6 +26,11 @@ export const create = mutation({
         : {}),
       updatedAt: new Date().toISOString(),
     });
+    if (isDefault) {
+      await ctx.db.patch(user._id, {
+        primaryPersonaId: persona,
+      });
+    }
     return persona;
   },
 });
@@ -54,6 +60,15 @@ export const get = query({
   },
 });
 
+export const getPersona = internalQuery({
+  args: {
+    id: v.id("personas"),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.get(args.id);
+  },
+});
+
 export const update = mutation({
   args: {
     id: v.id("personas"),
@@ -61,6 +76,7 @@ export const update = mutation({
     description: v.optional(v.string()),
     cardImageStorageId: v.optional(v.id("_storage")),
     isPrivate: v.optional(v.boolean()),
+    isDefault: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
     const user = await getUser(ctx);
@@ -70,7 +86,12 @@ export const update = mutation({
         message: "User does not have permission to modify this persona.",
       });
     }
-    const { id, cardImageStorageId, ...rest } = args;
+    const { id, cardImageStorageId, isDefault, ...rest } = args;
+    if (isDefault) {
+      await ctx.db.patch(user._id, {
+        primaryPersonaId: args.id,
+      });
+    }
     return await ctx.db.patch(args.id, {
       ...rest,
       ...(cardImageStorageId

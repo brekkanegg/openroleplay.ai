@@ -94,3 +94,10 @@ export const getUsername = query({
     return user ? user.name : null;
   },
 });
+
+export const me = query({
+  args: {},
+  handler: async (ctx, args) => {
+    return await getUser(ctx);
+  },
+});
