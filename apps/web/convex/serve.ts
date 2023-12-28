@@ -8,21 +8,12 @@ import {
 } from "./_generated/server";
 import { api, internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
-
-const DEFAULT_MODEL = "gpt-3.5-turbo-1106";
-const PERPLEXITY_API_URL = "https://api.perplexity.ai";
-const OPENAI_API_URL = "https://api.openai.com/v1";
-
-const getBaseURL = (modelName: string) => {
-  switch (modelName) {
-    case "mixtral-8x7b-instruct":
-    case "mistral-7b-instruct":
-    case "pplx-7b-online":
-      return PERPLEXITY_API_URL;
-    default:
-      return OPENAI_API_URL;
-  }
-};
+import {
+  DEFAULT_MODEL,
+  getAPIKey,
+  getBaseURL,
+  getRemindInstructionInterval,
+} from "./constants";
 
 export const answer = internalAction({
   args: {
@@ -47,15 +38,6 @@ export const answer = internalAction({
       userId,
       rateType: "smallLLM",
     });
-    // const lastUserMessage = messages.at(-1)!.text;
-    // const [embedding] = await embedTexts([lastUserMessage]);
-    // const searchResults = await ctx.vectorSearch("embeddings", "byEmbedding", {
-    //   vector: embedding,
-    //   limit: 8,
-    // });
-    // const relevantDocuments = await ctx.runQuery(internal.serve.getChunks, {
-    //   embeddingIds: searchResults.map(({ _id }) => _id),
-    // });
     const messageId = await ctx.runMutation(
       internal.serve.addCharacterMessage,
       {
@@ -74,14 +56,12 @@ export const answer = internalAction({
     try {
       const model = character?.model ? character.model : DEFAULT_MODEL;
       const baseURL = getBaseURL(model);
-      const apiKey =
-        baseURL === PERPLEXITY_API_URL
-          ? process.env.PERPLEXITY_API_KEY
-          : process.env.OPENAI_API_KEY;
+      const apiKey = getAPIKey(model);
       const openai = new OpenAI({
         baseURL,
         apiKey,
       });
+      const remindInstructionInterval = getRemindInstructionInterval(model);
       const instruction = `You are 
             {
               name: ${character?.name}
@@ -100,11 +80,11 @@ export const answer = internalAction({
                 : ""
             }
 
-            You can use parentheses or Markdown to indicate different types of things the Character might say,
-            narrator type descriptions of actions, muttering asides or emotional reactions.
+            (You can use parentheses to indicate different types of things the Character might say,
+            narrator type descriptions of actions, muttering asides or emotional reactions.)
 
-            In Markdown, you can indicate italics by putting a single asterisk * on each side of a phrase,
-            like *this*. This can be used to indicate action or emotion in a definition.
+            You can indicate italics by putting a single asterisk * on each side of a phrase,
+            like *sad*, *laughing*. This can be used to indicate action or emotion in a definition.
 
             `;
       const stream = await openai.chat.completions.create({
@@ -115,10 +95,25 @@ export const answer = internalAction({
             role: "system",
             content: instruction,
           },
-          ...(messages.map(({ characterId, text }) => ({
-            role: characterId ? "assistant" : "user",
-            content: text,
-          })) as ChatCompletionMessageParam[]),
+          ...(messages
+            .map(({ characterId, text }, index) => {
+              const message = {
+                role: characterId ? "assistant" : "user",
+                content: text,
+              };
+              if ((index + 1) % remindInstructionInterval === 0) {
+                return [
+                  message,
+                  {
+                    role: "system",
+                    content: instruction,
+                  },
+                ];
+              } else {
+                return message;
+              }
+            })
+            .flat() as ChatCompletionMessageParam[]),
         ],
       });
       let text = "";

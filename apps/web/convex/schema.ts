@@ -35,7 +35,8 @@ export default defineSchema({
         v.literal("gpt-3.5-turbo-1106"),
         v.literal("mistral-7b-instruct"),
         v.literal("mixtral-8x7b-instruct"),
-        v.literal("pplx-7b-online")
+        v.literal("pplx-7b-online"),
+        v.literal("accounts/fireworks/models/qwen-14b-chat")
       )
     ),
     updatedAt: v.string(),

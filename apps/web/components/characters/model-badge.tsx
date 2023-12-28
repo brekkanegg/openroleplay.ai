@@ -1,9 +1,12 @@
 import { Badge } from "@repo/ui/src/components/badge";
+import { Sparkles } from "lucide-react";
 import Image from "next/image";
 
 const ModelBadge = ({ modelName }: { modelName: string }) => {
-  const defaultModelName = modelName ? modelName : "gpt-3.5-turbo-1106";
-  switch (modelName) {
+  const model = modelName
+    ? modelName.replace("accounts/fireworks/models/", "")
+    : "gpt-3.5-turbo-1106";
+  switch (model) {
     case "mixtral-8x7b-instruct":
     case "mistral-7b-instruct":
       return (
@@ -15,7 +18,7 @@ const ModelBadge = ({ modelName }: { modelName: string }) => {
             className="w-4 h-4 p-0.5"
             alt="Company logo of Mistral AI"
           />
-          {modelName}
+          {model}
         </Badge>
       );
     case "pplx-7b-online":
@@ -28,10 +31,10 @@ const ModelBadge = ({ modelName }: { modelName: string }) => {
             className="w-4 h-4 p-0.5"
             alt="Company logo of Perplexity AI"
           />
-          {modelName}
+          {model}
         </Badge>
       );
-    default:
+    case "gpt-3.5-turbo-1106":
       return (
         <Badge className="flex gap-1 w-fit" variant="model">
           <Image
@@ -41,7 +44,14 @@ const ModelBadge = ({ modelName }: { modelName: string }) => {
             className="w-4 h-4 p-0.5"
             alt="Company logo of Open AI"
           />
-          {defaultModelName}
+          {model}
+        </Badge>
+      );
+    default:
+      return (
+        <Badge className="flex gap-1 w-fit" variant="model">
+          <Sparkles className="w-4 h-4 p-0.5 text-primary-foreground" />
+          {model}
         </Badge>
       );
   }

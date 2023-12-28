@@ -66,6 +66,7 @@ const formSchema = z.object({
     z.literal("mixtral-8x7b-instruct"),
     z.literal("gpt-3.5-turbo-1106"),
     z.literal("pplx-7b-online"),
+    z.literal("accounts/fireworks/models/qwen-14b-chat"),
   ]),
 });
 
@@ -352,16 +353,20 @@ export default function CharacterForm({
                         16,384 Context Length, provided by OpenAI
                       </SelectItem>
                       <SelectItem value="mistral-7b-instruct">
-                        Mistral 7B Instruct - Fastest response, 4096 Context
-                        Length, provided by Perplexity AI
+                        Mistral 7B Instruct - Not for chat, Fastest response,
+                        4096 Context Length, provided by Perplexity AI
                       </SelectItem>
                       <SelectItem value="mixtral-8x7b-instruct">
-                        Mixtral 8x7B Instruct - Faster response, 4096 Context
-                        Length, provided by Perplexity AI
+                        Mixtral 8x7B Instruct - Not for chat, Faster response,
+                        4096 Context Length, provided by Perplexity AI
                       </SelectItem>
                       <SelectItem value="pplx-7b-online">
                         Perplexity 7B Online - Latest Internet Knowledge, Faster
                         response, 4096 Context Length, provided by Perplexity AI
+                      </SelectItem>
+                      <SelectItem value="accounts/fireworks/models/qwen-14b-chat">
+                        Qwen 14B Online - Fluent in English and Chinese, Fast
+                        response, provided by Fireworks AI
                       </SelectItem>
                     </SelectContent>
                   </Select>

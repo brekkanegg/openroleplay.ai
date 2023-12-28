@@ -47,10 +47,11 @@ This is where Open Roleplay steps in. Whether self-hosted or hosted by us, it's 
 
 ### Smaller, Faster Models
 
-- OpenAI gpt-3.5-turbo-1106 (16k context window)
-- Mistral 8x7b (Coming soon)
-- Perplexity pplx-7b-chat (Coming soon)
-- Perplexity pplx-7b-online (Coming soon)
+- OpenAI gpt-3.5-turbo-1106 (16k context window, proivded by OpenAI)
+- Mistral mistral-7b-instruct (4k context window, hosted by Perplexity AI)
+- Mistral mixtral-8x7b-instruct (4k context window, hosted by Perplexity AI)
+- Perplexity pplx-7b-online (4k context window, provided by Perplexity AI)
+- Alibaba qwen-14b-chat (English and Chinese, provided by Fireworks AI)
 - ...and more!
 
 ### Larger, Accurate Models
