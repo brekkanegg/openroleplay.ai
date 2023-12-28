@@ -21,7 +21,7 @@ import {
 } from "@repo/ui/src/components/alert-dialog";
 import { Textarea } from "@repo/ui/src/components/textarea";
 import { Button } from "@repo/ui/src/components/button";
-import { ArrowLeft, Plus, Trash } from "lucide-react";
+import { ArrowLeft, Plus } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -43,6 +43,7 @@ import { useUser } from "@clerk/nextjs";
 import { RadioGroup, RadioGroupItem } from "@repo/ui/src/components/radio";
 import { Checkbox } from "@repo/ui/src/components/checkbox";
 import useCurrentUser from "../../app/lib/hooks/use-current-user";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string(),
@@ -103,6 +104,7 @@ export default function PersonaForm({
       toast.promise(promise, {
         loading: "Updating persona...",
         success: () => {
+          onClickGoBack();
           return `Persona has been updated.`;
         },
         error: (error) => {

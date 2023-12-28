@@ -414,6 +414,7 @@ export default function CharacterForm({
                         toast.promise(promise, {
                           loading: "Publishing character...",
                           success: (data) => {
+                            onClickGoBack();
                             return `Character has been saved.`;
                           },
                           error: (error) => {
