@@ -43,7 +43,7 @@ function TabsController() {
       value={Array.isArray(activeTab) ? activeTab[0] : activeTab}
       onValueChange={handleTabChange}
     >
-      <TabsList className="w-[95%] lg:w-[50%] h-16 right-0 flex gap-2 fixed bottom-4 lg:bottom-12 mx-auto left-0 z-10 rounded-full border ring ring-muted">
+      <TabsList className="w-full lg:w-[50%] h-16 right-0 flex gap-2 fixed bottom-0 lg:bottom-12 mx-auto left-0 z-10 rounded-none lg:rounded-full border lg:ring ring-muted">
         <TabsTrigger
           className="w-full rounded-full flex gap-0.5 flex-col items-center bg-muted"
           value="discover"
