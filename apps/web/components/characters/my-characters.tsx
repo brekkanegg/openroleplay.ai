@@ -14,6 +14,10 @@ import { AspectRatio } from "@repo/ui/src/components/aspect-ratio";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import CharacterForm from "./character-form";
+import {
+  InfoTooltip,
+  TooltipContent,
+} from "@repo/ui/src/components/hybrid-tooltip";
 
 const NewCharacter = ({ onClick }: { onClick: any }) => {
   return (
@@ -50,7 +54,18 @@ export function MyCharacters() {
       ) : (
         <Card className="w-full h-full shadow-none lg:shadow-xl border-transparent lg:border-border overflow-hidden">
           <CardHeader>
-            <CardTitle className="flex items-center">My Characters</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              My Characters
+              <InfoTooltip
+                content={
+                  <TooltipContent
+                    title={
+                      "Create interactive characters using our tools. All characters on the home page were made this way."
+                    }
+                  />
+                }
+              />
+            </CardTitle>
             <CardDescription>Create and customize characters.</CardDescription>
           </CardHeader>
           <CardContent className="px-4 flex flex-col sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full gap-4">

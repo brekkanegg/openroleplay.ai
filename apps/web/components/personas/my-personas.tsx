@@ -5,7 +5,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  TooltipContent,
 } from "@repo/ui/src/components";
+import { InfoTooltip } from "@repo/ui/src/components/hybrid-tooltip";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import CharacterCardPlaceholder from "../cards/character-card-placeholder";
@@ -49,7 +51,19 @@ export function MyPersonas() {
       ) : (
         <Card className="w-full h-full shadow-none lg:shadow-xl border-transparent lg:border-border overflow-hidden">
           <CardHeader>
-            <CardTitle className="flex items-center">My personas</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              My personas
+              <InfoTooltip
+                content={
+                  <TooltipContent
+                    title={
+                      "You can be anyone you want to be. By updating your profile settings with specific personality traits, preferences, and physical characteristics, your interactions with characters become more personalized and immersive. Whether you want to explore new identities, immerse yourself in your favorite fictional stories, or simply add a creative twist to your conversations, Personas are the way to go."
+                    }
+                  />
+                }
+              />
+            </CardTitle>
+
             <CardDescription>Create and customize personas.</CardDescription>
           </CardHeader>
           <CardContent className="px-4 flex flex-col sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full gap-4">

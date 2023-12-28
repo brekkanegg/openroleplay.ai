@@ -82,8 +82,8 @@ export function Tooltip({
 
 export function TooltipContent({ title }: { title: string }) {
   return (
-    <div className="max-w-xs px-4 py-2 text-center text-sm text-gray-700">
-      {title}
+    <div className="flex flex-col items-center space-y-3 p-4 text-center md:max-w-xs">
+      <p className="text-sm text-gray-700">{title}</p>
     </div>
   );
 }
