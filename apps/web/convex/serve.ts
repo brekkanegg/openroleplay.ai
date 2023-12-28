@@ -51,6 +51,13 @@ export const answer = internalAction({
       }
     );
 
+    if (character?.isArchived) {
+      await ctx.runMutation(internal.serve.updateCharacterMessage, {
+        messageId,
+        text: "Sorry, the character is archived by the creator.",
+      });
+      return;
+    }
     try {
       const openai = new OpenAI();
       const stream = await openai.chat.completions.create({

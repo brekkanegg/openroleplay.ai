@@ -52,6 +52,7 @@ export const upsert = mutation({
         updatedAt,
         numChats: 0,
         isDraft: true,
+        isArchived: false,
         isBlacklisted: false,
       });
       return character;
@@ -97,6 +98,8 @@ export const list = query({
       .query("characters")
       .withIndex("byNumChats")
       .filter((q) => q.eq(q.field("isDraft"), false))
+      .filter((q) => q.eq(q.field("isBlacklisted"), false))
+      .filter((q) => q.neq(q.field("isArchived"), true))
       .order("desc")
       .collect();
   },
@@ -109,6 +112,7 @@ export const listMy = query({
     return await ctx.db
       .query("characters")
       .filter((q) => q.eq(q.field("creatorId"), user._id))
+      .filter((q) => q.neq(q.field("isArchived"), true))
       .collect();
   },
 });
@@ -122,12 +126,19 @@ export const get = query({
   },
 });
 
-export const remove = mutation({
+export const archive = mutation({
   args: {
     id: v.id("characters"),
   },
   handler: async (ctx, args) => {
-    return await ctx.db.delete(args.id);
+    const user = await getUser(ctx);
+    const characterDraft = await ctx.db.get(args.id);
+    if (characterDraft && user._id !== characterDraft.creatorId) {
+      throw new ConvexError({
+        message: "User does not have permission to modify this character.",
+      });
+    }
+    return await ctx.db.patch(args.id, { isArchived: true });
   },
 });
 

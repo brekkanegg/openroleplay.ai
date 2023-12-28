@@ -34,6 +34,17 @@ import { RadioGroup, RadioGroupItem } from "@repo/ui/src/components/radio";
 import { Label } from "@repo/ui/src/components/label";
 import { toast } from "sonner";
 import { Id } from "../../convex/_generated/dataModel";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@repo/ui/src/components/alert-dialog";
 
 const formSchema = z.object({
   name: z.string(),
@@ -65,6 +76,7 @@ export default function CharacterForm({
 }: CreateProps) {
   const upsert = useMutation(api.characters.upsert);
   const publish = useMutation(api.characters.publish);
+  const archive = useMutation(api.characters.archive);
   const generateUploadUrl = useMutation(api.characters.generateUploadUrl);
 
   const [characterId, setCharacterId] = useState<Id<"characters"> | undefined>(
@@ -134,36 +146,79 @@ export default function CharacterForm({
   return (
     <Card className="w-full shadow-none lg:shadow-xl border-transparent lg:border-border overflow-hidden h-full rounded-b-none">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          {onClickGoBack && (
-            <Button variant="ghost" onClick={onClickGoBack} size="icon">
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
+        <CardTitle className="flex justify-between">
+          <div className="flex items-center gap-2">
+            {onClickGoBack && (
+              <Button variant="ghost" onClick={onClickGoBack} size="icon">
+                <ArrowLeft className="w-5 h-5" />
+              </Button>
+            )}
+            {isEdit ? "Edit Character" : "New Character"}
+            {form.formState.isSubmitting ? (
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                <svg
+                  className="mr-1.5 h-2 w-2 text-yellow-400"
+                  fill="currentColor"
+                  viewBox="0 0 8 8"
+                >
+                  <circle cx="4" cy="4" r="3" />
+                </svg>
+                Saving
+              </span>
+            ) : form.formState.isDirty ? (
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                <svg
+                  className="mr-1.5 h-2 w-2 text-gray-400"
+                  fill="currentColor"
+                  viewBox="0 0 8 8"
+                >
+                  <circle cx="4" cy="4" r="3" />
+                </svg>
+                Draft
+              </span>
+            ) : null}
+          </div>
+          {characterId && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="ghost" className="text-muted-foreground">
+                  Archive character
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    {`This action cannot be undone. Archived characters are not discoverable from the homepage. Users who already interacted with the characters can still see their messages.`}
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => {
+                      const promise = archive({
+                        id: characterId as Id<"characters">,
+                      });
+                      toast.promise(promise, {
+                        loading: "Archiving character...",
+                        success: () => {
+                          onClickGoBack();
+                          return `Character has been archived.`;
+                        },
+                        error: (error) => {
+                          return error
+                            ? (error.data as { message: string }).message
+                            : "Unexpected error occurred";
+                        },
+                      });
+                    }}
+                  >
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           )}
-          {isEdit ? "Edit Character" : "New Character"}
-          {form.formState.isSubmitting ? (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-              <svg
-                className="mr-1.5 h-2 w-2 text-yellow-400"
-                fill="currentColor"
-                viewBox="0 0 8 8"
-              >
-                <circle cx="4" cy="4" r="3" />
-              </svg>
-              Saving
-            </span>
-          ) : form.formState.isDirty ? (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-              <svg
-                className="mr-1.5 h-2 w-2 text-gray-400"
-                fill="currentColor"
-                viewBox="0 0 8 8"
-              >
-                <circle cx="4" cy="4" r="3" />
-              </svg>
-              Draft
-            </span>
-          ) : null}
         </CardTitle>
         <CardDescription>Configure your character details.</CardDescription>
       </CardHeader>
