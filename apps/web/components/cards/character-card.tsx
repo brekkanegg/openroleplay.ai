@@ -12,15 +12,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { nFormatter } from "../../app/lib/utils";
 import ModelBadge from "../characters/model-badge";
+import DraftBadge from "../characters/draft-badge";
 
 const CharacterCard = (props: {
   id: string;
   name: any;
+  description: any;
   numChats?: number;
   cardImageUrl?: string;
   onEdit?: any;
-  description: any;
-  model: any;
+  model?: any;
+  isDraft?: boolean;
 }) => {
   return (
     <AspectRatio
@@ -31,7 +33,7 @@ const CharacterCard = (props: {
         <Card className="rounded-lg p-2 w-full h-full flex items-end">
           {props.onEdit && (
             <Button
-              className="absolute z-[4] right-4 top-4 h-8 rounded-full"
+              className="absolute z-[4] right-4 top-4 h-6 rounded-full text-xs"
               variant="outline"
               onClick={(e) => {
                 e.preventDefault();
@@ -62,6 +64,7 @@ const CharacterCard = (props: {
                   </div>
                 </Tooltip>
               )}
+              {props.isDraft && <DraftBadge />}
             </CardTitle>
             <CardDescription
               className={`${

@@ -53,6 +53,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@repo/ui/src/components/alert-dialog";
+import DraftBadge from "./saving-badge";
+import SavingBadge from "./saving-badge";
 
 const formSchema = z.object({
   name: z.string(),
@@ -76,6 +78,7 @@ interface CreateProps {
   cardImageUrl?: string;
   model?: any;
   isEdit?: boolean;
+  isDraft?: boolean;
   onClickGoBack: any;
 }
 
@@ -88,6 +91,7 @@ export default function CharacterForm({
   cardImageUrl = "",
   model = "gpt-3.5-turbo-1106",
   isEdit = false,
+  isDraft = false,
   onClickGoBack,
 }: CreateProps) {
   const upsert = useMutation(api.characters.upsert);
@@ -172,27 +176,9 @@ export default function CharacterForm({
             )}
             {isEdit ? "Edit Character" : "New Character"}
             {form.formState.isSubmitting ? (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                <svg
-                  className="mr-1.5 h-2 w-2 text-yellow-400"
-                  fill="currentColor"
-                  viewBox="0 0 8 8"
-                >
-                  <circle cx="4" cy="4" r="3" />
-                </svg>
-                Saving
-              </span>
-            ) : form.formState.isDirty ? (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                <svg
-                  className="mr-1.5 h-2 w-2 text-gray-400"
-                  fill="currentColor"
-                  viewBox="0 0 8 8"
-                >
-                  <circle cx="4" cy="4" r="3" />
-                </svg>
-                Draft
-              </span>
+              <SavingBadge />
+            ) : form.formState.isDirty && isDraft ? (
+              <DraftBadge />
             ) : null}
           </div>
           {characterId && (

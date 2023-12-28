@@ -49,6 +49,7 @@ export function MyCharacters() {
           greetings={draftCharacter?.greetings}
           cardImageUrl={draftCharacter?.cardImageUrl}
           isEdit={draftCharacter === true ? false : true}
+          isDraft={draftCharacter.isDraft}
           model={draftCharacter?.model}
           onClickGoBack={() => setDraftCharacter(false)}
         />
@@ -83,6 +84,8 @@ export function MyCharacters() {
                         numChats={character.numChats as number}
                         cardImageUrl={character.cardImageUrl as string}
                         description={character.description}
+                        isDraft={character.isDraft}
+                        model={character.model}
                       />
                     )
                 )
