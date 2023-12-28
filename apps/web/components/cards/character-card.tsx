@@ -31,7 +31,10 @@ const CharacterCard = (props: {
             <Button
               className="absolute z-[3] right-4 top-4 h-8 rounded-full"
               variant="outline"
-              onClick={props.onEdit}
+              onClick={(e) => {
+                e.preventDefault();
+                props.onEdit();
+              }}
             >
               Edit
             </Button>
