@@ -16,6 +16,7 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 import PersonaForm from "./persona-form";
 import PersonaCard from "../cards/persona-card";
+import useCurrentUser from "../../app/lib/hooks/use-current-user";
 
 const NewPersona = ({ onClick }: { onClick: any }) => {
   return (
@@ -36,6 +37,8 @@ export function MyPersonas() {
   const allPersonas = useQuery(api.personas.listMy) || [];
   const personas = allPersonas.filter((persona) => persona.name);
   const [draftPersona, setDraftPersona] = useState(false) as any;
+  const currentUser = useCurrentUser();
+
   return (
     <>
       {draftPersona ? (
@@ -86,6 +89,9 @@ export function MyPersonas() {
                           name={persona.name}
                           cardImageUrl={persona.cardImageUrl as string}
                           description={persona.description}
+                          isDefault={
+                            currentUser?.primaryPersonaId === persona?._id
+                          }
                         />
                       </div>
                     )

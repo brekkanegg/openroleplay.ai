@@ -5,6 +5,7 @@ import {
   CardTitle,
 } from "@repo/ui/src/components";
 import { AspectRatio } from "@repo/ui/src/components/aspect-ratio";
+import { Badge } from "@repo/ui/src/components/badge";
 import Image from "next/image";
 
 const PersonaCard = (props: {
@@ -12,6 +13,7 @@ const PersonaCard = (props: {
   name: any;
   cardImageUrl?: string;
   description: any;
+  isDefault?: boolean;
 }) => {
   return (
     <AspectRatio
@@ -29,6 +31,7 @@ const PersonaCard = (props: {
             } text-lg line-clamp-1 select-none group-hover:opacity-80 duration-200 z-[3] flex justify-between`}
           >
             <div className="w-[80%] truncate">{props.name}</div>
+            {props.isDefault && <Badge>Default</Badge>}
           </CardTitle>
           <CardDescription
             className={`${
