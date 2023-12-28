@@ -43,6 +43,7 @@ const formSchema = z.object({
 });
 
 interface CreateProps {
+  id?: Id<"characters">;
   name?: string;
   description?: string;
   instructions?: string;
@@ -53,6 +54,7 @@ interface CreateProps {
 }
 
 export default function CharacterForm({
+  id,
   name = "",
   description = "",
   instructions = "",
@@ -65,7 +67,9 @@ export default function CharacterForm({
   const publish = useMutation(api.characters.publish);
   const generateUploadUrl = useMutation(api.characters.generateUploadUrl);
 
-  const [characterId, setCharacterId] = useState<Id<"characters">>();
+  const [characterId, setCharacterId] = useState<Id<"characters"> | undefined>(
+    id
+  );
 
   const imageInput = useRef<HTMLInputElement>(null);
   const [openPopover, setOpenPopover] = useState(false);
@@ -163,7 +167,6 @@ export default function CharacterForm({
         </CardTitle>
         <CardDescription>Configure your character details.</CardDescription>
       </CardHeader>
-
       <CardContent>
         <div className="w-full flex justify-center my-4">
           <Label
@@ -199,7 +202,7 @@ export default function CharacterForm({
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(debouncedSubmitHandle)}
-            className="space-y-4"
+            className="space-y-8"
           >
             <FormField
               control={form.control}
@@ -273,7 +276,7 @@ export default function CharacterForm({
           </form>
         </Form>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="pb-32">
         <Popover
           open={openPopover}
           onOpenChange={() => setOpenPopover(!openPopover)}
