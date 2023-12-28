@@ -35,11 +35,11 @@ const CharacterCard = (props: {
               } text-lg line-clamp-1 select-none group-hover:opacity-80 duration-200 z-[3] flex justify-between`}
             >
               <div className="w-[80%] truncate">{props.name}</div>
-              {props.numChats && (
+              {(props?.numChats as number) > 0 && (
                 <Tooltip content={`Number of chats with ${props.name}`}>
                   <div className="text-white text-xs rounded-full group-hover:opacity-80 duration-200 z-[3] flex gap-0.5 items-center">
                     <MessagesSquare className="w-5 h-5 p-1 aspect-square" />
-                    {nFormatter(props.numChats)}
+                    {nFormatter(props?.numChats as number)}
                   </div>
                 </Tooltip>
               )}

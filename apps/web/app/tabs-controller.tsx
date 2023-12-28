@@ -78,7 +78,7 @@ function TabsController() {
       </TabsContent>
       <TabsContent
         value="my-characters"
-        className="w-[100vw] min-h-fit lg:h-[100vh] max-w-screen-xl"
+        className="w-[100vw] min-h-fit max-w-screen-xl"
       >
         {isAuthenticated ? (
           <MyCharacters />
@@ -102,7 +102,7 @@ function TabsController() {
       </TabsContent>
       <TabsContent
         value="my-personas"
-        className="w-[100vw] min-h-fit lg:h-[100vh] max-w-screen-xl"
+        className="w-[100vw] min-h-fit max-w-screen-xl"
       >
         {isAuthenticated ? (
           <MyPersonas />
