@@ -5,6 +5,7 @@ import { calSans, inter } from "./fonts";
 import { Providers } from "./providers";
 import NavBar from "./navbar";
 import { constructMetadata } from "./lib/utils";
+import Footer from "./footer";
 
 export const metadata = constructMetadata();
 
@@ -26,6 +27,7 @@ export default async function RootLayout({
             {children}
           </main>
           <Analytics />
+          <Footer />
         </Providers>
       </body>
     </html>
