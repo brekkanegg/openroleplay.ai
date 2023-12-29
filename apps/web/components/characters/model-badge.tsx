@@ -53,6 +53,7 @@ const ModelBadge = ({
         </Badge>
       );
     case "gpt-3.5-turbo-1106":
+    case "gpt-4-1106-preview":
       return (
         <Badge className="flex gap-1 w-fit" variant="model">
           <Image
