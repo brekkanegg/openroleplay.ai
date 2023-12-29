@@ -15,8 +15,8 @@ import { v } from "convex/values";
  * by the JWT token's Claims config.
  */
 export const store = mutation({
-  args: {},
-  handler: async (ctx) => {
+  args: { username: v.string() },
+  handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
       throw new Error("Called storeUser without authentication present");
@@ -31,14 +31,14 @@ export const store = mutation({
       .unique();
     if (user !== null) {
       // If we've seen this identity before but the name has changed, patch the value.
-      if (user.name !== identity.name) {
-        await ctx.db.patch(user._id, { name: identity.name });
+      if (user.name !== args.username) {
+        await ctx.db.patch(user._id, { name: args.username });
       }
       return user._id;
     }
     // If it's a new identity, create a new `User`.
     return await ctx.db.insert("users", {
-      name: identity.preferredUsername!,
+      name: args.username,
       tokenIdentifier: identity.tokenIdentifier,
       crystals: 1000,
     });
