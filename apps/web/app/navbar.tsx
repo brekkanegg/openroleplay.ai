@@ -6,7 +6,7 @@ import { Badge } from "@repo/ui/src/components/badge";
 import useScroll from "@repo/ui/src/hooks/use-scroll";
 import UserDropdown from "../components/user/user-dropdown";
 import { Button, Tooltip } from "@repo/ui/src/components";
-import { SignedOut } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import CurrentCrystals from "./current-crystals";
 
 export default function NavBar({}: {}) {
@@ -39,7 +39,9 @@ export default function NavBar({}: {}) {
             </Tooltip>
           </div>
           <div className="flex items-center gap-2">
-            <CurrentCrystals />
+            <SignedIn>
+              <CurrentCrystals />
+            </SignedIn>
             <UserDropdown />
             <SignedOut>
               <Link href="/sign-in">
