@@ -15,6 +15,7 @@ import useCurrentUser from "../lib/hooks/use-current-user";
 import { AnimatePresence, motion } from "framer-motion";
 import { FadeInOut } from "../lib/utils";
 import { useRouter } from "next/navigation";
+import Footer from "../footer";
 
 const Package = ({
   src,
@@ -175,6 +176,7 @@ export default function Page() {
           </section>
         )}
       </AnimatePresence>
+      <Footer />
     </div>
   );
 }

@@ -23,6 +23,9 @@ export default function Footer() {
             </div>
             <FooterLink href="/privacy.html">Privacy Policy</FooterLink>
             <FooterLink href="/terms.html">Terms of Service</FooterLink>
+            <FooterLink href="/crystal/terms">
+              Crystal Terms and Conditions
+            </FooterLink>
           </div>
         </div>
       </div>
