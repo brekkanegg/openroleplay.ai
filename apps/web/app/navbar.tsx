@@ -6,7 +6,7 @@ import { Badge } from "@repo/ui/src/components/badge";
 import useScroll from "@repo/ui/src/hooks/use-scroll";
 import UserDropdown from "../components/user/user-dropdown";
 import { Button, Tooltip } from "@repo/ui/src/components";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignedOut } from "@clerk/nextjs";
 import CurrentCrystals from "./current-crystals";
 import { useConvexAuth } from "convex/react";
 
