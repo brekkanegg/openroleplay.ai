@@ -86,6 +86,14 @@ const Package = ({
 
 export default function Page() {
   const { isAuthenticated } = useConvexAuth();
+  const packages = [
+    { src: "/shop/tier1.png", amount: 300, bonus: 0, price: 0.99 },
+    { src: "/shop/tier2.png", amount: 1650, bonus: 150, price: 4.99 },
+    { src: "/shop/tier3.png", amount: 5450, bonus: 550, price: 14.99 },
+    { src: "/shop/tier4.png", amount: 11200, bonus: 1300, price: 29.99 },
+    { src: "/shop/tier5.png", amount: 19400, bonus: 3000, price: 49.99 },
+    { src: "/shop/tier6.png", amount: 90000, bonus: 8000, price: 99.99 },
+  ];
   return (
     <div className="w-full max-w-screen-xl flex flex-col justify-self-start items-center gap-8 py-16 px-2">
       <div className="flex flex-col gap-4 items-start md:items-center px-5">
@@ -105,51 +113,26 @@ export default function Page() {
             {...FadeInOut}
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
-            <Package
-              src={"/shop/tier1.png"}
-              amount={300}
-              bonus={0}
-              price={0.99}
-            />
-            <Package
-              src={"/shop/tier2.png"}
-              amount={1650}
-              bonus={150}
-              price={4.99}
-            />
-            <Package
-              src={"/shop/tier3.png"}
-              amount={5450}
-              bonus={550}
-              price={14.99}
-            />
-            <Package
-              src={"/shop/tier4.png"}
-              amount={11200}
-              bonus={1300}
-              price={29.99}
-            />
-            <Package
-              src={"/shop/tier5.png"}
-              amount={19400}
-              bonus={3000}
-              price={49.99}
-            />
-            <Package
-              src={"/shop/tier6.png"}
-              amount={90000}
-              bonus={8000}
-              price={99.99}
-            />
+            {packages.map((pkg) => (
+              <Package
+                key={pkg.src}
+                src={pkg.src}
+                amount={pkg.amount as any}
+                bonus={pkg.bonus}
+                price={pkg.price}
+              />
+            ))}
           </motion.section>
         ) : (
           <section className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="hover:shadow-lg aspect-square rounded-lg relative md:w-64 md:h-64 w-[23rem] h-[23rem] tabular-nums animate-pulse bg-muted" />
-            <Card className="hover:shadow-lg aspect-square rounded-lg relative md:w-64 md:h-64 w-[23rem] h-[23rem] tabular-nums animate-pulse bg-muted" />
-            <Card className="hover:shadow-lg aspect-square rounded-lg relative md:w-64 md:h-64 w-[23rem] h-[23rem] tabular-nums animate-pulse bg-muted" />
-            <Card className="hover:shadow-lg aspect-square rounded-lg relative md:w-64 md:h-64 w-[23rem] h-[23rem] tabular-nums animate-pulse bg-muted" />
-            <Card className="hover:shadow-lg aspect-square rounded-lg relative md:w-64 md:h-64 w-[23rem] h-[23rem] tabular-nums animate-pulse bg-muted" />
-            <Card className="hover:shadow-lg aspect-square rounded-lg relative md:w-64 md:h-64 w-[23rem] h-[23rem] tabular-nums animate-pulse bg-muted" />
+            {Array(6)
+              .fill(0)
+              .map((_, i) => (
+                <Card
+                  key={i}
+                  className="hover:shadow-lg aspect-square rounded-lg relative md:w-64 md:h-64 w-[23rem] h-[23rem] tabular-nums animate-pulse bg-muted"
+                />
+              ))}
           </section>
         )}
       </AnimatePresence>

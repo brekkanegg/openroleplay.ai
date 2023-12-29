@@ -2,7 +2,7 @@
 
 import { ReactElement, useState } from "react";
 import Image from "next/image";
-import { ChevronDown, LogIn, LogOut, Menu, Star } from "lucide-react";
+import { ChevronDown, LogIn, LogOut, Menu, Star, Store } from "lucide-react";
 import { Discord } from "@repo/ui/src/components/social-icons";
 import {
   Popover,
@@ -109,6 +109,12 @@ export default function UserDropdown() {
                 />
               </div>
             )}
+            <StyledLink
+              href="/shop"
+              text="Visit shop"
+              Icon={<Store className="h-4 w-4 text-muted-foreground" />}
+              onClick={() => setOpenPopover(false)}
+            />
             <StyledLink
               href="/star"
               text="Star on GitHub"
