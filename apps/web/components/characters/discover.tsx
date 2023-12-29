@@ -32,7 +32,9 @@ const Discover = () => {
           <CharacterCardPlaceholder key={index} />
         ))}
       </div>
-      <Footer />
+      <div className="pt-32">
+        <Footer />
+      </div>
     </>
   );
 };
