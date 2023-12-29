@@ -93,7 +93,8 @@ export default function Page() {
         <h2 className="text-3xl font-display bg-gradient-to-b from-gray-400 to-gray-600 text-transparent bg-clip-text">
           Crystal Top-Up
         </h2>
-        <p className="text-muted-foreground text-sm">
+        <p className="text-muted-foreground text-sm flex gap-1 items-center">
+          <Crystal className="w-4 h-4" />
           Crystal is an universal currency for calling AI features in
           openroleplay.ai.
         </p>
