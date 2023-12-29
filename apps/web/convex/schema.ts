@@ -13,6 +13,7 @@ export default defineSchema({
   users: defineTable({
     name: v.string(),
     primaryPersonaId: v.optional(v.id("personas")),
+    crystals: v.optional(v.number()),
     tokenIdentifier: v.string(),
   }).index("byToken", ["tokenIdentifier"]),
   characters: defineTable({

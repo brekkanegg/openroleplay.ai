@@ -40,6 +40,7 @@ export const store = mutation({
     return await ctx.db.insert("users", {
       name: identity.name!,
       tokenIdentifier: identity.tokenIdentifier,
+      crystals: 1000,
     });
   },
 });

@@ -44,6 +44,7 @@ This is where Open Roleplay steps in. Whether self-hosted or hosted by us, it's 
 - **Roleplay-Focused:** Designed with roleplaying and storytelling in mind, it ensures an immersive and engaging experience.
 - **Group Chat (Coming soon):** Invite your favorite characters to one chat room and chat together.
 - **Extended Memory (Coming soon):** The character instructions and previous conversations are reminded to characters when the context window reaches its limit.
+- **Image Generation (Coming soon):** Allow your character to generate their own selfies, drawings, and photos for a more immersive experience.
 - **Voice (Coming soon):** Create characters that can talk to users with a realistic voice.
 
 ## Supported Models
