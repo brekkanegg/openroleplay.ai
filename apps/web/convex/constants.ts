@@ -37,6 +37,8 @@ export const getRemindInstructionInterval = (modelName: string) => {
       return 16;
     case "accounts/fireworks/models/qwen-14b-chat":
       return 64;
+    case "gpt-4-1106-preview":
+      return 128;
     default:
       return 64;
   }
@@ -54,6 +56,8 @@ export const getCrystalPrice = (modelName: string) => {
       return 2;
     case "gpt-3.5-turbo-1106":
       return 5;
+    case "gpt-4-1106-preview":
+      return 30;
     default:
       return 5;
   }

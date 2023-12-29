@@ -11,6 +11,7 @@ export const upsert = mutation({
     model: v.optional(
       v.union(
         v.literal("gpt-3.5-turbo-1106"),
+        v.literal("gpt-4-1106-preview"),
         v.literal("mistral-7b-instruct"),
         v.literal("mixtral-8x7b-instruct"),
         v.literal("pplx-7b-online"),

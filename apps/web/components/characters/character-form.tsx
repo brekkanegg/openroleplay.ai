@@ -65,6 +65,7 @@ const formSchema = z.object({
     z.literal("mistral-7b-instruct"),
     z.literal("mixtral-8x7b-instruct"),
     z.literal("gpt-3.5-turbo-1106"),
+    z.literal("gpt-4-1106-preview"),
     z.literal("pplx-7b-online"),
     z.literal("accounts/fireworks/models/qwen-14b-chat"),
   ]),
@@ -351,6 +352,10 @@ export default function CharacterForm({
                       <SelectItem value="gpt-3.5-turbo-1106">
                         GPT-3.5 Turbo - Capable of generating realistic text,
                         16,384 Context Length, provided by OpenAI
+                      </SelectItem>
+                      <SelectItem value="gpt-4-1106-preview">
+                        GPT-4 Turbo - Capable of generating realistic text,
+                        32,768 Context Length, provided by OpenAI
                       </SelectItem>
                       <SelectItem value="mistral-7b-instruct">
                         Mistral 7B Instruct - Not for chat, Fastest response,
