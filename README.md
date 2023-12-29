@@ -1,9 +1,9 @@
 <p align="center">
-<a href="https://github.com/Open-Roleplay-AI/OpenRoleplay">
+<a href="https://github.com/open-roleplay-ai/openroleplay.ai">
 <img src="https://github.com/Open-Roleplay-AI/.github/blob/main/github-banner.png?raw=true" alt="Logo">
 </a>
 
-  <h3 align="center">OpenRoleplay.ai</h3>
+  <h3 align="center">openroleplay.ai</h3>
 
   <p align="center">
     The open-source character.ai alternative.
@@ -13,16 +13,16 @@
     ·
     <a href="https://openroleplay.ai">Website</a>
     ·
-    <a href="https://github.com/Open-Roleplay-AI/OpenRoleplay/issues">Issues</a>
+    <a href="https://github.com/open-roleplay-ai/openroleplay.ai/issues">Issues</a>
   </p>
 </p>
 
 <p align="center">
-   <a href="https://github.com/Open-Roleplay-AI/OpenRoleplay/stargazers"><img src="https://img.shields.io/github/stars/Open-Roleplay-AI/OpenRoleplay" alt="Github Stars"></a>
-   <a href="https://github.com/Open-Roleplay-AI/OpenRoleplay/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-AGPLv3-purple" alt="License"></a>
-   <a href="https://github.com/Open-Roleplay-AI/OpenRoleplay/pulse"><img src="https://img.shields.io/github/commit-activity/m/Open-Roleplay-AI/OpenRoleplay" alt="Commits-per-month"></a>
+   <a href="https://github.com/open-roleplay-ai/openroleplay.ai/stargazers"><img src="https://img.shields.io/github/stars/open-roleplay-ai/openroleplay.ai" alt="Github Stars"></a>
+   <a href="https://github.com/open-roleplay-ai/openroleplay.ai/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-AGPLv3-purple" alt="License"></a>
+   <a href="https://github.com/open-roleplay-ai/openroleplay.ai/pulse"><img src="https://img.shields.io/github/commit-activity/m/open-roleplay-ai/openroleplay.ai" alt="Commits-per-month"></a>
    <a href="https://openroleplay.ai/pricing"><img src="https://img.shields.io/badge/Pricing-Free-brightgreen" alt="Pricing"></a>
-   <a href="https://github.com/Open-Roleplay-AI/OpenRoleplay/issues?q=is:issue+is:open+label:%22%F0%9F%99%8B%F0%9F%8F%BB%E2%80%8D%E2%99%82%EF%B8%8Fhelp+wanted%22"><img src="https://img.shields.io/badge/Help%20Wanted-Contribute-blue"></a>
+   <a href="https://github.com/open-roleplay-ai/openroleplay.ai/issues?q=is:issue+is:open+label:%22%F0%9F%99%8B%F0%9F%8F%BB%E2%80%8D%E2%99%82%EF%B8%8Fhelp+wanted%22"><img src="https://img.shields.io/badge/Help%20Wanted-Contribute-blue"></a>
    <a href="https://contributor-covenant.org/version/1/4/code-of-conduct/ "><img src="https://img.shields.io/badge/Contributor%20Covenant-1.4-purple" /></a>
 </p>
 
@@ -126,8 +126,12 @@ Check out [Convex Clerk](https://docs.convex.dev/auth/clerk) for detailed guide.
 
 ## Roadmap and Feedback
 
-Giving perfect memory for agents, adding voice capabilities and image generation, improving user interactions, possibilities are endless. We value your [feedback](https://github.com/Open-Roleplay-AI/OpenRoleplay/issues).
+Giving perfect memory for agents, adding voice capabilities and image generation, improving user interactions, possibilities are endless. We value your [feedback](https://github.com/open-roleplay-ai/openroleplay.ai/issues).
 
 ## Support This Project
 
 This project is entirely bootstrapped and was initiated out of personal passion and effort. Your contributions are invaluable and will ensure the continued vitality of this project.
+
+## License
+
+Distributed under the AGPLv3 License. See LICENSE for more information.

@@ -28,12 +28,12 @@ module.exports = {
       {
         source: "/star",
         destination:
-          "https://github.com/Open-Roleplay-AI/OpenRoleplay/stargazers",
+          "https://github.com/open-roleplay-ai/openroleplay.ai/stargazers",
         permanent: true,
       },
       {
         source: "/github",
-        destination: "https://github.com/Open-Roleplay-AI/OpenRoleplay",
+        destination: "https://github.com/open-roleplay-ai/openroleplay.ai",
         permanent: true,
       },
       {
