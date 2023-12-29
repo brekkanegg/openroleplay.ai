@@ -13,7 +13,6 @@ import { toast } from "sonner";
 import useCurrentUser from "../lib/hooks/use-current-user";
 import { AnimatePresence, motion } from "framer-motion";
 import { FadeInOut } from "../lib/utils";
-import Spinner from "@repo/ui/src/components/spinner";
 
 const Package = ({
   src,

@@ -43,7 +43,6 @@ import { useUser } from "@clerk/nextjs";
 import { RadioGroup, RadioGroupItem } from "@repo/ui/src/components/radio";
 import { Checkbox } from "@repo/ui/src/components/checkbox";
 import useCurrentUser from "../../app/lib/hooks/use-current-user";
-import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string(),
