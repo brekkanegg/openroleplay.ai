@@ -9,7 +9,7 @@ import {
 } from "@repo/ui/src/components/tabs";
 import { useEffect, useState } from "react";
 import Chats from "../components/chats/chats";
-import Characters from "../components/characters/characters";
+import Discover from "../components/characters/discover";
 import { useConvexAuth } from "convex/react";
 import { SignIn } from "@clerk/nextjs";
 import { MyCharacters } from "../components/characters/my-characters";
@@ -74,7 +74,7 @@ function TabsController() {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="discover" className="pb-32">
-        <Characters />
+        <Discover />
       </TabsContent>
       <TabsContent
         value="my-characters"

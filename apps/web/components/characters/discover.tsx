@@ -4,7 +4,7 @@ import CharacterCard from "../cards/character-card";
 import CharacterCardPlaceholder from "../cards/character-card-placeholder";
 import Footer from "../../app/footer";
 
-const Characters = () => {
+const Discover = () => {
   const allCharacters = useQuery(api.characters.list) || [];
   const characters = allCharacters.filter((character) => character.name);
   return (
@@ -37,4 +37,4 @@ const Characters = () => {
   );
 };
 
-export default Characters;
+export default Discover;
