@@ -220,6 +220,18 @@ export function Dialog({
                       className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
                       remarkPlugins={[remarkGfm, remarkMath]}
                       components={{
+                        a({ children, href, target, rel }) {
+                          return (
+                            <a
+                              href={href}
+                              rel={rel}
+                              target={target}
+                              className="hover:opacity-50 underline duration-200"
+                            >
+                              {children}
+                            </a>
+                          );
+                        },
                         p({ children }) {
                           return <p className="mb-2 last:mb-0">{children}</p>;
                         },
@@ -237,7 +249,9 @@ export function Dialog({
                         },
                       }}
                     >
-                      {message.text}
+                      {message?.text?.startsWith("Not enough crystals.")
+                        ? `${message.text} [Visit Shop](/shop)`
+                        : message.text}
                     </MemoizedReactMarkdown>
                   </div>
                 )}

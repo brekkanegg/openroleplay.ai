@@ -73,4 +73,11 @@ export default defineSchema({
     userId: v.id("users"),
     name: v.string(),
   }).index("byUserId", ["userId"]),
+  payments: defineTable({
+    numCrystals: v.number(),
+    stripeId: v.optional(v.string()),
+    userId: v.id("users"),
+  })
+    .index("byStripeId", ["stripeId"])
+    .index("byUserId", ["userId"]),
 });

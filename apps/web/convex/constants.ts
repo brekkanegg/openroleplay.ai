@@ -58,3 +58,12 @@ export const getCrystalPrice = (modelName: string) => {
       return 5;
   }
 };
+
+export const crystalDollarPrice = {
+  300: "99",
+  1650: "499",
+  5450: "1499",
+  11200: "2999",
+  19400: "4999",
+  90000: "9999",
+};

@@ -98,7 +98,7 @@ export const answer = internalAction({
             content: instruction,
           },
           ...(messages
-            .map(({ characterId, text }, index) => {
+            .map(({ characterId, text }: any, index: any) => {
               const message = {
                 role: characterId ? "assistant" : "user",
                 content: text,

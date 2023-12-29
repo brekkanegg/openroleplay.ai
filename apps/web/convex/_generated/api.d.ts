@@ -19,10 +19,13 @@ import type * as chats from "../chats.js";
 import type * as constants from "../constants.js";
 import type * as crystals from "../crystals.js";
 import type * as helpers from "../helpers.js";
+import type * as http from "../http.js";
 import type * as ingest_embed from "../ingest/embed.js";
 import type * as messages from "../messages.js";
+import type * as payments from "../payments.js";
 import type * as personas from "../personas.js";
 import type * as serve from "../serve.js";
+import type * as stripe from "../stripe.js";
 import type * as users from "../users.js";
 
 /**
@@ -39,10 +42,13 @@ declare const fullApi: ApiFromModules<{
   constants: typeof constants;
   crystals: typeof crystals;
   helpers: typeof helpers;
+  http: typeof http;
   "ingest/embed": typeof ingest_embed;
   messages: typeof messages;
+  payments: typeof payments;
   personas: typeof personas;
   serve: typeof serve;
+  stripe: typeof stripe;
   users: typeof users;
 }>;
 export declare const api: FilterApi<
