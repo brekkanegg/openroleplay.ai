@@ -39,10 +39,10 @@ This is where Open Roleplay steps in. Whether self-hosted or hosted by us, it's 
 
 ## Features
 
-- **Model Agnostic:** You can use a variety of AI models, making it easy to interact with your favorite AI characters.
-- **Highly Customizable:** You can make your characters, personas and UI unique, for a one-of-a-kind roleplaying experience.
+- **Model Agnostic:** Choose from a variety of AI models, making it easy to interact with your favorite AI characters.
+- **Highly Customizable:** Make your characters, personas and UI unique, for a one-of-a-kind roleplaying experience.
 - **Roleplay-Focused:** Designed with roleplaying and storytelling in mind, it ensures an immersive and engaging experience.
-- **Group Chat (Coming soon):** You'll be able to invite your favorite characters to one chat room and chat together.
+- **Group Chat (Coming soon):** Invite your favorite characters to one chat room and chat together.
 - **Extended Memory (Coming soon):** The character instructions and previous conversations are reminded to characters when the context window reaches its limit.
 
 ## Supported Models
