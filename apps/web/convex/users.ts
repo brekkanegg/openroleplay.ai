@@ -1,6 +1,7 @@
 import { mutation, query } from "./_generated/server";
 import { internalQuery } from "./_generated/server";
 import { v } from "convex/values";
+import { SIGN_UP_FREE_CRYSTALS } from "./constants";
 
 /**
  * Insert or update the user in a Convex table then return the document's ID.
@@ -40,7 +41,7 @@ export const store = mutation({
     return await ctx.db.insert("users", {
       name: args.username,
       tokenIdentifier: identity.tokenIdentifier,
-      crystals: 1000,
+      crystals: SIGN_UP_FREE_CRYSTALS,
     });
   },
 });
