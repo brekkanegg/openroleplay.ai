@@ -14,7 +14,6 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
-import type * as LICENSE from "../LICENSE.js";
 import type * as characters from "../characters.js";
 import type * as chats from "../chats.js";
 import type * as constants from "../constants.js";
@@ -34,7 +33,6 @@ import type * as users from "../users.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
-  LICENSE: typeof LICENSE;
   characters: typeof characters;
   chats: typeof chats;
   constants: typeof constants;
