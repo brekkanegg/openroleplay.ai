@@ -1,11 +1,21 @@
 import { Badge } from "@repo/ui/src/components/badge";
+import { useQuery } from "convex/react";
 import { Sparkles } from "lucide-react";
+import { Crystal } from "@repo/ui/src/components/icons";
 import Image from "next/image";
+import { api } from "../../convex/_generated/api";
 
 const ModelBadge = ({ modelName }: { modelName: string }) => {
   const model = modelName
     ? modelName.replace("accounts/fireworks/models/", "")
     : "gpt-3.5-turbo-1106";
+  const price = useQuery(api.crystals.price, { modelName: model });
+  const crystalUnit = price && (
+    <div className="flex gap-[0.5]">
+      /<Crystal className="w-4 h-4 p-0.5" />
+      {`x ${price}`}
+    </div>
+  );
   switch (model) {
     case "mixtral-8x7b-instruct":
     case "mistral-7b-instruct":
@@ -19,6 +29,7 @@ const ModelBadge = ({ modelName }: { modelName: string }) => {
             alt="Company logo of Mistral AI"
           />
           {model}
+          {crystalUnit}
         </Badge>
       );
     case "pplx-7b-online":
@@ -32,6 +43,7 @@ const ModelBadge = ({ modelName }: { modelName: string }) => {
             alt="Company logo of Perplexity AI"
           />
           {model}
+          {crystalUnit}
         </Badge>
       );
     case "gpt-3.5-turbo-1106":
@@ -45,6 +57,7 @@ const ModelBadge = ({ modelName }: { modelName: string }) => {
             alt="Company logo of Open AI"
           />
           {model}
+          {crystalUnit}
         </Badge>
       );
     default:
@@ -52,6 +65,7 @@ const ModelBadge = ({ modelName }: { modelName: string }) => {
         <Badge className="flex gap-1 w-fit" variant="model">
           <Sparkles className="w-4 h-4 p-0.5 text-primary-foreground" />
           {model}
+          {crystalUnit}
         </Badge>
       );
   }

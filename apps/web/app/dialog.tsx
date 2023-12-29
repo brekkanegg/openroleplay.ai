@@ -103,8 +103,8 @@ export function Dialog({
       {chatId && (
         <div className="w-full flex items-center justify-between p-2 sticky top-0 bg-white border-b h-[5%] rounded-t-lg px-6">
           <div className="text-muted-foreground font-medium text-xs flex items-center gap-2">
-            AI characters can make mistakes.
             <ModelBadge modelName={model as string} />
+            AI can make mistakes.
           </div>
           <Popover>
             <AlertDialog>

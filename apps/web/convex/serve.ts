@@ -15,7 +15,6 @@ import {
   getCrystalPrice,
   getRemindInstructionInterval,
 } from "./constants";
-import { getUser } from "./users";
 
 export const answer = internalAction({
   args: {
@@ -132,11 +131,17 @@ export const answer = internalAction({
         }
       }
     } catch (error) {
-      console.log(error);
-      await ctx.runMutation(internal.serve.updateCharacterMessage, {
-        messageId,
-        text: "I cannot reply at this time.",
-      });
+      if (error instanceof ConvexError) {
+        await ctx.runMutation(internal.serve.updateCharacterMessage, {
+          messageId,
+          text: error.data,
+        });
+      } else {
+        await ctx.runMutation(internal.serve.updateCharacterMessage, {
+          messageId,
+          text: "I cannot reply at this time.",
+        });
+      }
       throw error;
     }
   },
@@ -169,14 +174,15 @@ export const addCharacterMessage = internalMutation(
 
 export const useCrystal = internalMutation(
   async (ctx, { userId, name }: { userId: Id<"users">; name: string }) => {
-    const user = await getUser(ctx);
+    const user = await ctx.db.get(userId);
     const price = getCrystalPrice(name);
-    if (user.crystals - price < 0) {
+    const currentCrystals = user?.crystals || 0;
+    if (currentCrystals - price < 0) {
       throw new ConvexError(
         `Not enough crystals. You need ${price} crystals to use ${name}.`
       );
     }
-    await ctx.db.patch(userId, { crystals: user.crystals - price });
+    await ctx.db.patch(userId, { crystals: currentCrystals - price });
     await ctx.db.insert("usage", {
       userId,
       name,

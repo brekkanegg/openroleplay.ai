@@ -17,6 +17,7 @@ import type {
 import type * as characters from "../characters.js";
 import type * as chats from "../chats.js";
 import type * as constants from "../constants.js";
+import type * as crystals from "../crystals.js";
 import type * as helpers from "../helpers.js";
 import type * as ingest_embed from "../ingest/embed.js";
 import type * as messages from "../messages.js";
@@ -36,6 +37,7 @@ declare const fullApi: ApiFromModules<{
   characters: typeof characters;
   chats: typeof chats;
   constants: typeof constants;
+  crystals: typeof crystals;
   helpers: typeof helpers;
   "ingest/embed": typeof ingest_embed;
   messages: typeof messages;
