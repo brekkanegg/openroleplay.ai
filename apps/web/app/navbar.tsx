@@ -33,7 +33,7 @@ export default function NavBar({}: {}) {
             <Tooltip content="Star openroleplay.ai on GitHub">
               <Link
                 className="text-muted-foreground text-base hover:opacity-50 gap-2 items-center flex"
-                href="/star"
+                href="/github"
               >
                 <div className="sm:block hidden">opensource ai characters</div>
                 <Badge className="font-default">alpha</Badge>

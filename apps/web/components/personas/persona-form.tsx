@@ -43,6 +43,7 @@ import { useUser } from "@clerk/nextjs";
 import { RadioGroup, RadioGroupItem } from "@repo/ui/src/components/radio";
 import { Checkbox } from "@repo/ui/src/components/checkbox";
 import useCurrentUser from "../../app/lib/hooks/use-current-user";
+import Image from "next/image";
 
 const formSchema = z.object({
   name: z.string(),
@@ -245,9 +246,11 @@ export default function PersonaForm({
                 Best size: 1024x1792
               </span>
               {imageUrl && (
-                <img
+                <Image
                   src={imageUrl}
                   alt={"Preview of character card"}
+                  width={300}
+                  height={525}
                   className="absolute w-full h-full object-cover rounded pointer-events-none"
                 />
               )}

@@ -14,8 +14,70 @@ import { toast } from "sonner";
 import useCurrentUser from "../lib/hooks/use-current-user";
 import { AnimatePresence, motion } from "framer-motion";
 import { FadeInOut } from "../lib/utils";
+import { useRouter } from "next/navigation";
 
 const Package = ({
+  src,
+  amount,
+  bonus,
+  price,
+  handlePurchaseClick,
+}: {
+  src: string;
+  amount: 300 | 1650 | 5450 | 11200 | 19400 | 90000;
+  bonus: number;
+  price: number;
+  handlePurchaseClick?: any;
+}) => {
+  const router = useRouter();
+  return (
+    <Tooltip
+      content={`Buy ${amount - bonus} ${
+        bonus > 0 ? `(+ Bonus ${bonus})` : ""
+      } crystals`}
+      desktopOnly
+    >
+      <Card
+        className="hover:shadow-lg aspect-square rounded-lg duration-200 relative md:w-64 md:h-64 w-[23rem] h-[23rem] tabular-nums"
+        role="button"
+        onClick={
+          handlePurchaseClick
+            ? (e) => handlePurchaseClick(e)
+            : () => router.push("/sign-in")
+        }
+      >
+        <Image
+          src={src}
+          width={256}
+          height={256}
+          alt={"image for pricing"}
+          className="absolute top-0 h-full w-full object-cover rounded-lg"
+        />
+        <div className="absolute bottom-0 h-[50%] w-full bg-gradient-to-b from-transparent via-white/95 to-white rounded-b-lg" />
+        <div className="pt-[70%] flex flex-col gap-1">
+          <CardHeader className="flex items-center justify-center py-1">
+            <CardTitle className="z-10 text-xl">
+              {(amount - bonus).toLocaleString()} Crystals
+            </CardTitle>
+          </CardHeader>
+          <CardFooter className="flex items-center w-full justify-center">
+            <p className="font-semibold z-10 w-full text-center bg-sky-100 text-sky-900 rounded-full">
+              {price}$
+            </p>
+          </CardFooter>
+        </div>
+        {bonus > 0 && (
+          <div className="absolute -top-2 -left-2 w-fit p-1 bg-rose-500 rounded-full px-2 text-sm flex items-center gap-0.5 text-white font-medium">
+            <span className="text-amber-200">{"Bonus "}</span>
+            <Crystal className="w-4 h-4" /> {bonus}
+          </div>
+        )}
+      </Card>
+    </Tooltip>
+  );
+};
+
+const PackageWrapper = ({
   src,
   amount,
   bonus,
@@ -50,45 +112,13 @@ const Package = ({
   }
 
   return (
-    <Tooltip
-      content={`Buy ${amount - bonus} ${
-        bonus > 0 ? `(+ Bonus ${bonus})` : ""
-      } crystals`}
-      desktopOnly
-    >
-      <Card
-        className="hover:shadow-lg aspect-square rounded-lg duration-200 relative md:w-64 md:h-64 w-[23rem] h-[23rem] tabular-nums"
-        role="button"
-        onClick={(e) => handlePurchaseClick(e)}
-      >
-        <Image
-          src={src}
-          width={256}
-          height={256}
-          alt={"image for pricing"}
-          className="absolute top-0 h-full w-full object-cover rounded-lg"
-        />
-        <div className="absolute bottom-0 h-[50%] w-full bg-gradient-to-b from-transparent via-white/95 to-white rounded-b-lg" />
-        <div className="pt-[70%] flex flex-col gap-1">
-          <CardHeader className="flex items-center justify-center py-1">
-            <CardTitle className="z-10 text-xl">
-              {(amount - bonus).toLocaleString()} Crystals
-            </CardTitle>
-          </CardHeader>
-          <CardFooter className="flex items-center w-full justify-center">
-            <p className="font-semibold z-10 w-full text-center bg-sky-100 text-sky-900 rounded-full">
-              {price}$
-            </p>
-          </CardFooter>
-        </div>
-        {bonus > 0 && (
-          <div className="absolute -top-2 -left-2 w-fit p-1 bg-rose-500 rounded-full px-2 text-sm flex items-center gap-0.5 text-white font-medium">
-            <span className="text-amber-200">{"Bonus "}</span>
-            <Crystal className="w-4 h-4" /> {bonus}
-          </div>
-        )}
-      </Card>
-    </Tooltip>
+    <Package
+      src={src}
+      amount={amount}
+      bonus={bonus}
+      price={price}
+      handlePurchaseClick={handlePurchaseClick}
+    />
   );
 };
 
@@ -122,7 +152,7 @@ export default function Page() {
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {packages.map((pkg) => (
-              <Package
+              <PackageWrapper
                 key={pkg.src}
                 src={pkg.src}
                 amount={pkg.amount as any}
@@ -133,14 +163,15 @@ export default function Page() {
           </motion.section>
         ) : (
           <section className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {Array(6)
-              .fill(0)
-              .map((_, i) => (
-                <Card
-                  key={i}
-                  className="hover:shadow-lg aspect-square rounded-lg relative md:w-64 md:h-64 w-[23rem] h-[23rem] tabular-nums animate-pulse bg-muted"
-                />
-              ))}
+            {packages.map((pkg) => (
+              <Package
+                key={pkg.src}
+                src={pkg.src}
+                amount={pkg.amount as any}
+                bonus={pkg.bonus}
+                price={pkg.price}
+              />
+            ))}
           </section>
         )}
       </AnimatePresence>

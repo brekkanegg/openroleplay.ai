@@ -110,13 +110,7 @@ export default function UserDropdown() {
               </div>
             )}
             <StyledLink
-              href="/shop"
-              text="Visit shop"
-              Icon={<Store className="h-4 w-4 text-muted-foreground" />}
-              onClick={() => setOpenPopover(false)}
-            />
-            <StyledLink
-              href="/star"
+              href="/github"
               text="Star on GitHub"
               Icon={<Star className="h-4 w-4 text-muted-foreground" />}
               onClick={() => setOpenPopover(false)}
@@ -125,6 +119,12 @@ export default function UserDropdown() {
               href="/discord"
               text="Join Discord"
               Icon={<Discord className="h-4 w-4 text-muted-foreground" />}
+              onClick={() => setOpenPopover(false)}
+            />
+            <StyledLink
+              href="/shop"
+              text="Visit shop"
+              Icon={<Store className="h-4 w-4 text-muted-foreground" />}
               onClick={() => setOpenPopover(false)}
             />
           </div>
