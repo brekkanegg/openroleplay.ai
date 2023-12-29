@@ -63,6 +63,7 @@ export const upsert = mutation({
         numChats: 0,
         isDraft: true,
         isArchived: false,
+        isNSFW: false,
         isBlacklisted: false,
       });
       return character;
@@ -110,6 +111,7 @@ export const list = query({
       .filter((q) => q.eq(q.field("isDraft"), false))
       .filter((q) => q.eq(q.field("isBlacklisted"), false))
       .filter((q) => q.neq(q.field("isArchived"), true))
+      .filter((q) => q.neq(q.field("isNSFW"), true))
       .order("desc")
       .collect();
   },
