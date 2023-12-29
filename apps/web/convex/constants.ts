@@ -41,3 +41,20 @@ export const getRemindInstructionInterval = (modelName: string) => {
       return 64;
   }
 };
+
+export const getCrystalPrice = (modelName: string) => {
+  switch (modelName) {
+    case "mixtral-8x7b-instruct":
+      return 3;
+    case "mistral-7b-instruct":
+      return 1;
+    case "pplx-7b-online":
+      return 2;
+    case "accounts/fireworks/models/qwen-14b-chat":
+      return 2;
+    case "gpt-3.5-turbo-1106":
+      return 5;
+    default:
+      return 5;
+  }
+};

@@ -71,7 +71,6 @@ export default defineSchema({
     .index("byUpdatedAt", ["updatedAt"]),
   usage: defineTable({
     userId: v.id("users"),
-    rateType: v.optional(v.union(v.literal("smallLLM"), v.literal("largeLLM"))),
-    timeUnit: v.string(),
+    name: v.string(),
   }).index("byUserId", ["userId"]),
 });

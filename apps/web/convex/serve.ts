@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import OpenAI from "openai";
 import { ChatCompletionMessageParam } from "openai/resources/index";
 import {
@@ -12,8 +12,10 @@ import {
   DEFAULT_MODEL,
   getAPIKey,
   getBaseURL,
+  getCrystalPrice,
   getRemindInstructionInterval,
 } from "./constants";
+import { getUser } from "./users";
 
 export const answer = internalAction({
   args: {
@@ -34,10 +36,7 @@ export const answer = internalAction({
           id: personaId,
         })
       : undefined;
-    await ctx.runMutation(internal.serve.rateLimit, {
-      userId,
-      rateType: "smallLLM",
-    });
+
     const messageId = await ctx.runMutation(
       internal.serve.addCharacterMessage,
       {
@@ -87,6 +86,10 @@ export const answer = internalAction({
             like *sad*, *laughing*. This can be used to indicate action or emotion in a definition.
 
             `;
+      await ctx.runMutation(internal.serve.useCrystal, {
+        userId,
+        name: model,
+      });
       const stream = await openai.chat.completions.create({
         model,
         stream: true,
@@ -116,6 +119,7 @@ export const answer = internalAction({
             .flat() as ChatCompletionMessageParam[]),
         ],
       });
+
       let text = "";
       for await (const { choices } of stream) {
         const replyDelta = choices[0] && choices[0].delta.content;
@@ -163,30 +167,19 @@ export const addCharacterMessage = internalMutation(
   }
 );
 
-export const rateLimit = internalMutation(
-  async (
-    ctx,
-    {
-      userId,
-      rateType,
-    }: { userId: Id<"users">; rateType: "smallLLM" | "largeLLM" }
-  ) => {
-    const currentMinute = new Date().getMinutes().toString();
-    const rateLimits = await ctx.db
-      .query("usage")
-      .withIndex("byUserId", (q) => q.eq("userId", userId))
-      .filter((q) => q.eq(q.field("rateType"), rateType))
-      .filter((q) => q.eq(q.field("timeUnit"), currentMinute))
-      .collect();
-
-    if (rateLimits.length >= 10) {
-      throw new Error("Rate limit exceeded");
+export const useCrystal = internalMutation(
+  async (ctx, { userId, name }: { userId: Id<"users">; name: string }) => {
+    const user = await getUser(ctx);
+    const price = getCrystalPrice(name);
+    if (user.crystals - price < 0) {
+      throw new ConvexError(
+        `Not enough crystals. You need ${price} crystals to use ${name}.`
+      );
     }
-
+    await ctx.db.patch(userId, { crystals: user.crystals - price });
     await ctx.db.insert("usage", {
       userId,
-      rateType,
-      timeUnit: currentMinute,
+      name,
     });
   }
 );
