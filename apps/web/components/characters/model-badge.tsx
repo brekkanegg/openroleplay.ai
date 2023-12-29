@@ -5,12 +5,18 @@ import { Crystal } from "@repo/ui/src/components/icons";
 import Image from "next/image";
 import { api } from "../../convex/_generated/api";
 
-const ModelBadge = ({ modelName }: { modelName: string }) => {
+const ModelBadge = ({
+  modelName,
+  showCredits,
+}: {
+  modelName: string;
+  showCredits?: boolean;
+}) => {
   const model = modelName
     ? modelName.replace("accounts/fireworks/models/", "")
     : "gpt-3.5-turbo-1106";
   const price = useQuery(api.crystals.price, { modelName: model });
-  const crystalUnit = price && (
+  const crystalUnit = showCredits && price && (
     <div className="flex gap-[0.5]">
       /<Crystal className="w-4 h-4 p-0.5" />
       {`x ${price}`}
