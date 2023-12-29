@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle } from "@repo/ui/src/components";
+import { Button, Card, CardHeader, CardTitle } from "@repo/ui/src/components";
 import {
   AvatarImage,
   AvatarFallback,
@@ -73,21 +73,29 @@ export default function Chats() {
     {},
     { initialNumItems: 5 }
   );
-  console.log("results::", results);
   return (
     <Card className="w-full shadow-none lg:shadow-xl border-transparent lg:border-border overflow-hidden h-full rounded-b-none">
       <CardHeader>
         <CardTitle>Chats</CardTitle>
       </CardHeader>
       <ul className="divide-y divide-border">
-        {results.map((chat) => (
-          <Chat
-            name={chat.chatName as string}
-            time={chat.updatedAt}
-            characterId={chat.characterId as Id<"characters">}
-            chatId={chat._id as Id<"chats">}
-          />
-        ))}
+        {results?.length ? (
+          results.map((chat) => (
+            <Chat
+              name={chat.chatName as string}
+              time={chat.updatedAt}
+              characterId={chat.characterId as Id<"characters">}
+              chatId={chat._id as Id<"chats">}
+            />
+          ))
+        ) : (
+          <div className="w-full h-[80vh] items-center justify-center flex flex-col gap-2">
+            New chats will appear here.
+            <Link href="/">
+              <Button>Start Chat</Button>
+            </Link>
+          </div>
+        )}
       </ul>
     </Card>
   );
