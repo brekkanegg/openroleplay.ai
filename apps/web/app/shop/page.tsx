@@ -4,6 +4,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+  Tooltip,
 } from "@repo/ui/src/components";
 import { Crystal } from "@repo/ui/src/components/icons";
 import { useAction, useConvexAuth } from "convex/react";
@@ -49,38 +50,45 @@ const Package = ({
   }
 
   return (
-    <Card
-      className="hover:shadow-lg aspect-square rounded-lg duration-200 relative md:w-64 md:h-64 w-[23rem] h-[23rem] tabular-nums"
-      role="button"
-      onClick={(e) => handlePurchaseClick(e)}
+    <Tooltip
+      content={`Buy ${amount - bonus} ${
+        bonus > 0 ? `(+ Bonus ${bonus})` : ""
+      } crystals`}
+      desktopOnly
     >
-      <Image
-        src={src}
-        width={256}
-        height={256}
-        alt={"image for pricing"}
-        className="absolute top-0 h-full w-full object-cover rounded-lg"
-      />
-      <div className="absolute bottom-0 h-[50%] w-full bg-gradient-to-b from-transparent via-white/95 to-white rounded-b-lg" />
-      <div className="pt-[70%] flex flex-col gap-1">
-        <CardHeader className="flex items-center justify-center py-1">
-          <CardTitle className="z-10 text-xl">
-            {(amount - bonus).toLocaleString()} Crystals
-          </CardTitle>
-        </CardHeader>
-        <CardFooter className="flex items-center w-full justify-center">
-          <p className="font-semibold z-10 w-full text-center bg-sky-100 text-sky-900 rounded-full">
-            {price}$
-          </p>
-        </CardFooter>
-      </div>
-      {bonus > 0 && (
-        <div className="absolute -top-2 -left-2 w-fit p-1 bg-rose-500 rounded-full px-2 text-sm flex items-center gap-0.5 text-white font-medium">
-          <span className="text-amber-200">{"Bonus "}</span>
-          <Crystal className="w-4 h-4" /> {bonus}
+      <Card
+        className="hover:shadow-lg aspect-square rounded-lg duration-200 relative md:w-64 md:h-64 w-[23rem] h-[23rem] tabular-nums"
+        role="button"
+        onClick={(e) => handlePurchaseClick(e)}
+      >
+        <Image
+          src={src}
+          width={256}
+          height={256}
+          alt={"image for pricing"}
+          className="absolute top-0 h-full w-full object-cover rounded-lg"
+        />
+        <div className="absolute bottom-0 h-[50%] w-full bg-gradient-to-b from-transparent via-white/95 to-white rounded-b-lg" />
+        <div className="pt-[70%] flex flex-col gap-1">
+          <CardHeader className="flex items-center justify-center py-1">
+            <CardTitle className="z-10 text-xl">
+              {(amount - bonus).toLocaleString()} Crystals
+            </CardTitle>
+          </CardHeader>
+          <CardFooter className="flex items-center w-full justify-center">
+            <p className="font-semibold z-10 w-full text-center bg-sky-100 text-sky-900 rounded-full">
+              {price}$
+            </p>
+          </CardFooter>
         </div>
-      )}
-    </Card>
+        {bonus > 0 && (
+          <div className="absolute -top-2 -left-2 w-fit p-1 bg-rose-500 rounded-full px-2 text-sm flex items-center gap-0.5 text-white font-medium">
+            <span className="text-amber-200">{"Bonus "}</span>
+            <Crystal className="w-4 h-4" /> {bonus}
+          </div>
+        )}
+      </Card>
+    </Tooltip>
   );
 };
 

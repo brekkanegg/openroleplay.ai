@@ -14,10 +14,7 @@ import { AspectRatio } from "@repo/ui/src/components/aspect-ratio";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import CharacterForm from "./character-form";
-import {
-  InfoTooltip,
-  TooltipContent,
-} from "@repo/ui/src/components/hybrid-tooltip";
+import { InfoTooltip, TooltipContent } from "@repo/ui/src/components/tooltip";
 
 const NewCharacter = ({ onClick }: { onClick: any }) => {
   return (

@@ -7,7 +7,7 @@ import {
   CardTitle,
   TooltipContent,
 } from "@repo/ui/src/components";
-import { InfoTooltip } from "@repo/ui/src/components/hybrid-tooltip";
+import { InfoTooltip } from "@repo/ui/src/components/tooltip";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import CharacterCardPlaceholder from "../cards/character-card-placeholder";
