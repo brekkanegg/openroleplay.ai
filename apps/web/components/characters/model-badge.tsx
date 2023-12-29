@@ -22,60 +22,51 @@ const ModelBadge = ({
       {`x ${price}`}
     </div>
   );
-  switch (model) {
-    case "mixtral-8x7b-instruct":
-    case "mistral-7b-instruct":
-      return (
-        <Badge className="flex gap-1 w-fit" variant="model">
-          <Image
-            src="/models/mistral.png"
-            width={32}
-            height={32}
-            className="w-4 h-4 p-0.5"
-            alt="Company logo of Mistral AI"
-          />
-          {model}
-          {crystalUnit}
-        </Badge>
-      );
-    case "pplx-7b-online":
-      return (
-        <Badge className="flex gap-1 w-fit" variant="model">
-          <Image
-            src="/models/perplexity.png"
-            width={32}
-            height={32}
-            className="w-4 h-4 p-0.5"
-            alt="Company logo of Perplexity AI"
-          />
-          {model}
-          {crystalUnit}
-        </Badge>
-      );
-    case "gpt-3.5-turbo-1106":
-    case "gpt-4-1106-preview":
-      return (
-        <Badge className="flex gap-1 w-fit" variant="model">
-          <Image
-            src="/models/openai.png"
-            width={32}
-            height={32}
-            className="w-4 h-4 p-0.5"
-            alt="Company logo of Open AI"
-          />
-          {model}
-          {crystalUnit}
-        </Badge>
-      );
-    default:
-      return (
-        <Badge className="flex gap-1 w-fit" variant="model">
-          <Sparkles className="w-4 h-4 p-0.5 text-primary-foreground" />
-          {model}
-          {crystalUnit}
-        </Badge>
-      );
-  }
+
+  const modelData = {
+    "mixtral-8x7b-instruct": {
+      src: "/models/mistral.png",
+      alt: "Company logo of Mistral AI",
+    },
+    "mistral-7b-instruct": {
+      src: "/models/mistral.png",
+      alt: "Company logo of Mistral AI",
+    },
+    "pplx-7b-online": {
+      src: "/models/perplexity.png",
+      alt: "Company logo of Perplexity AI",
+    },
+    "gpt-3.5-turbo-1106": {
+      src: "/models/openai.png",
+      alt: "Company logo of Open AI",
+    },
+    "gpt-4-1106-preview": {
+      src: "/models/openai.png",
+      alt: "Company logo of Open AI",
+    },
+  };
+
+  const { src, alt } = modelData[model as keyof typeof modelData] || {
+    src: null,
+    alt: null,
+  };
+
+  return (
+    <Badge className="flex gap-1 w-fit" variant="model">
+      {src && (
+        <Image
+          src={src}
+          width={32}
+          height={32}
+          className="w-4 h-4 p-0.5"
+          alt={alt}
+        />
+      )}
+      {!src && <Sparkles className="w-4 h-4 p-0.5 text-primary-foreground" />}
+      {model}
+      {crystalUnit}
+    </Badge>
+  );
 };
 
 export default ModelBadge;
