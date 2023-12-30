@@ -2,17 +2,18 @@
 
 import { useConvexAuth } from "convex/react";
 import { MyCharacters } from "../../components/characters/my-characters";
-import { SignIn } from "@clerk/nextjs";
+import { SignIn, useUser } from "@clerk/nextjs";
 
 export default function Page(): JSX.Element {
+  const { user } = useUser();
   const { isAuthenticated } = useConvexAuth();
   return (
-    <div className="w-full h-[100vh] max-w-screen-xl flex flex-col justify-self-start">
+    <div className="w-full h-full max-w-screen-xl flex flex-col justify-self-start">
       {isAuthenticated ? (
         <MyCharacters />
       ) : (
         <div className="w-full h-full items-start justify-center flex py-32">
-          <SignIn />
+          {!user && <SignIn />}
         </div>
       )}
     </div>

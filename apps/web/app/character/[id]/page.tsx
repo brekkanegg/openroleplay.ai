@@ -17,7 +17,7 @@ import Spinner from "@repo/ui/src/components/spinner";
 import useStoreChatEffect from "../../lib/hooks/use-store-chat-effect";
 import { MessagesSquare } from "lucide-react";
 import { nFormatter } from "../../lib/utils";
-import { SignIn } from "@clerk/nextjs";
+import { SignIn, useUser } from "@clerk/nextjs";
 import {
   Drawer,
   DrawerClose,
@@ -28,10 +28,9 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@repo/ui/src/components/drawer";
-import { Label } from "@repo/ui/src/components/label";
-import ModelBadge from "../../../components/characters/model-badge";
 
 export default function Page({ params }: { params: { id: string } }) {
+  const { user } = useUser();
   const { isAuthenticated, isLoading } = useConvexAuth();
   const data = useQuery(api.characters.get, {
     id: params.id as Id<"characters">,
@@ -120,7 +119,7 @@ export default function Page({ params }: { params: { id: string } }) {
             </div>
           ) : (
             <div className="w-full h-full items-center justify-center flex min-h-[60vh] lg:min-h-fit">
-              <SignIn />
+              {!user && <SignIn />}
             </div>
           )}
         </CardContent>
