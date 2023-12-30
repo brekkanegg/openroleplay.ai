@@ -83,7 +83,7 @@ export const FadeInOut = {
 export function constructMetadata({
   title = "openroleplay.ai",
   description = "openroleplay.ai is an AI characters and roleplaying platform for everyone.",
-  image = "",
+  image = "/og.jpg",
   icons = "/favicon.ico",
   noIndex = false,
 }: {
