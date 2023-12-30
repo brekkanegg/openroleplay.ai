@@ -81,7 +81,9 @@ export default function Page({ params }: { params: { id: string } }) {
               {creatorName && (
                 <p
                   className={`${
-                    data?.cardImageUrl ? "text-muted" : "text-muted-foreground"
+                    data?.cardImageUrl
+                      ? "text-muted dark:text-gray-500"
+                      : "text-muted-foreground"
                   } z-[1] lg:line-clamp-5 line-clamp-3 text-xs`}
                 >
                   Created by @{creatorName}
