@@ -3,6 +3,8 @@ export const DEFAULT_MODEL = "gpt-3.5-turbo-1106";
 export const PERPLEXITY_API_URL = "https://api.perplexity.ai";
 export const OPENAI_API_URL = "https://api.openai.com/v1";
 export const FIREWORK_API_URL = "https://api.fireworks.ai/inference/v1";
+export const STABILITY_AI_API_URL =
+  "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image";
 
 export const getBaseURL = (modelName: string) => {
   switch (modelName) {
@@ -57,6 +59,8 @@ export const getCrystalPrice = (modelName: string) => {
       return 2;
     case "gpt-3.5-turbo-1106":
       return 5;
+    case "stable-diffusion-xl-1024-v1-0":
+      return 30;
     case "gpt-4-1106-preview":
       return 30;
     default:

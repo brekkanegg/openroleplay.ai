@@ -29,9 +29,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@repo/ui/src/components/form";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import {
   Popover,
@@ -56,12 +56,15 @@ import {
 import DraftBadge from "./saving-badge";
 import SavingBadge from "./saving-badge";
 import Image from "next/image";
+import { Tooltip } from "@repo/ui/src/components";
+import { Crystal } from "@repo/ui/src/components/icons";
+import Spinner from "@repo/ui/src/components/spinner";
 
 const formSchema = z.object({
   name: z.string(),
   description: z.string(),
   instructions: z.string(),
-  greetings: z.string(),
+  greetings: z.optional(z.string()),
   model: z.union([
     z.literal("mistral-7b-instruct"),
     z.literal("mixtral-8x7b-instruct"),
@@ -74,41 +77,39 @@ const formSchema = z.object({
 
 interface CreateProps {
   id?: Id<"characters">;
-  name?: string;
-  description?: string;
-  instructions?: string;
-  greetings?: string;
-  cardImageUrl?: string;
-  model?: any;
   isEdit?: boolean;
-  isDraft?: boolean;
   onClickGoBack: any;
 }
 
 export default function CharacterForm({
   id,
-  name = "",
-  description = "",
-  instructions = "",
-  greetings = "",
-  cardImageUrl = "",
-  model = "gpt-3.5-turbo-1106",
-  isEdit = false,
-  isDraft = false,
+  isEdit,
   onClickGoBack,
 }: CreateProps) {
+  const character = useQuery(api.characters.get, id ? { id } : "skip");
+  const {
+    name = "",
+    description = "",
+    instructions = "",
+    greetings = "",
+    cardImageUrl = "",
+    model = "gpt-3.5-turbo-1106",
+    isDraft = false,
+  } = character || {};
+
   const upsert = useMutation(api.characters.upsert);
   const publish = useMutation(api.characters.publish);
   const archive = useMutation(api.characters.archive);
+  const generateImage = useMutation(api.characterCard.request);
   const generateUploadUrl = useMutation(api.characters.generateUploadUrl);
 
   const [characterId, setCharacterId] = useState<Id<"characters"> | undefined>(
     id
   );
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
 
   const imageInput = useRef<HTMLInputElement>(null);
   const [openPopover, setOpenPopover] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -121,11 +122,25 @@ export default function CharacterForm({
     },
   });
 
+  useEffect(() => {
+    form.reset({
+      name,
+      description,
+      instructions,
+      greetings: Array.isArray(greetings) ? greetings[0] : greetings,
+      model,
+    });
+  }, [character]);
+
+  useEffect(() => {
+    cardImageUrl && setIsGeneratingImage(false);
+  }, [cardImageUrl]);
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { greetings, ...otherValues } = values;
     const character = await upsert({
       ...(characterId ? { id: characterId } : {}),
-      greetings: [greetings],
+      greetings: [greetings as string],
       ...otherValues,
     });
     character && setCharacterId(character);
@@ -167,10 +182,8 @@ export default function CharacterForm({
   }
 
   const debouncedSubmitHandle = useDebouncedCallback(onSubmit, 1000);
-
-  const imageUrl = selectedImage
-    ? URL.createObjectURL(selectedImage)
-    : cardImageUrl;
+  const isImageUploadDisabled =
+    !form.getValues().name || !form.getValues().description || !characterId;
   return (
     <Card className="w-full shadow-none lg:shadow-xl border-transparent lg:border-border overflow-hidden h-full rounded-b-none">
       <CardHeader>
@@ -216,7 +229,7 @@ export default function CharacterForm({
                           return `Character has been archived.`;
                         },
                         error: (error) => {
-                          return error
+                          return error?.data
                             ? (error.data as { message: string }).message
                             : "Unexpected error occurred";
                         },
@@ -233,7 +246,7 @@ export default function CharacterForm({
         <CardDescription>Configure your character details.</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="w-full flex justify-center my-4">
+        <div className="w-full flex justify-center flex-col my-4 gap-4 items-center">
           <Label
             htmlFor="card"
             className="w-[200px] h-[350px] rounded flex items-center justify-center flex-col relative cursor-pointer border hover:border-border duration-200 border-dashed hover:-translate-y-1 hover:shadow-lg"
@@ -243,9 +256,9 @@ export default function CharacterForm({
             <span className="text-xs text-muted-foreground">
               Best size: 1024x1792
             </span>
-            {imageUrl && (
+            {cardImageUrl && (
               <Image
-                src={imageUrl}
+                src={cardImageUrl}
                 alt={"Preview of character card"}
                 width={300}
                 height={525}
@@ -259,11 +272,42 @@ export default function CharacterForm({
             accept="image/*"
             ref={imageInput}
             onChange={(event: any) => {
-              setSelectedImage(event.target.files![0]);
               handleUploadImage(event.target.files![0]);
             }}
             className="hidden"
           />
+          <Tooltip
+            content={
+              isImageUploadDisabled
+                ? "Write character name and description to generate character card."
+                : "Generate character card"
+            }
+          >
+            <Button
+              className="w-[200px] flex gap-1"
+              disabled={isImageUploadDisabled}
+              onClick={async () => {
+                setIsGeneratingImage(true);
+                await generateImage({
+                  characterId: characterId as Id<"characters">,
+                  name: form.getValues().name,
+                  description: form.getValues().description,
+                });
+              }}
+            >
+              {isGeneratingImage ? (
+                <>
+                  <Spinner />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  Generate
+                  <Crystal className="w-4 h-4" /> x 10
+                </>
+              )}
+            </Button>
+          </Tooltip>
         </div>
         <Form {...form}>
           <form

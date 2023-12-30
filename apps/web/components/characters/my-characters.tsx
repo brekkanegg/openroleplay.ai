@@ -40,14 +40,7 @@ export function MyCharacters() {
       {draftCharacter ? (
         <CharacterForm
           id={draftCharacter?._id}
-          name={draftCharacter?.name}
-          description={draftCharacter?.description}
-          instructions={draftCharacter?.instructions}
-          greetings={draftCharacter?.greetings}
-          cardImageUrl={draftCharacter?.cardImageUrl}
           isEdit={draftCharacter === true ? false : true}
-          isDraft={draftCharacter.isDraft}
-          model={draftCharacter?.model}
           onClickGoBack={() => setDraftCharacter(false)}
         />
       ) : (
