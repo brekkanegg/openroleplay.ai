@@ -183,7 +183,10 @@ export default function CharacterForm({
 
   const debouncedSubmitHandle = useDebouncedCallback(onSubmit, 1000);
   const isImageUploadDisabled =
-    !form.getValues().name || !form.getValues().description || !characterId;
+    !form.getValues().name ||
+    !form.getValues().description ||
+    !characterId ||
+    isGeneratingImage;
   return (
     <Card className="w-full shadow-none lg:shadow-xl border-transparent lg:border-border overflow-hidden h-full rounded-b-none">
       <CardHeader>
