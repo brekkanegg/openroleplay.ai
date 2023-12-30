@@ -133,6 +133,10 @@ export default function PersonaForm({
   }
 
   async function handleUploadImage(uploadedImage: File) {
+    if (uploadedImage.size > 5242880) {
+      toast.error("File size should be less than 5MB");
+      return;
+    }
     const promise = generateUploadUrl()
       .then((postUrl) =>
         fetch(postUrl, {
@@ -264,7 +268,6 @@ export default function PersonaForm({
                 setSelectedImage(event.target.files![0]);
                 handleUploadImage(event.target.files![0]);
               }}
-              disabled={selectedImage !== null}
               className="hidden"
             />
           </div>

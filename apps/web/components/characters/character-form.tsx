@@ -55,6 +55,7 @@ import {
 } from "@repo/ui/src/components/alert-dialog";
 import DraftBadge from "./saving-badge";
 import SavingBadge from "./saving-badge";
+import Image from "next/image";
 
 const formSchema = z.object({
   name: z.string(),
@@ -131,6 +132,10 @@ export default function CharacterForm({
   }
 
   async function handleUploadImage(uploadedImage: File) {
+    if (uploadedImage.size > 5242880) {
+      toast.error("File size should be less than 5MB");
+      return;
+    }
     const promise = generateUploadUrl()
       .then((postUrl) =>
         fetch(postUrl, {
@@ -239,10 +244,12 @@ export default function CharacterForm({
               Best size: 1024x1792
             </span>
             {imageUrl && (
-              <img
+              <Image
                 src={imageUrl}
                 alt={"Preview of character card"}
-                className="absolute w-full h-full object-cover rounded pointer-events-none"
+                width={300}
+                height={525}
+                className="absolute w-full h-full object-cover rounded"
               />
             )}
           </Label>
@@ -255,7 +262,6 @@ export default function CharacterForm({
               setSelectedImage(event.target.files![0]);
               handleUploadImage(event.target.files![0]);
             }}
-            disabled={selectedImage !== null}
             className="hidden"
           />
         </div>
