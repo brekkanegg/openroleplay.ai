@@ -101,7 +101,7 @@ export function Dialog({
   return (
     <div className="w-full h-full">
       {chatId && (
-        <div className="w-full flex items-center justify-between p-2 sticky top-0 bg-white border-b h-[5%] rounded-t-lg px-6">
+        <div className="w-full flex items-center justify-between p-2 sticky top-0 bg-background border-b h-[5%] rounded-t-lg px-6">
           <div className="text-muted-foreground font-medium text-xs flex items-center gap-2">
             <ModelBadge modelName={model as string} showCredits={true} />
             AI can make mistakes.
@@ -264,7 +264,7 @@ export function Dialog({
           onSubmit={(event) => void handleSend(event)}
         >
           <input
-            className="w-full ml-4 my-3 border-none focus-visible:ring-0"
+            className="w-full ml-4 my-3 border-none focus-visible:ring-0 bg-background"
             autoFocus
             name="message"
             placeholder="Send a message"
