@@ -48,7 +48,7 @@ export const send = mutation({
       chatId,
       personaId,
     });
-    await ctx.scheduler.runAfter(0, internal.serve.answer, {
+    await ctx.scheduler.runAfter(0, internal.llm.answer, {
       chatId,
       characterId,
       personaId: personaId ? personaId : user?.primaryPersonaId,

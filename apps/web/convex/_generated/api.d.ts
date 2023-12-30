@@ -21,6 +21,7 @@ import type * as crystals from "../crystals.js";
 import type * as helpers from "../helpers.js";
 import type * as http from "../http.js";
 import type * as ingest_embed from "../ingest/embed.js";
+import type * as llm from "../llm.js";
 import type * as messages from "../messages.js";
 import type * as payments from "../payments.js";
 import type * as personas from "../personas.js";
@@ -44,6 +45,7 @@ declare const fullApi: ApiFromModules<{
   helpers: typeof helpers;
   http: typeof http;
   "ingest/embed": typeof ingest_embed;
+  llm: typeof llm;
   messages: typeof messages;
   payments: typeof payments;
   personas: typeof personas;
