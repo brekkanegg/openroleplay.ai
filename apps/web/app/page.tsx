@@ -6,7 +6,7 @@ import useStoreUserEffect from "./lib/hooks/use-store-user-effect";
 export default function Page(): JSX.Element {
   useStoreUserEffect();
   return (
-    <div className="w-full h-[100vh] max-w-screen-xl flex flex-col justify-self-start">
+    <div className="w-full h-full pb-8 max-w-screen-xl">
       <Discover />
     </div>
   );

@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface FooterLinkProps {
   href: string;
@@ -13,6 +14,9 @@ const FooterLink: React.FC<FooterLinkProps> = ({ href, children }) => (
 );
 
 export default function Footer() {
+  const pathname = usePathname();
+  const showFooter = pathname === "/" || pathname === "/shop";
+  if (!showFooter) return null;
   return (
     <footer className="flex w-full items-center justify-center px-6 py-2 2xl:px-0 text-xs">
       <div className="flex w-full max-w-screen-xl flex-col gap-8 items-center">
