@@ -89,7 +89,7 @@ export default function Chats() {
             />
           ))
         ) : (
-          <div className="w-full h-[80vh] items-center justify-center flex flex-col gap-2">
+          <div className="w-full h-[100vh] items-center justify-center flex flex-col gap-2">
             New chats will appear here.
             <Link href="/">
               <Button>Start Chat</Button>

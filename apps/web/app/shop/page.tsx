@@ -134,7 +134,7 @@ export default function Page() {
     { src: "/shop/tier6.png", amount: 90000, bonus: 8000, price: 99.99 },
   ];
   return (
-    <div className="w-full max-w-screen-xl flex flex-col justify-self-start items-center gap-16 py-16 px-2">
+    <div className="w-full max-w-screen-xl flex flex-col justify-self-start items-center gap-16 pt-16 pb-32 px-2">
       <div className="flex flex-col gap-4 items-start md:items-center px-5">
         <h1 className="text-5xl font-display">Shop</h1>
         <h2 className="text-3xl font-display bg-gradient-to-b from-gray-400 to-gray-600 text-transparent bg-clip-text">
@@ -176,7 +176,6 @@ export default function Page() {
           </section>
         )}
       </AnimatePresence>
-      <Footer />
     </div>
   );
 }

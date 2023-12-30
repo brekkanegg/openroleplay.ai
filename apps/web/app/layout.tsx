@@ -6,6 +6,7 @@ import { Providers } from "./providers";
 import NavBar from "./navbar";
 import { constructMetadata } from "./lib/utils";
 import Footer from "./footer";
+import TabsController from "./tabs-controller";
 
 export const metadata = constructMetadata();
 
@@ -23,10 +24,12 @@ export default async function RootLayout({
       <body className={cx(calSans.variable, inter.variable)}>
         <Providers>
           <NavBar />
-          <main className="flex min-h-screen w-full flex-col items-center lg:justify-center lg:py-32 py-16 font-default">
+          <main className="flex min-h-screen w-full flex-col items-center lg:justify-center pt-32 font-default">
             {children}
           </main>
           <Analytics />
+          <TabsController />
+          <Footer />
         </Providers>
       </body>
     </html>

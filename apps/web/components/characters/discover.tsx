@@ -2,7 +2,6 @@ import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import CharacterCard from "../cards/character-card";
 import CharacterCardPlaceholder from "../cards/character-card-placeholder";
-import Footer from "../../app/footer";
 
 const Discover = () => {
   const allCharacters = useQuery(api.characters.list) || [];
@@ -31,9 +30,6 @@ const Discover = () => {
         {Array.from({ length: 10 - characters?.length }).map((_, index) => (
           <CharacterCardPlaceholder key={index} />
         ))}
-      </div>
-      <div className="pt-32">
-        <Footer />
       </div>
     </>
   );

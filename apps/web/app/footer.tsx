@@ -14,7 +14,7 @@ const FooterLink: React.FC<FooterLinkProps> = ({ href, children }) => (
 
 export default function Footer() {
   return (
-    <footer className="flex w-full items-center justify-center px-6 py-12 pb-24 2xl:px-0 text-xs">
+    <footer className="flex w-full items-center justify-center px-6 py-2 2xl:px-0 text-xs">
       <div className="flex w-full max-w-screen-xl flex-col gap-8 items-center">
         <div className="flex flex-col gap-8 sm:flex-row xl:gap-24">
           <div className="flex gap-2">
