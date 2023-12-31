@@ -23,9 +23,7 @@ export default function NavBar({}: {}) {
             : "bg-white/0"
         } z-30 transition-opacity`}
       >
-        <div
-          className={`mx-5 flex h-16 w-full max-w-screen-xl items-center justify-between `}
-        >
+        <div className={`mx-5 flex h-16 w-full items-center justify-between `}>
           <div className="flex text-2xl font-display gap-4 items-center">
             <Link href="/">
               <TextLogo />
