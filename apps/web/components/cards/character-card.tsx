@@ -80,7 +80,7 @@ const CharacterCard = (props: {
               alt={""}
               width={300}
               height={525}
-              quality={75}
+              quality={70}
               className="object-cover absolute w-full h-full rounded-lg left-0 top-0 pointer-events-none z-[1]"
             />
           )}

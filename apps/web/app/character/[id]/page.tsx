@@ -51,7 +51,7 @@ export default function Page({ params }: { params: { id: string } }) {
                   alt={`Character card of ${data?.name}`}
                   width={300}
                   height={525}
-                  quality={75}
+                  quality={70}
                   className="object-cover absolute w-full h-full lg:rounded-l-lg left-0 top-0 pointer-events-none"
                 />
               )}
