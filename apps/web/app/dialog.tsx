@@ -260,7 +260,7 @@ export function Dialog({
           )}
         </div>
         <form
-          className="border-solid border-0 border-t-[1px] flex fixed lg:sticky bottom-0 w-full bg-background h-16 items-center rounded-b-lg"
+          className="border-solid border-0 border-t-[1px] flex fixed lg:sticky bottom-16 w-full bg-background h-16 items-center rounded-br-lg"
           onSubmit={(event) => void handleSend(event)}
         >
           <input

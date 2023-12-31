@@ -24,7 +24,7 @@ export default async function RootLayout({
       <body className={cx(calSans.variable, inter.variable)}>
         <Providers>
           <NavBar />
-          <main className="pt-32 font-default w-full flex place-content-center">
+          <main className="lg:pt-32 pt-16 font-default w-full flex place-content-center">
             {children}
           </main>
           <Analytics />
