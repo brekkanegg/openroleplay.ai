@@ -42,7 +42,7 @@ function TabsController() {
             value="/my-characters"
           >
             <Plus className="w-5 h-5 p-1" />
-            My characters
+            <span className="hidden lg:inline">My </span>Characters
           </TabsTrigger>
         </Link>
         <Link href="/my-personas">
@@ -51,7 +51,7 @@ function TabsController() {
             value="/my-personas"
           >
             <CircleUserRound className="w-5 h-5 p-1" />
-            My personas
+            <span className="hidden lg:inline">My </span>Personas
           </TabsTrigger>
         </Link>
         <Link href="/shop">
