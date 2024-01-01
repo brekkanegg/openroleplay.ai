@@ -25,6 +25,7 @@ export default defineSchema({
     knowledge: v.optional(v.string()),
     capabilities: v.optional(v.array(v.string())),
     creatorId: v.id("users"),
+    remixId: v.optional(v.id("characters")),
     isDraft: v.boolean(),
     isBlacklisted: v.boolean(),
     isNSFW: v.optional(v.boolean()), // NSFW characters are filtered unless the adult user has explicitly opted in.

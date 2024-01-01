@@ -61,6 +61,7 @@ import { Crystal } from "@repo/ui/src/components/icons";
 import Spinner from "@repo/ui/src/components/spinner";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import RemixBadge from "./remix-badge";
 
 const formSchema = z.object({
   name: z.string(),
@@ -83,7 +84,11 @@ const formSchema = z.object({
 export default function CharacterForm() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id") as Id<"characters">;
-  const character = useQuery(api.characters.get, id ? { id } : "skip");
+  const remixId = searchParams.get("remixId") as Id<"characters">;
+  const character = useQuery(
+    api.characters.get,
+    id ? { id } : remixId ? { id: remixId } : "skip"
+  );
   const isEdit = searchParams.get("isEdit") || false;
   const router = useRouter();
   const {
@@ -141,6 +146,7 @@ export default function CharacterForm() {
       greetings: [greetings as string],
       ...otherValues,
       ...(cardImageUrl ? { cardImageUrl } : {}),
+      ...(remixId ? { remixId } : {}),
     });
     character && setCharacterId(character);
   }
@@ -202,6 +208,7 @@ export default function CharacterForm() {
             ) : form.formState.isDirty && isDraft ? (
               <DraftBadge />
             ) : null}
+            {remixId && <RemixBadge />}
           </div>
           {characterId && (
             <AlertDialog>

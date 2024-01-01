@@ -35,11 +35,7 @@ const CharacterCard = (props: {
           {props.showEdit && (
             <Link
               href={`/my-characters/create${props.id ? `?id=${props.id}` : ""}${
-                props.name ? `&name=${props.name}` : ""
-              }${props.description ? `&description=${props.description}` : ""}${
                 props.model ? `&model=${props.model}` : ""
-              }${
-                props.cardImageUrl ? `&cardImageUrl=${props.cardImageUrl}` : ""
               }`}
               className="absolute z-[4] right-4 top-4 group-hover:flex hidden items-center"
             >
@@ -54,11 +50,7 @@ const CharacterCard = (props: {
           {props.showRemix && (
             <Link
               href={`/my-characters/create${
-                props.name ? `?name=${props.name}` : ""
-              }${props.description ? `&description=${props.description}` : ""}${
-                props.model ? `&model=${props.model}` : ""
-              }${
-                props.cardImageUrl ? `&cardImageUrl=${props.cardImageUrl}` : ""
+                props.id ? `?remixId=${props.id}` : ""
               }`}
               className="absolute z-[4] right-4 top-4 group-hover:flex hidden items-center"
             >

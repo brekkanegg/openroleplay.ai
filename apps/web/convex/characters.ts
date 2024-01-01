@@ -7,6 +7,7 @@ import { paginationOptsValidator } from "convex/server";
 export const upsert = mutation({
   args: {
     id: v.optional(v.id("characters")),
+    remixId: v.optional(v.id("characters")),
     name: v.optional(v.string()),
     description: v.optional(v.string()),
     model: v.optional(
