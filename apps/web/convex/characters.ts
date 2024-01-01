@@ -124,14 +124,17 @@ export const list = query({
 });
 
 export const listMy = query({
-  args: {},
+  args: {
+    paginationOpts: paginationOptsValidator,
+  },
   handler: async (ctx, args) => {
     const user = await getUser(ctx);
     return await ctx.db
       .query("characters")
       .filter((q) => q.eq(q.field("creatorId"), user._id))
       .filter((q) => q.neq(q.field("isArchived"), true))
-      .collect();
+      .order("desc")
+      .paginate(args.paginationOpts);
   },
 });
 

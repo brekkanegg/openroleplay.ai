@@ -17,7 +17,6 @@ const Discover = () => {
   const inView = useInView(ref);
 
   useEffect(() => {
-    console.log("inView:::", inView);
     if (inView) {
       loadMore(8);
     }
