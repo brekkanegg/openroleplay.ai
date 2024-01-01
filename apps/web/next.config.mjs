@@ -1,5 +1,7 @@
+import million from "million/compiler";
+
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfig = {
   transpilePackages: ["@repo/ui"],
   images: {
     remotePatterns: [
@@ -44,3 +46,12 @@ module.exports = {
     ];
   },
 };
+
+const millionConfig = {
+  auto: {
+    threshold: 0.05, // default: 0.1,
+    skip: ["useBadHook", /badVariable/g], // default []
+    // if you're using RSC: auto: { rsc: true },
+  },
+};
+export default million.next(nextConfig, millionConfig);
