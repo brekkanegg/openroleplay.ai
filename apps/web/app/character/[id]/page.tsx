@@ -83,7 +83,7 @@ export default function Page({ params }: { params: { id: string } }) {
                     data?.cardImageUrl
                       ? "text-muted dark:text-gray-500"
                       : "text-muted-foreground"
-                  } z-[1] lg:line-clamp-5 line-clamp-3 text-xs`}
+                  } z-[1] lg:line-clamp-5 line-clamp-3 hover:line-clamp-none text-xs`}
                 >
                   Created by @{creatorName}
                 </p>

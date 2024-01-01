@@ -73,7 +73,7 @@ const CharacterCard = (props: {
             <CardTitle
               className={`${
                 props.cardImageUrl ? "text-white" : "text-foreground"
-              } text-base line-clamp-1 select-none group-hover:opacity-80 duration-200 z-[3] flex justify-between`}
+              } text-base line-clamp-1 hover:line-clamp-none select-none group-hover:opacity-80 duration-200 z-[3] flex justify-between`}
             >
               <div className="w-[80%] truncate">{props.name}</div>
               {(props?.numChats as number) > 0 && (
@@ -89,7 +89,7 @@ const CharacterCard = (props: {
             <CardDescription
               className={`${
                 props.cardImageUrl ? "text-white" : "text-foreground"
-              } select-none text-xs line-clamp-3 group-hover:opacity-80 duration-200 z-[3]`}
+              } select-none text-xs line-clamp-3 hover:line-clamp-none group-hover:opacity-80 duration-200 z-[3]`}
             >
               {props.description}
             </CardDescription>
