@@ -8,7 +8,7 @@ export default function Page(): JSX.Element {
   const { user } = useUser();
   const { isAuthenticated } = useConvexAuth();
   return (
-    <div className="w-full h-full max-w-screen-xl flex flex-col justify-self-start">
+    <div className="w-full h-full flex flex-col justify-self-start lg:pr-8">
       {isAuthenticated ? (
         <MyCharacters />
       ) : (

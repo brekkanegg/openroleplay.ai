@@ -6,7 +6,6 @@ import {
   Button,
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
   Tooltip,
@@ -40,7 +39,7 @@ export default function Page({ params }: { params: { id: string } }) {
   });
   const chatId = useStoreChatEffect(params.id as Id<"characters">);
   return (
-    <div className="w-full max-w-screen-xl flex flex-col justify-self-start">
+    <div className="w-full flex flex-col justify-self-start lg:pr-8">
       <Card className="w-full h-full lg:h-[42rem] shadow-none lg:shadow-xl border-transparent lg:border-border flex lg:flex-row flex-col">
         <Drawer>
           <DrawerTrigger asChild>
