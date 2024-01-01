@@ -81,50 +81,62 @@ export const answer = internalAction({
             like *sad*, *laughing*. This can be used to indicate action or emotion in a definition.
 
             `;
-      await ctx.runMutation(internal.serve.useCrystal, {
-        userId,
-        name: model,
-      });
-      const stream = await openai.chat.completions.create({
-        model,
-        stream: true,
-        messages: [
-          {
-            role: "system",
-            content: instruction,
-          },
-          ...(messages
-            .map(({ characterId, text }: any, index: any) => {
-              const message = {
-                role: characterId ? "assistant" : "user",
-                content: text,
-              };
-              if ((index + 1) % remindInstructionInterval === 0) {
-                return [
-                  message,
-                  {
-                    role: "system",
-                    content: instruction,
-                  },
-                ];
-              } else {
-                return message;
-              }
-            })
-            .flat() as ChatCompletionMessageParam[]),
-        ],
-      });
-
-      let text = "";
-      for await (const { choices } of stream) {
-        const replyDelta = choices[0] && choices[0].delta.content;
-        if (typeof replyDelta === "string" && replyDelta.length > 0) {
-          text += replyDelta;
-          await ctx.runMutation(internal.llm.updateCharacterMessage, {
-            messageId,
-            text,
-          });
+      const { currentCrystals } = await ctx.runMutation(
+        internal.serve.useCrystal,
+        {
+          userId,
+          name: model,
         }
+      );
+      try {
+        const stream = await openai.chat.completions.create({
+          model,
+          stream: true,
+          messages: [
+            {
+              role: "system",
+              content: instruction,
+            },
+            ...(messages
+              .map(({ characterId, text }: any, index: any) => {
+                const message = {
+                  role: characterId ? "assistant" : "user",
+                  content: text,
+                };
+                if ((index + 1) % remindInstructionInterval === 0) {
+                  return [
+                    message,
+                    {
+                      role: "system",
+                      content: instruction,
+                    },
+                  ];
+                } else {
+                  return message;
+                }
+              })
+              .flat() as ChatCompletionMessageParam[]),
+          ],
+        });
+
+        let text = "";
+        for await (const { choices } of stream) {
+          const replyDelta = choices[0] && choices[0].delta.content;
+          if (typeof replyDelta === "string" && replyDelta.length > 0) {
+            text += replyDelta;
+            await ctx.runMutation(internal.llm.updateCharacterMessage, {
+              messageId,
+              text,
+            });
+          }
+        }
+      } catch (error) {
+        await ctx.runMutation(internal.serve.refundCrystal, {
+          userId,
+          currentCrystals,
+          name: model,
+        });
+        throw Error;
       }
     } catch (error) {
       if (error instanceof ConvexError) {

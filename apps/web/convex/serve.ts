@@ -18,5 +18,23 @@ export const useCrystal = internalMutation(
       userId,
       name,
     });
+    return { currentCrystals, remainingCrystals: currentCrystals - price };
+  }
+);
+
+export const refundCrystal = internalMutation(
+  async (
+    ctx,
+    {
+      userId,
+      name,
+      currentCrystals,
+    }: { userId: Id<"users">; name: string; currentCrystals: number }
+  ) => {
+    await ctx.db.patch(userId, { crystals: currentCrystals });
+    await ctx.db.insert("usage", {
+      userId,
+      name: name + "-refund",
+    });
   }
 );

@@ -4,6 +4,7 @@ import { internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
 import { STABILITY_AI_API_URL } from "./constants";
 import { Buffer } from "buffer";
+import { refundCrystal } from "./serve";
 
 export const generate = internalAction(
   async (
@@ -45,10 +46,13 @@ export const generate = internalAction(
       ],
     };
 
-    await ctx.runMutation(internal.serve.useCrystal, {
-      userId,
-      name: "stable-diffusion-xl-1024-v1-0",
-    });
+    const { currentCrystals } = await ctx.runMutation(
+      internal.serve.useCrystal,
+      {
+        userId,
+        name: "stable-diffusion-xl-1024-v1-0",
+      }
+    );
 
     const response = await fetch(STABILITY_AI_API_URL, {
       headers,
@@ -57,6 +61,11 @@ export const generate = internalAction(
     });
 
     if (!response.ok) {
+      await ctx.runMutation(internal.serve.refundCrystal, {
+        userId,
+        currentCrystals,
+        name: "stable-diffusion-xl-1024-v1-0",
+      });
       throw new Error(`Non-200 response: ${await response.text()}`);
     }
 
