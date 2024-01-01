@@ -41,6 +41,7 @@ export function MyCharacters() {
         <CharacterForm
           id={draftCharacter?._id}
           isEdit={draftCharacter === true ? false : true}
+          draftModel={draftCharacter?.model}
           onClickGoBack={() => setDraftCharacter(false)}
         />
       ) : (

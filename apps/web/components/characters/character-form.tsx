@@ -78,12 +78,14 @@ const formSchema = z.object({
 interface CreateProps {
   id?: Id<"characters">;
   isEdit?: boolean;
+  draftModel?: string;
   onClickGoBack: any;
 }
 
 export default function CharacterForm({
   id,
   isEdit,
+  draftModel,
   onClickGoBack,
 }: CreateProps) {
   const character = useQuery(api.characters.get, id ? { id } : "skip");
@@ -93,7 +95,7 @@ export default function CharacterForm({
     instructions = "",
     greetings = "",
     cardImageUrl = "",
-    model = "gpt-3.5-turbo-1106",
+    model = draftModel || "gpt-3.5-turbo-1106",
     isDraft = false,
   } = character || {};
 
@@ -128,7 +130,6 @@ export default function CharacterForm({
       description,
       instructions,
       greetings: Array.isArray(greetings) ? greetings[0] : greetings,
-      model,
     });
   }, [character]);
 
