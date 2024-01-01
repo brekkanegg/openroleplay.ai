@@ -87,6 +87,9 @@ export function MyCharacters() {
           : Array.from({ length: 12 }).map((_, index) => (
               <CharacterCardPlaceholder key={index} />
             ))}
+        {Array.from({ length: 10 - characters?.length - 1 }).map((_, index) => (
+          <CharacterCardPlaceholder key={index} />
+        ))}
       </CardContent>
       <div ref={ref} />
     </Card>
