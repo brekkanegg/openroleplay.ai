@@ -7,7 +7,7 @@ import {
   Tooltip,
 } from "@repo/ui/src/components";
 import { AspectRatio } from "@repo/ui/src/components/aspect-ratio";
-import { MessagesSquare } from "lucide-react";
+import { MessagesSquare, Repeat } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { nFormatter } from "../../app/lib/utils";
@@ -20,9 +20,10 @@ const CharacterCard = (props: {
   description: any;
   numChats?: number;
   cardImageUrl?: string;
-  onEdit?: any;
   model?: any;
   isDraft?: boolean;
+  showEdit?: any;
+  showRemix?: boolean;
 }) => {
   return (
     <AspectRatio
@@ -31,17 +32,44 @@ const CharacterCard = (props: {
     >
       <Link href={`/character/${props?.id}`}>
         <Card className="rounded-lg p-2 w-full h-full flex items-end">
-          {props.onEdit && (
-            <Button
-              className="absolute z-[4] right-4 top-4 h-6 rounded-full text-xs"
-              variant="outline"
-              onClick={(e) => {
-                e.preventDefault();
-                props.onEdit();
-              }}
+          {props.showEdit && (
+            <Link
+              href={`/my-characters/create${props.id ? `?id=${props.id}` : ""}${
+                props.name ? `&name=${props.name}` : ""
+              }${props.description ? `&description=${props.description}` : ""}${
+                props.model ? `&model=${props.model}` : ""
+              }${
+                props.cardImageUrl ? `&cardImageUrl=${props.cardImageUrl}` : ""
+              }`}
+              className="absolute z-[4] right-4 top-4 group-hover:flex hidden items-center"
             >
-              Edit
-            </Button>
+              <Button
+                variant="outline"
+                className="h-5 rounded-full text-xs md:text-[10px] border-none"
+              >
+                Edit
+              </Button>
+            </Link>
+          )}
+          {props.showRemix && (
+            <Link
+              href={`/my-characters/create${
+                props.name ? `?name=${props.name}` : ""
+              }${props.description ? `&description=${props.description}` : ""}${
+                props.model ? `&model=${props.model}` : ""
+              }${
+                props.cardImageUrl ? `&cardImageUrl=${props.cardImageUrl}` : ""
+              }`}
+              className="absolute z-[4] right-4 top-4 group-hover:flex hidden items-center"
+            >
+              <Button
+                variant="outline"
+                className="h-5 rounded-full text-xs md:text-[10px] border-none"
+              >
+                <Repeat className="w-3 h-3 p-0.5" />
+                Remix
+              </Button>
+            </Link>
           )}
           <div className="absolute z-[3] top-4">
             <ModelBadge modelName={props.model as string} />

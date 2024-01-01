@@ -37,6 +37,7 @@ const Discover = () => {
                     cardImageUrl={character.cardImageUrl as string}
                     description={character.description}
                     model={character.model}
+                    showRemix={true}
                   />
                 )
             )

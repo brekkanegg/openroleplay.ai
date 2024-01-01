@@ -59,6 +59,8 @@ import Image from "next/image";
 import { Tooltip } from "@repo/ui/src/components";
 import { Crystal } from "@repo/ui/src/components/icons";
 import Spinner from "@repo/ui/src/components/spinner";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 const formSchema = z.object({
   name: z.string(),
@@ -78,28 +80,20 @@ const formSchema = z.object({
   ]),
 });
 
-interface CreateProps {
-  id?: Id<"characters">;
-  isEdit?: boolean;
-  draftModel?: any;
-  onClickGoBack: any;
-}
-
-export default function CharacterForm({
-  id,
-  isEdit,
-  draftModel,
-  onClickGoBack,
-}: CreateProps) {
+export default function CharacterForm() {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id") as Id<"characters">;
   const character = useQuery(api.characters.get, id ? { id } : "skip");
+  const isEdit = searchParams.get("isEdit") || false;
+  const router = useRouter();
   const {
-    name = "",
-    description = "",
-    instructions = "",
-    greetings = "",
-    cardImageUrl = "",
-    model = draftModel || "gpt-3.5-turbo-1106",
-    isDraft = false,
+    name = searchParams.get("name") || "",
+    description = searchParams.get("description") || "",
+    instructions = searchParams.get("instructions") || "",
+    greetings = searchParams.get("greetings") || "",
+    cardImageUrl = searchParams.get("cardImageUrl") || "",
+    model = (searchParams.get("model") as any) || "gpt-3.5-turbo-1106",
+    isDraft = searchParams.get("isDraft") || false,
   } = character || {};
 
   const upsert = useMutation(api.characters.upsert);
@@ -196,11 +190,11 @@ export default function CharacterForm({
       <CardHeader>
         <CardTitle className="flex justify-between">
           <div className="flex items-center gap-2">
-            {onClickGoBack && (
-              <Button variant="ghost" onClick={onClickGoBack} size="icon">
+            <Link href="/my-characters">
+              <Button variant="ghost" size="icon">
                 <ArrowLeft className="w-5 h-5" />
               </Button>
-            )}
+            </Link>
             {isEdit ? "Edit Character" : "New Character"}
             {form.formState.isSubmitting ? (
               <SavingBadge />
@@ -232,12 +226,12 @@ export default function CharacterForm({
                       toast.promise(promise, {
                         loading: "Archiving character...",
                         success: () => {
-                          onClickGoBack();
+                          router.back();
                           return `Character has been archived.`;
                         },
                         error: (error) => {
                           return error?.data
-                            ? (error.data as { message: string }).message
+                            ? (error.data as { message: string })?.message
                             : "Unexpected error occurred";
                         },
                       });
@@ -494,7 +488,7 @@ export default function CharacterForm({
                         toast.promise(promise, {
                           loading: "Publishing character...",
                           success: (data) => {
-                            onClickGoBack();
+                            router.back();
                             return `Character has been saved.`;
                           },
                           error: (error) => {

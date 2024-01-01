@@ -64,7 +64,7 @@ const ModelBadge = ({
   };
 
   return (
-    <Badge className="flex gap-1 w-fit" variant="model">
+    <Badge className="flex gap-1 w-fit group/badge" variant="model">
       {src && (
         <Image
           src={src}
@@ -75,7 +75,7 @@ const ModelBadge = ({
         />
       )}
       {!src && <Sparkles className="w-4 h-4 p-0.5 text-primary-foreground" />}
-      {model}
+      <span className="hidden group-hover/badge:inline">{model}</span>
       {crystalUnit}
     </Badge>
   );
