@@ -55,14 +55,15 @@ This is where Open Roleplay steps in. Whether self-hosted or hosted by us, it's 
 - Mistral mistral-7b-instruct (4k context window, hosted by Perplexity AI)
 - Mistral mixtral-8x7b-instruct (4k context window, hosted by Perplexity AI)
 - Perplexity pplx-7b-online (4k context window, provided by Perplexity AI)
+- Perplexity pplx-7b-chat (8k context window, provided by Perplexity AI)
 - Alibaba qwen-14b-chat (English and Chinese, provided by Fireworks AI)
 - ...and more!
 
 ### Larger, Accurate Models
 
 - OpenAI gpt-4-1106-preview (32k context window, proivded by OpenAI)
-- Perplexity pplx-70b-chat (Coming soon)
-- Perplexity pplx-70b-online (Coming soon)
+- Perplexity pplx-70b-chat (4k context window, provided by Perplexity AI)
+- Perplexity pplx-70b-online (4k context window, provided by Perplexity AI)
 - ...and more!
 
 ### Image generation
