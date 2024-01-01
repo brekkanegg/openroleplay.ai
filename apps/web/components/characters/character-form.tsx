@@ -433,7 +433,7 @@ export default function CharacterForm({
                       </SelectItem>
                       <SelectItem value="pplx-7b-chat">
                         Perplexity 7B Chat - Optimized for Knowledge, Faster
-                        response, 4096 Context Length, provided by Perplexity AI
+                        response, 8192 Context Length, provided by Perplexity AI
                       </SelectItem>
                       <SelectItem value="pplx-70b-chat">
                         Perplexity 70B Chat - Optimized for Knowledge, Faster
