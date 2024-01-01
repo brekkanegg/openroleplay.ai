@@ -23,6 +23,7 @@ export const upsert = mutation({
       )
     ),
     instructions: v.optional(v.string()),
+    cardImageUrl: v.optional(v.string()),
     cardImageStorageId: v.optional(v.id("_storage")),
     greetings: v.optional(v.array(v.string())),
     knowledge: v.optional(v.string()),
@@ -52,7 +53,7 @@ export const upsert = mutation({
       });
       return character;
     } else {
-      const { cardImageStorageId, ...rest } = args;
+      const { cardImageStorageId, cardImageUrl, ...rest } = args;
       const character = await ctx.db.insert("characters", {
         ...rest,
         ...(cardImageStorageId
@@ -61,7 +62,7 @@ export const upsert = mutation({
                 cardImageStorageId
               )) as string,
             }
-          : {}),
+          : { cardImageUrl }),
         creatorId: user._id,
         updatedAt,
         numChats: 0,

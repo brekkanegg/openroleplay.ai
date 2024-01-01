@@ -140,6 +140,7 @@ export default function CharacterForm() {
       ...(characterId ? { id: characterId } : {}),
       greetings: [greetings as string],
       ...otherValues,
+      ...(cardImageUrl ? { cardImageUrl } : {}),
     });
     character && setCharacterId(character);
   }
