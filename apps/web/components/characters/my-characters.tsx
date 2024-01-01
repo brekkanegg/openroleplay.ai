@@ -36,7 +36,7 @@ export function MyCharacters() {
   const { results, status, loadMore } = usePaginatedQuery(
     api.characters.listMy,
     {},
-    { initialNumItems: 8 }
+    { initialNumItems: 10 }
   );
   const allCharacters = results || [];
   const characters = allCharacters.filter((character) => character.name);
@@ -46,7 +46,7 @@ export function MyCharacters() {
 
   useEffect(() => {
     if (inView) {
-      loadMore(8);
+      loadMore(10);
     }
   }, [inView, loadMore]);
   return (

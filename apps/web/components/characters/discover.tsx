@@ -9,7 +9,7 @@ const Discover = () => {
   const { results, status, loadMore } = usePaginatedQuery(
     api.characters.list,
     {},
-    { initialNumItems: 8 }
+    { initialNumItems: 10 }
   );
   const allCharacters = results || [];
   const characters = allCharacters.filter((character) => character.name);
@@ -18,7 +18,7 @@ const Discover = () => {
 
   useEffect(() => {
     if (inView) {
-      loadMore(8);
+      loadMore(10);
     }
   }, [inView, loadMore]);
 
