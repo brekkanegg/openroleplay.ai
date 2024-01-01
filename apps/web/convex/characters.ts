@@ -2,6 +2,7 @@ import { action, mutation, query } from "./_generated/server";
 import { ConvexError, v } from "convex/values";
 import { getUser } from "./users";
 import { embedText } from "./ingest/embed";
+import { paginationOptsValidator } from "convex/server";
 
 export const upsert = mutation({
   args: {
@@ -106,7 +107,9 @@ export const publish = mutation({
 });
 
 export const list = query({
-  args: {},
+  args: {
+    paginationOpts: paginationOptsValidator,
+  },
   handler: async (ctx, args) => {
     return await ctx.db
       .query("characters")
@@ -116,7 +119,7 @@ export const list = query({
       .filter((q) => q.neq(q.field("isArchived"), true))
       .filter((q) => q.neq(q.field("isNSFW"), true))
       .order("desc")
-      .collect();
+      .paginate(args.paginationOpts);
   },
 });
 
