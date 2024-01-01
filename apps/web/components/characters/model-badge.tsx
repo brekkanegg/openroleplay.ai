@@ -36,6 +36,18 @@ const ModelBadge = ({
       src: "/models/perplexity.png",
       alt: "Company logo of Perplexity AI",
     },
+    "pplx-70b-online": {
+      src: "/models/perplexity.png",
+      alt: "Company logo of Perplexity AI",
+    },
+    "pplx-7b-chat": {
+      src: "/models/perplexity.png",
+      alt: "Company logo of Perplexity AI",
+    },
+    "pplx-70b-chat": {
+      src: "/models/perplexity.png",
+      alt: "Company logo of Perplexity AI",
+    },
     "gpt-3.5-turbo-1106": {
       src: "/models/openai.png",
       alt: "Company logo of Open AI",
