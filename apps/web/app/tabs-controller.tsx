@@ -1,5 +1,11 @@
 "use client";
-import { CircleUserRound, Home, MessageSquare, Plus } from "lucide-react";
+import {
+  CircleUserRound,
+  Home,
+  MessageSquare,
+  Plus,
+  Store,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger } from "@repo/ui/src/components/tabs";
 import Link from "next/link";
@@ -46,6 +52,15 @@ function TabsController() {
           >
             <CircleUserRound className="w-5 h-5 p-1" />
             My personas
+          </TabsTrigger>
+        </Link>
+        <Link href="/shop">
+          <TabsTrigger
+            className="w-full rounded-full lg:flex gap-0.5 flex-col items-center lg:items-start lg:flex-row hidden"
+            value="/shop"
+          >
+            <Store className="w-5 h-5 p-1" />
+            Shop
           </TabsTrigger>
         </Link>
       </TabsList>
