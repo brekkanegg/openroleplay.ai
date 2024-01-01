@@ -14,7 +14,10 @@ export const upsert = mutation({
         v.literal("gpt-4-1106-preview"),
         v.literal("mistral-7b-instruct"),
         v.literal("mixtral-8x7b-instruct"),
+        v.literal("pplx-7b-chat"),
         v.literal("pplx-7b-online"),
+        v.literal("pplx-70b-chat"),
+        v.literal("pplx-70b-online"),
         v.literal("accounts/fireworks/models/qwen-14b-chat")
       )
     ),

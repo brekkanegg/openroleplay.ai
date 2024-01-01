@@ -11,6 +11,9 @@ export const getBaseURL = (modelName: string) => {
     case "mixtral-8x7b-instruct":
     case "mistral-7b-instruct":
     case "pplx-7b-online":
+    case "pplx-7b-chat":
+    case "pplx-70b-online":
+    case "pplx-70b-chat":
       return PERPLEXITY_API_URL;
     case "accounts/fireworks/models/qwen-14b-chat":
       return FIREWORK_API_URL;
@@ -24,6 +27,9 @@ export const getAPIKey = (modelName: string) => {
     case "mixtral-8x7b-instruct":
     case "mistral-7b-instruct":
     case "pplx-7b-online":
+    case "pplx-7b-chat":
+    case "pplx-70b-online":
+    case "pplx-70b-chat":
       return process.env.PERPLEXITY_API_KEY;
     case "accounts/fireworks/models/qwen-14b-chat":
       return process.env.FIREWORKS_API_KEY;
@@ -37,8 +43,11 @@ export const getRemindInstructionInterval = (modelName: string) => {
     case "mixtral-8x7b-instruct":
     case "mistral-7b-instruct":
     case "pplx-7b-online":
+    case "pplx-7b-chat":
       return 16;
     case "accounts/fireworks/models/qwen-14b-chat":
+    case "pplx-70b-online":
+    case "pplx-70b-chat":
       return 64;
     case "gpt-4-1106-preview":
       return 128;
@@ -53,8 +62,14 @@ export const getCrystalPrice = (modelName: string) => {
       return 3;
     case "mistral-7b-instruct":
       return 1;
+    case "pplx-7b-chat":
+      return 1;
     case "pplx-7b-online":
       return 2;
+    case "pplx-70b-online":
+      return 5;
+    case "pplx-70b-chat":
+      return 5;
     case "accounts/fireworks/models/qwen-14b-chat":
       return 2;
     case "gpt-3.5-turbo-1106":

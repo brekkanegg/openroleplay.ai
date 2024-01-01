@@ -70,7 +70,10 @@ const formSchema = z.object({
     z.literal("mixtral-8x7b-instruct"),
     z.literal("gpt-3.5-turbo-1106"),
     z.literal("gpt-4-1106-preview"),
+    z.literal("pplx-7b-chat"),
     z.literal("pplx-7b-online"),
+    z.literal("pplx-70b-chat"),
+    z.literal("pplx-70b-online"),
     z.literal("accounts/fireworks/models/qwen-14b-chat"),
   ]),
 });
@@ -78,7 +81,7 @@ const formSchema = z.object({
 interface CreateProps {
   id?: Id<"characters">;
   isEdit?: boolean;
-  draftModel?: string;
+  draftModel?: any;
   onClickGoBack: any;
 }
 
@@ -421,6 +424,19 @@ export default function CharacterForm({
                       </SelectItem>
                       <SelectItem value="pplx-7b-online">
                         Perplexity 7B Online - Latest Internet Knowledge, Faster
+                        response, 4096 Context Length, provided by Perplexity AI
+                      </SelectItem>
+                      <SelectItem value="pplx-70b-online">
+                        Perplexity 70B Online - Latest Internet Knowledge,
+                        Faster response, 4096 Context Length, provided by
+                        Perplexity AI
+                      </SelectItem>
+                      <SelectItem value="pplx-7b-chat">
+                        Perplexity 7B Chat - Optimized for Knowledge, Faster
+                        response, 4096 Context Length, provided by Perplexity AI
+                      </SelectItem>
+                      <SelectItem value="pplx-70b-chat">
+                        Perplexity 70B Chat - Optimized for Knowledge, Faster
                         response, 4096 Context Length, provided by Perplexity AI
                       </SelectItem>
                       <SelectItem value="accounts/fireworks/models/qwen-14b-chat">
