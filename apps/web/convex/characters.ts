@@ -39,7 +39,7 @@ export const upsert = mutation({
           message: "User does not have permission to modify this character.",
         });
       }
-      const { id, cardImageStorageId, ...rest } = args;
+      const { id, cardImageUrl, cardImageStorageId, ...rest } = args;
       const character = await ctx.db.patch(id, {
         ...rest,
         ...(cardImageStorageId
@@ -48,7 +48,7 @@ export const upsert = mutation({
                 cardImageStorageId
               )) as string,
             }
-          : {}),
+          : { cardImageUrl }),
         updatedAt,
       });
       return character;
