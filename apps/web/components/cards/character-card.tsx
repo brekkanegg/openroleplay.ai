@@ -53,7 +53,7 @@ const CharacterCard = (props: {
             <CardTitle
               className={`${
                 props.cardImageUrl ? "text-white" : "text-foreground"
-              } text-lg line-clamp-1 select-none group-hover:opacity-80 duration-200 z-[3] flex justify-between`}
+              } text-base line-clamp-1 select-none group-hover:opacity-80 duration-200 z-[3] flex justify-between`}
             >
               <div className="w-[80%] truncate">{props.name}</div>
               {(props?.numChats as number) > 0 && (
