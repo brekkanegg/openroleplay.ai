@@ -101,7 +101,7 @@ export function Dialog({
   return (
     <div className="w-full h-full">
       {chatId && (
-        <div className="w-full flex items-center justify-between p-2 sticky top-0 bg-background border-b h-[5%] rounded-t-lg px-6">
+        <div className="w-full flex items-center justify-between p-2 sticky top-0 bg-background border-b h-12 rounded-t-lg px-6">
           <div className="text-muted-foreground font-medium text-xs flex items-center gap-2">
             <ModelBadge modelName={model as string} showCredits={true} />
             AI can make mistakes.
@@ -157,7 +157,7 @@ export function Dialog({
           </Popover>
         </div>
       )}
-      <div className="h-[calc(100%-2rem)] relative flex flex-col ">
+      <div className="h-[calc(100%-4rem)] relative flex flex-col ">
         <div
           className="grow overflow-y-scroll scrollbar-hide gap-8 flex flex-col mx-2 p-4 rounded-lg h-[90vh]"
           ref={listRef}
@@ -260,7 +260,7 @@ export function Dialog({
           )}
         </div>
         <form
-          className="border-solid border-0 border-t-[1px] flex fixed lg:sticky bottom-16 w-full bg-background h-16 items-center rounded-br-lg"
+          className="border-solid border-0 border-t-[1px] flex fixed lg:sticky bottom-16 lg:bottom-0 w-full bg-background h-16 items-center rounded-br-lg"
           onSubmit={(event) => void handleSend(event)}
         >
           <input
