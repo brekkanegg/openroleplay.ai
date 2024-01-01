@@ -6,14 +6,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@repo/ui/src/components";
-import { usePaginatedQuery, useQuery } from "convex/react";
+import { usePaginatedQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import CharacterCardPlaceholder from "../cards/character-card-placeholder";
 import CharacterCard from "../cards/character-card";
 import { AspectRatio } from "@repo/ui/src/components/aspect-ratio";
 import { Plus } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import CharacterForm from "./character-form";
 import { InfoTooltip, TooltipContent } from "@repo/ui/src/components/tooltip";
 import { useInView } from "framer-motion";
 
@@ -88,11 +87,8 @@ export function MyCharacters() {
           : Array.from({ length: 12 }).map((_, index) => (
               <CharacterCardPlaceholder key={index} />
             ))}
-        {Array.from({ length: 10 - characters?.length - 1 }).map((_, index) => (
-          <CharacterCardPlaceholder key={index} />
-        ))}
-        <div ref={ref} />
       </CardContent>
+      <div ref={ref} />
     </Card>
   );
 }

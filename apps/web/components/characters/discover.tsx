@@ -44,9 +44,6 @@ const Discover = () => {
           : Array.from({ length: 12 }).map((_, index) => (
               <CharacterCardPlaceholder key={index} />
             ))}
-        {Array.from({ length: 10 - characters?.length }).map((_, index) => (
-          <CharacterCardPlaceholder key={index} />
-        ))}
         <div ref={ref} />
       </div>
     </>
