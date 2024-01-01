@@ -68,7 +68,7 @@ This is where Open Roleplay steps in. Whether self-hosted or hosted by us, it's 
 
 ### Image generation
 
-- Stable Diffusion XL (Coming soon, provided by Stability AI)
+- Stable Diffusion XL (Provided by Stability AI)
 
 ### Built With
 

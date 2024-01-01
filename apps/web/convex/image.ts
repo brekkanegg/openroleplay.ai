@@ -27,7 +27,7 @@ export const generate = internalAction(
     };
 
     const body = {
-      steps: 40,
+      steps: 30,
       width: 768,
       height: 1344,
       seed: 0,
