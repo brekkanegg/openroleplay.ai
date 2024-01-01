@@ -1,4 +1,5 @@
 "use client";
+import { Github } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -25,6 +26,10 @@ export default function Footer() {
             <div className="text-muted-foreground">
               © {new Date().getFullYear()} Empty Canvas, Inc.
             </div>
+            <FooterLink href="/github">
+              <Github className="w-4 h-4 p-[2px] inline" />
+              Star on GitHub
+            </FooterLink>
             <FooterLink href="/privacy.html">Privacy Policy</FooterLink>
             <FooterLink href="/terms.html">Terms of Service</FooterLink>
             <FooterLink href="/crystal/terms">
