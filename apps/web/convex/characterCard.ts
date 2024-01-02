@@ -11,7 +11,7 @@ export const request = mutation({
   },
   handler: async (ctx, { name, description, characterId }) => {
     const user = await getUser(ctx);
-    await ctx.scheduler.runAfter(0, internal.image.generate, {
+    await ctx.scheduler.runAfter(0, internal.image.generateWithDalle3, {
       userId: user._id,
       characterId,
       name,

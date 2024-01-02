@@ -2,8 +2,9 @@
 import { internalAction } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
-import { STABILITY_AI_API_URL } from "./constants";
+import { STABILITY_AI_API_URL, getAPIKey, getBaseURL } from "./constants";
 import { Buffer } from "buffer";
+import { OpenAI } from "openai";
 
 export const generate = internalAction(
   async (
@@ -68,6 +69,57 @@ export const generate = internalAction(
     const responseJSON = await response.json();
 
     const base64Data = responseJSON.artifacts[0].base64;
+    const binaryData = Buffer.from(base64Data, "base64");
+    const image = new Blob([binaryData], { type: "image/png" });
+
+    // Update storage.store to accept whatever kind of Blob is returned from node-fetch
+    const cardImageStorageId = await ctx.storage.store(image as Blob);
+
+    // Write storageId as the body of the message to the Convex database.
+    await ctx.runMutation(internal.characterCard.uploadImage, {
+      characterId,
+      cardImageStorageId,
+    });
+  }
+);
+
+export const generateWithDalle3 = internalAction(
+  async (
+    ctx,
+    {
+      userId,
+      characterId,
+      name,
+      description,
+    }: {
+      userId: Id<"users">;
+      characterId: Id<"characters">;
+      name: string;
+      description: string;
+    }
+  ) => {
+    const { currentCrystals } = await ctx.runMutation(
+      internal.serve.useCrystal,
+      {
+        userId,
+        name: "dalle-3",
+      }
+    );
+    const baseURL = getBaseURL("dalle-3");
+    const apiKey = getAPIKey("dalle-3");
+    const openai = new OpenAI({
+      baseURL,
+      apiKey,
+    });
+    const response = await openai.images.generate({
+      model: "dall-e-3",
+      prompt: `a vertical profile image for ${name}, ["${description}"]`,
+      n: 1,
+      quality: "standard",
+      size: "1024x1792",
+      response_format: "b64_json",
+    });
+    const base64Data = response.data[0].b64_json as string;
     const binaryData = Buffer.from(base64Data, "base64");
     const image = new Blob([binaryData], { type: "image/png" });
 
