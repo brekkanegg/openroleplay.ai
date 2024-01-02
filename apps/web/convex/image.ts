@@ -4,7 +4,6 @@ import { internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
 import { STABILITY_AI_API_URL } from "./constants";
 import { Buffer } from "buffer";
-import { refundCrystal } from "./serve";
 
 export const generate = internalAction(
   async (
