@@ -53,6 +53,7 @@ export const get = query({
       .query("chats")
       .filter((q) => q.eq(q.field("_id"), args.id))
       .filter((q) => q.eq(q.field("userId"), user._id))
+      .order("desc")
       .first();
   },
 });

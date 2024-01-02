@@ -71,10 +71,16 @@ export default defineSchema({
     characterId: v.optional(v.id("characters")),
     joinedAt: v.string(),
   })
-    .index("byChatId", ["chatName"])
     .index("byUserId", ["userId"])
     .index("byCharacterId", ["characterId"])
     .index("byUpdatedAt", ["updatedAt"]),
+  followUps: defineTable({
+    chatId: v.optional(v.id("chats")),
+    followUp1: v.optional(v.string()),
+    followUp2: v.optional(v.string()),
+    followUp3: v.optional(v.string()),
+    chosen: v.optional(v.string()),
+  }).index("byChatId", ["chatId"]),
   usage: defineTable({
     userId: v.id("users"),
     name: v.string(),
