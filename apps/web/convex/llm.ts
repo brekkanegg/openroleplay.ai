@@ -80,7 +80,7 @@ export const answer = internalAction({
             You can indicate italics by putting a single asterisk * on each side of a phrase,
             like *sad*, *laughing*. This can be used to indicate action or emotion in a definition.
 
-            Always answer in short (maximum: 50 words.)
+            Short answer is preferrable (maximum: 50 words.)
 
             `;
       const { currentCrystals } = await ctx.runMutation(
