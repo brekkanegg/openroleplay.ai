@@ -78,6 +78,8 @@ export const getCrystalPrice = (modelName: string) => {
       return 30;
     case "gpt-4-1106-preview":
       return 30;
+    case "dalle-3":
+      return 100;
     default:
       return 5;
   }
