@@ -15,19 +15,22 @@ import { Plus } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { InfoTooltip, TooltipContent } from "@repo/ui/src/components/tooltip";
 import { useInView } from "framer-motion";
+import Link from "next/link";
 
 const NewCharacter = ({ onClick }: { onClick: any }) => {
   return (
-    <AspectRatio
-      ratio={1 / 1.75}
-      className="group w-full h-full hover:-translate-y-1 duration-200 border border-dashed hover:shadow-lg place-content-center rounded-lg"
-      role="button"
-      onClick={onClick}
-    >
-      <Card className="rounded-lg p-2 w-full h-full flex items-center justify-center border-none gap-2">
-        <Plus /> Create character
-      </Card>
-    </AspectRatio>
+    <Link href="/my-characters/create">
+      <AspectRatio
+        ratio={1 / 1.75}
+        className="group w-full h-full hover:-translate-y-1 duration-200 border border-dashed hover:shadow-lg place-content-center rounded-lg"
+        role="button"
+        onClick={onClick}
+      >
+        <Card className="rounded-lg p-2 w-full h-full flex items-center justify-center border-none gap-2">
+          <Plus /> Create character
+        </Card>
+      </AspectRatio>
+    </Link>
   );
 };
 
@@ -39,7 +42,6 @@ export function MyCharacters() {
   );
   const allCharacters = results || [];
   const characters = allCharacters.filter((character) => character.name);
-  const [draftCharacter, setDraftCharacter] = useState(false) as any;
   const ref = useRef(null);
   const inView = useInView(ref);
 
@@ -66,7 +68,7 @@ export function MyCharacters() {
         <CardDescription>Create and customize characters.</CardDescription>
       </CardHeader>
       <CardContent className="px-4 flex flex-col sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full gap-4">
-        <NewCharacter onClick={() => setDraftCharacter(true)} />
+        <NewCharacter />
         {characters
           ? characters.map(
               (character) =>
