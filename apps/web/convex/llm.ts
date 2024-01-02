@@ -66,11 +66,8 @@ export const answer = internalAction({
             ${
               persona
                 ? `
-              and you are talking with
-              {
-                name: ${persona?.name}
-                description: ${persona?.description}
-              }`
+              and you are talking with ${persona?.name} (${persona?.description})
+              `
                 : ""
             }
 
@@ -79,6 +76,8 @@ export const answer = internalAction({
 
             You can indicate italics by putting a single asterisk * on each side of a phrase,
             like *sad*, *laughing*. This can be used to indicate action or emotion in a definition.
+
+            Always answer in short (maximum: 30 words.)
 
             `;
       const { currentCrystals } = await ctx.runMutation(
