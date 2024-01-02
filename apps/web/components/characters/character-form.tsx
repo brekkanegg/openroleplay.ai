@@ -88,15 +88,13 @@ export default function CharacterForm() {
   const [characterId, setCharacterId] = useState<Id<"characters"> | undefined>(
     id
   );
+  const remixCharacter = useQuery(
+    api.characters.get,
+    remixId ? { id: remixId } : "skip"
+  );
   const character = useQuery(
     api.characters.get,
-    id
-      ? { id }
-      : remixId
-        ? { id: remixId }
-        : characterId
-          ? { id: characterId }
-          : "skip"
+    id ? { id } : characterId ? { id: characterId } : "skip"
   );
   const isEdit = searchParams.get("isEdit") || false;
   const router = useRouter();
@@ -108,7 +106,7 @@ export default function CharacterForm() {
     cardImageUrl = searchParams.get("cardImageUrl") || "",
     model = (searchParams.get("model") as any) || "gpt-3.5-turbo-1106",
     isDraft = searchParams.get("isDraft") || false,
-  } = character || {};
+  } = character || remixCharacter || {};
 
   const upsert = useMutation(api.characters.upsert);
   const publish = useMutation(api.characters.publish);
@@ -317,7 +315,7 @@ export default function CharacterForm() {
               onClick={async () => {
                 setIsGeneratingImage(true);
                 const formValues = form.getValues();
-                onSubmit(formValues);
+                await onSubmit(formValues);
                 await generateImage({
                   characterId: characterId as Id<"characters">,
                   name: formValues.name ? formValues.name : name,
@@ -401,7 +399,7 @@ export default function CharacterForm() {
                         onClick={async () => {
                           setIsGeneratingInstructions(true);
                           const formValues = form.getValues();
-                          onSubmit(formValues);
+                          await onSubmit(formValues);
                           await generateInstruction({
                             characterId: characterId as Id<"characters">,
                             name: formValues.name ? formValues.name : name,
