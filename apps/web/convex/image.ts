@@ -116,7 +116,7 @@ export const generateWithDalle3 = internalAction(
       prompt: `A portrait image for ${name}, ["${description}"]. When style is not specified, always use anime style.`,
       n: 1,
       quality: "standard",
-      size: "1024x1792",
+      size: "1024x1024",
       response_format: "b64_json",
     });
     const base64Data =
