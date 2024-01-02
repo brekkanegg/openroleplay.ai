@@ -113,7 +113,7 @@ export const generateWithDalle3 = internalAction(
     });
     const response = await openai.images.generate({
       model: "dall-e-3",
-      prompt: `a vertical profile image for ${name}, ["${description}"]`,
+      prompt: `a vertical profile image for ${name}, ["${description}"]. when style is not defined, use anime style.`,
       n: 1,
       quality: "standard",
       size: "1024x1792",

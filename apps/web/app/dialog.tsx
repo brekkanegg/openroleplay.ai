@@ -273,7 +273,7 @@ export function Dialog({
             ))
           )}
         </div>
-        <div className="w-full fixed lg:sticky bottom-32 lg:bottom-0 p-4 flex items-center gap-1 flex-wrap text-xs bg-background/90 backdrop-blur-md">
+        <div className="w-full p-4 pb-8 flex items-center gap-1 flex-wrap text-xs bg-background/90 backdrop-blur-md h-fit overflow-x-scroll scrollbar-hide overflow-y-clip">
           <Tooltip
             content={
               <span className="text-xs flex gap-1 text-muted-foreground p-2">
@@ -351,7 +351,7 @@ export function Dialog({
           )}
         </div>
         <form
-          className="border-solid border-0 border-t-[1px] flex fixed lg:sticky bottom-16 lg:bottom-0 w-full bg-background h-16 items-center rounded-br-lg"
+          className="border-solid border-0 border-t-[1px] flex sticky bottom-16 lg:bottom-0 w-full bg-background h-16 items-center rounded-br-lg"
           onSubmit={(event) => void handleSend(event)}
         >
           <input
