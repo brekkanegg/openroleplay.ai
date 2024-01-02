@@ -19,6 +19,7 @@ import type * as characters from "../characters.js";
 import type * as chats from "../chats.js";
 import type * as constants from "../constants.js";
 import type * as crystals from "../crystals.js";
+import type * as followUps from "../followUps.js";
 import type * as helpers from "../helpers.js";
 import type * as http from "../http.js";
 import type * as image from "../image.js";
@@ -45,6 +46,7 @@ declare const fullApi: ApiFromModules<{
   chats: typeof chats;
   constants: typeof constants;
   crystals: typeof crystals;
+  followUps: typeof followUps;
   helpers: typeof helpers;
   http: typeof http;
   image: typeof image;

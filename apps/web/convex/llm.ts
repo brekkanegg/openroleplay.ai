@@ -80,7 +80,7 @@ export const answer = internalAction({
             You can indicate italics by putting a single asterisk * on each side of a phrase,
             like *sad*, *laughing*. This can be used to indicate action or emotion in a definition.
 
-            Always answer in short (maximum: 30 words.)
+            Always answer in short (maximum: 50 words.)
 
             `;
       const { currentCrystals } = await ctx.runMutation(
@@ -224,6 +224,128 @@ export const generateInstruction = internalAction({
           text: "I cannot generate instruction at this time.",
         });
       }
+      throw error;
+    }
+  },
+});
+
+export const generateFollowups = internalAction({
+  args: {
+    userId: v.id("users"),
+    chatId: v.id("chats"),
+    characterId: v.id("characters"),
+    personaId: v.optional(v.id("personas")),
+  },
+  handler: async (ctx, { userId, chatId, characterId, personaId }) => {
+    const messages = await ctx.runQuery(internal.llm.getMessages, {
+      chatId,
+    });
+    const character = await ctx.runQuery(api.characters.get, {
+      id: characterId,
+    });
+    const persona = personaId
+      ? await ctx.runQuery(internal.personas.getPersona, {
+          id: personaId,
+        })
+      : undefined;
+    try {
+      const model = "gpt-3.5-turbo-1106";
+      const baseURL = getBaseURL(model);
+      const apiKey = getAPIKey(model);
+      const openai = new OpenAI({
+        baseURL,
+        apiKey,
+      });
+      const { currentCrystals } = await ctx.runMutation(
+        internal.serve.useCrystal,
+        {
+          userId,
+          name: model,
+        }
+      );
+      try {
+        const instruction = `You are ${
+          persona ? `${persona?.name} (${persona?.description}). You are ` : ""
+        } talking with character.
+        {
+          name: ${character?.name}
+          ${character?.description && `description: ${character.description}`}
+        }
+        respond in JSON as this will be used for function arguments.
+        `;
+
+        const functions = [
+          {
+            name: "generate_answers",
+            description:
+              "This function is always triggered. Always answer in short (maximum: 15 words.) sentence.",
+            parameters: {
+              type: "object",
+              properties: {
+                answer1: {
+                  type: "string",
+                  description:
+                    "Provide a natural follow-up to the previous message, maintaining the flow of the conversation.",
+                },
+                answer2: {
+                  type: "string",
+                  description:
+                    "Craft an engaging and intriguing follow-up to the previous message, designed to captivate the user's interest.",
+                },
+                answer3: {
+                  type: "string",
+                  description:
+                    "Introduce an entirely new idea or pose a question to prevent the conversation from reaching a dead-end.",
+                },
+              },
+              required: ["answer1", "answer2", "answer3"],
+            },
+          },
+        ];
+        const response = await openai.chat.completions.create({
+          model,
+          stream: false,
+          messages: [
+            {
+              role: "system",
+              content: instruction,
+            },
+            ...(messages
+              .map(({ characterId, text }: any, index: any) => {
+                return {
+                  role: characterId ? "user" : "assistant",
+                  content: text,
+                };
+              })
+              .flat() as ChatCompletionMessageParam[]),
+          ],
+          function_call: "auto",
+          response_format: { type: "json_object" },
+          functions,
+        });
+        const responseMessage = response.choices[0].message;
+        if (responseMessage.function_call) {
+          const functionArgs = JSON.parse(
+            responseMessage.function_call.arguments
+          );
+          await ctx.runMutation(internal.followUps.create, {
+            chatId,
+            followUp1: functionArgs?.answer1,
+            followUp2: functionArgs?.answer2,
+            followUp3: functionArgs?.answer3,
+          });
+        }
+      } catch (error) {
+        console.log("error:::", error);
+        await ctx.runMutation(internal.serve.refundCrystal, {
+          userId,
+          currentCrystals,
+          name: model,
+        });
+        throw Error;
+      }
+    } catch (error) {
+      console.log("error:::", error);
       throw error;
     }
   },

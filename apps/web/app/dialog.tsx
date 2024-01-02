@@ -1,13 +1,13 @@
 "use client";
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { api } from "../convex/_generated/api";
-import { useMutation, usePaginatedQuery } from "convex/react";
+import { useMutation, usePaginatedQuery, useQuery } from "convex/react";
 import { Id } from "../convex/_generated/dataModel";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
-import { MoreHorizontal, Send } from "lucide-react";
+import { MoreHorizontal, Send, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
-import { Button } from "@repo/ui/src/components";
+import { Button, Tooltip } from "@repo/ui/src/components";
 import { CodeBlock } from "@repo/ui/src/components/codeblock";
 import {
   Avatar,
@@ -34,6 +34,9 @@ import {
 import { useRouter } from "next/navigation";
 import { MemoizedReactMarkdown } from "./markdown";
 import ModelBadge from "../components/characters/model-badge";
+import { Crystal } from "@repo/ui/src/components/icons";
+import { Separator } from "@repo/ui/src/components/separator";
+import Spinner from "@repo/ui/src/components/spinner";
 
 export function Dialog({
   name,
@@ -71,16 +74,23 @@ export function Dialog({
     [remoteMessages, welcomeMessage]
   );
   const sendMessage = useMutation(api.messages.send);
+  const generateInspiration = useMutation(api.followUps.generate);
+  const inspirations = useQuery(api.followUps.get, {
+    chatId,
+  });
 
+  const [isGeneratingInspiration, setIsGeneratingInspiration] = useState(false);
   const [isScrolled, setScrolled] = useState(false);
-
   const [input, setInput] = useState("");
 
-  const handleSend = (event: FormEvent) => {
-    event.preventDefault();
+  const sendAndReset = (input: string) => {
     sendMessage({ message: input, chatId, characterId });
     setInput("");
     setScrolled(false);
+  };
+  const handleSend = (event?: FormEvent) => {
+    event && event.preventDefault();
+    sendAndReset(input);
   };
 
   const listRef = useRef<HTMLDivElement>(null);
@@ -97,6 +107,10 @@ export function Dialog({
       });
     }, 0);
   }, [messages, isScrolled]);
+
+  useEffect(() => {
+    inspirations && setIsGeneratingInspiration(false);
+  }, [inspirations]);
 
   return (
     <div className="w-full h-full">
@@ -157,9 +171,9 @@ export function Dialog({
           </Popover>
         </div>
       )}
-      <div className="h-[calc(100%-4rem)] relative flex flex-col ">
+      <div className="h-[calc(100%-6rem)] relative flex flex-col ">
         <div
-          className="grow overflow-y-scroll scrollbar-hide gap-8 flex flex-col mx-2 p-4 rounded-lg h-[90vh]"
+          className="grow overflow-y-scroll scrollbar-hide gap-8 flex flex-col mx-2 p-4 rounded-lg h-[100vh]"
           ref={listRef}
           onWheel={() => {
             setScrolled(true);
@@ -257,6 +271,83 @@ export function Dialog({
                 )}
               </motion.div>
             ))
+          )}
+        </div>
+        <div className="w-full fixed lg:sticky bottom-32 lg:bottom-0 p-4 flex items-center gap-1 flex-wrap text-xs bg-background/90 backdrop-blur-md">
+          <Tooltip
+            content={
+              <span className="text-xs flex gap-1 text-muted-foreground p-2">
+                <Crystal className="w-4 h-4" /> x 5
+              </span>
+            }
+            desktopOnly={true}
+          >
+            <Button
+              variant="ghost"
+              onClick={() => {
+                setIsGeneratingInspiration(true);
+                generateInspiration({ chatId, characterId });
+              }}
+              className="gap-1"
+              size="xs"
+              disabled={isGeneratingInspiration}
+            >
+              {isGeneratingInspiration ? (
+                <>
+                  <Spinner />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-5 h-5 p-1" />
+                  Inspire
+                </>
+              )}
+            </Button>
+          </Tooltip>
+          {inspirations && (
+            <>
+              <Separator className="w-8" />
+              {inspirations?.followUp1 &&
+                inspirations.followUp1?.length > 0 && (
+                  <Button
+                    variant="outline"
+                    size="xs"
+                    className="font-normal rounded-full px-2"
+                    onClick={() => {
+                      sendAndReset(inspirations?.followUp1 as string);
+                    }}
+                  >
+                    {inspirations?.followUp1}
+                  </Button>
+                )}
+              {inspirations?.followUp2 &&
+                inspirations.followUp2?.length > 0 && (
+                  <Button
+                    variant="outline"
+                    size="xs"
+                    className="font-normal rounded-full px-2"
+                    onClick={() => {
+                      sendAndReset(inspirations?.followUp2 as string);
+                    }}
+                  >
+                    {inspirations?.followUp2}
+                  </Button>
+                )}
+              {inspirations?.followUp3 &&
+                inspirations.followUp3?.length > 0 && (
+                  <Button
+                    variant="outline"
+                    size="xs"
+                    className="font-normal rounded-full px-2"
+                    onClick={() => {
+                      sendAndReset(inspirations?.followUp3 as string);
+                    }}
+                  >
+                    {inspirations?.followUp3}
+                  </Button>
+                )}
+            </>
           )}
         </div>
         <form
