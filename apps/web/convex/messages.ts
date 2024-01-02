@@ -58,6 +58,15 @@ export const send = mutation({
     await ctx.db.patch(characterId, {
       numChats: character?.numChats ? character?.numChats + 1 : 1,
     });
+    const followUp = await ctx.db
+      .query("followUps")
+      .withIndex("byChatId", (q) => q.eq("chatId", chatId))
+      .order("desc")
+      .first();
+    followUp &&
+      (await ctx.db.patch(followUp._id, {
+        isStale: true,
+      }));
   },
 });
 

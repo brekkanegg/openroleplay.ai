@@ -86,11 +86,11 @@ export function Dialog({
   const sendAndReset = (input: string) => {
     sendMessage({ message: input, chatId, characterId });
     setInput("");
-    setScrolled(false);
   };
   const handleSend = (event?: FormEvent) => {
     event && event.preventDefault();
     sendAndReset(input);
+    setScrolled(false);
   };
 
   const listRef = useRef<HTMLDivElement>(null);
@@ -173,7 +173,7 @@ export function Dialog({
       )}
       <div className="h-[calc(100%-6rem)] relative flex flex-col ">
         <div
-          className="grow overflow-y-scroll scrollbar-hide gap-8 flex flex-col mx-2 p-4 rounded-lg h-[100vh]"
+          className="grow overflow-y-scroll scrollbar-hide h-full gap-8 flex flex-col mx-2 p-4 rounded-lg lg:h-[100vh]"
           ref={listRef}
           onWheel={() => {
             setScrolled(true);
@@ -273,7 +273,7 @@ export function Dialog({
             ))
           )}
         </div>
-        <div className="w-full p-4 pb-8 flex items-center gap-1 flex-wrap text-xs bg-background/90 backdrop-blur-md h-fit overflow-x-scroll scrollbar-hide overflow-y-clip">
+        <div className="w-full p-4 pb-16 flex items-center gap-1 flex-wrap text-xs bg-background/90 backdrop-blur-md h-fit overflow-x-scroll scrollbar-hide overflow-y-clip">
           <Tooltip
             content={
               <span className="text-xs flex gap-1 text-muted-foreground p-2">
@@ -305,7 +305,7 @@ export function Dialog({
               )}
             </Button>
           </Tooltip>
-          {inspirations && (
+          {inspirations && !inspirations?.isStale && (
             <>
               <Separator className="w-8" />
               {inspirations?.followUp1 &&

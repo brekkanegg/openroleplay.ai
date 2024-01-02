@@ -13,6 +13,7 @@ export const create = internalMutation({
   handler: async (ctx, args) => {
     return await ctx.db.insert("followUps", {
       ...args,
+      isStale: false,
     });
   },
 });
