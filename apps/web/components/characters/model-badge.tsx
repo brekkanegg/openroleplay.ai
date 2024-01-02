@@ -28,6 +28,10 @@ const ModelBadge = ({
       src: "/models/mistral.png",
       alt: "Company logo of Mistral AI",
     },
+    pplx: {
+      src: "/models/perplexity.png",
+      alt: "Company logo of Perplexity AI",
+    },
     perplexity: {
       src: "/models/perplexity.png",
       alt: "Company logo of Perplexity AI",
