@@ -36,6 +36,10 @@ const ModelBadge = ({
       src: "/models/openai.png",
       alt: "Company logo of Open AI",
     },
+    gpt: {
+      src: "/models/openai.png",
+      alt: "Company logo of Open AI",
+    },
   };
 
   const modelCompany = model.split("-")[0];
