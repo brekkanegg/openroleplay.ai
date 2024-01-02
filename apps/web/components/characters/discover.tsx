@@ -12,7 +12,9 @@ const Discover = () => {
     { initialNumItems: 10 }
   );
   const allCharacters = results || [];
-  const characters = allCharacters.filter((character) => character.name);
+  const characters = allCharacters.filter(
+    (character) => character.name && character.cardImageUrl
+  );
   const ref = useRef(null);
   const inView = useInView(ref);
 
