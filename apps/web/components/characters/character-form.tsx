@@ -164,6 +164,7 @@ export default function CharacterForm() {
       ...(remixId ? { remixId } : {}),
     });
     character && setCharacterId(character);
+    return character;
   }
 
   async function handleUploadImage(uploadedImage: File) {
@@ -205,12 +206,10 @@ export default function CharacterForm() {
   const isImageUploadDisabled =
     !form.getValues().name ||
     !form.getValues().description ||
-    !characterId ||
     isGeneratingImage;
   const isInstructionGenerationDisabled =
     !form.getValues().name ||
     !form.getValues().description ||
-    !characterId ||
     isGeneratingInstructions;
   return (
     <Card className="w-full shadow-none lg:shadow-xl border-transparent lg:border-border overflow-hidden h-full rounded-b-none">
@@ -318,9 +317,11 @@ export default function CharacterForm() {
               onClick={async () => {
                 setIsGeneratingImage(true);
                 const formValues = form.getValues();
-                await onSubmit(formValues);
+                const newCharacterId = await onSubmit(formValues);
                 await generateImage({
-                  characterId: characterId as Id<"characters">,
+                  characterId: characterId
+                    ? characterId
+                    : (newCharacterId as Id<"characters">),
                   name: formValues.name ? formValues.name : name,
                   description: formValues.description
                     ? formValues.description
@@ -354,11 +355,7 @@ export default function CharacterForm() {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Name your character"
-                      {...field}
-                      onBlur={form.handleSubmit(debouncedSubmitHandle)}
-                    />
+                    <Input placeholder="Name your character" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -374,7 +371,6 @@ export default function CharacterForm() {
                     <Input
                       placeholder="Add a short description about this character"
                       {...field}
-                      onBlur={form.handleSubmit(debouncedSubmitHandle)}
                     />
                   </FormControl>
                   <FormMessage />
@@ -402,9 +398,11 @@ export default function CharacterForm() {
                         onClick={async () => {
                           setIsGeneratingInstructions(true);
                           const formValues = form.getValues();
-                          await onSubmit(formValues);
+                          const newCharacterId = await onSubmit(formValues);
                           await generateInstruction({
-                            characterId: characterId as Id<"characters">,
+                            characterId: characterId
+                              ? characterId
+                              : (newCharacterId as Id<"characters">),
                             name: formValues.name ? formValues.name : name,
                             description: formValues.description
                               ? formValues.description
@@ -431,7 +429,6 @@ export default function CharacterForm() {
                       className="min-h-[100px]"
                       placeholder="What does this character do? How does they behave? What should they avoid doing?"
                       {...field}
-                      onBlur={form.handleSubmit(debouncedSubmitHandle)}
                     />
                   </FormControl>
                   <FormMessage />
@@ -448,7 +445,6 @@ export default function CharacterForm() {
                     <Input
                       placeholder="The first message from character to user"
                       {...field}
-                      onBlur={form.handleSubmit(debouncedSubmitHandle)}
                     />
                   </FormControl>
                   <FormMessage />

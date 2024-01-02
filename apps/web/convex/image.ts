@@ -113,10 +113,10 @@ export const generateWithDalle3 = internalAction(
     });
     const response = await openai.images.generate({
       model: "dall-e-3",
-      prompt: `A portrait image for ${name}, ["${description}"]. When style is not specified, always use anime style.`,
+      prompt: `A portrait image for ${name}, ["${description}"]. When style is not specified, always use anime style. Do not include text on image.`,
       n: 1,
       quality: "standard",
-      size: "1024x1024",
+      size: "1024x1792",
       response_format: "b64_json",
     });
     const base64Data =

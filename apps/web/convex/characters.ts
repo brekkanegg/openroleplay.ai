@@ -97,7 +97,7 @@ export const publish = mutation({
         message: "User does not have permission to modify this character.",
       });
     }
-    if (!character.name || !character.description || !character.instructions) {
+    if (!character.name || !character.instructions) {
       throw new ConvexError({
         message: "Character must have a name and instructions.",
       });
