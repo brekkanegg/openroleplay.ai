@@ -85,9 +85,18 @@ export default function CharacterForm() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id") as Id<"characters">;
   const remixId = searchParams.get("remixId") as Id<"characters">;
+  const [characterId, setCharacterId] = useState<Id<"characters"> | undefined>(
+    id
+  );
   const character = useQuery(
     api.characters.get,
-    id ? { id } : remixId ? { id: remixId } : "skip"
+    id
+      ? { id }
+      : remixId
+        ? { id: remixId }
+        : characterId
+          ? { id: characterId }
+          : "skip"
   );
   const isEdit = searchParams.get("isEdit") || false;
   const router = useRouter();
@@ -109,9 +118,6 @@ export default function CharacterForm() {
   const generateUploadUrl = useMutation(api.characters.generateUploadUrl);
   const [visibility, setVisibility] = useState("public");
 
-  const [characterId, setCharacterId] = useState<Id<"characters"> | undefined>(
-    id
-  );
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [isGeneratingInstructions, setIsGeneratingInstructions] =
     useState(false);
@@ -310,10 +316,13 @@ export default function CharacterForm() {
               disabled={isImageUploadDisabled}
               onClick={async () => {
                 setIsGeneratingImage(true);
+                const formValues = form.getValues();
                 await generateImage({
                   characterId: characterId as Id<"characters">,
-                  name: form.getValues().name,
-                  description: form.getValues().description,
+                  name: formValues.name ? formValues.name : name,
+                  description: formValues.description
+                    ? formValues.description
+                    : description,
                 });
               }}
             >
@@ -390,10 +399,13 @@ export default function CharacterForm() {
                         disabled={isInstructionGenerationDisabled}
                         onClick={async () => {
                           setIsGeneratingInstructions(true);
+                          const formValues = form.getValues();
                           await generateInstruction({
                             characterId: characterId as Id<"characters">,
-                            name: form.getValues().name,
-                            description: form.getValues().description,
+                            name: formValues.name ? formValues.name : name,
+                            description: formValues.description
+                              ? formValues.description
+                              : description,
                           });
                         }}
                       >

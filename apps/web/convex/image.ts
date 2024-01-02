@@ -35,11 +35,7 @@ export const generate = internalAction(
       samples: 1,
       text_prompts: [
         {
-          text: name,
-          weight: 1,
-        },
-        {
-          text: description,
+          text: `${name}, ${description}`,
           weight: 1,
         },
       ],
