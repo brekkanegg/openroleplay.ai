@@ -52,8 +52,8 @@ This is where Open Roleplay steps in. Whether self-hosted or hosted by us, it's 
 ### Smaller, Faster Models
 
 - OpenAI gpt-3.5-turbo-1106 (16k context window, proivded by OpenAI)
-- Mistral mistral-7b-instruct (4k context window, hosted by Perplexity AI)
-- Mistral mixtral-8x7b-instruct (4k context window, hosted by Perplexity AI)
+- Mistral tiny (Provided by Mistral AI)
+- Mistral small (Provided by Mistral AI)
 - Perplexity pplx-7b-online (4k context window, provided by Perplexity AI)
 - Perplexity pplx-7b-chat (8k context window, provided by Perplexity AI)
 - Alibaba qwen-14b-chat (English and Chinese, provided by Fireworks AI)
@@ -65,6 +65,7 @@ This is where Open Roleplay steps in. Whether self-hosted or hosted by us, it's 
 - OpenAI gpt-4-1106-preview (32k context window, proivded by OpenAI)
 - Perplexity pplx-70b-chat (4k context window, provided by Perplexity AI)
 - Perplexity pplx-70b-online (4k context window, provided by Perplexity AI)
+- Mistral medium (Provided by Mistral AI)
 - ...and more!
 
 ### Image generation

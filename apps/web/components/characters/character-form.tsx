@@ -78,6 +78,9 @@ const formSchema = z.object({
     z.literal("pplx-70b-chat"),
     z.literal("pplx-70b-online"),
     z.literal("accounts/fireworks/models/qwen-14b-chat"),
+    z.literal("mistral-tiny"),
+    z.literal("mistral-small"),
+    z.literal("mistral-medium"),
   ]),
 });
 
@@ -468,6 +471,16 @@ export default function CharacterForm() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
+                      <SelectItem value="mistral-tiny">
+                        Mistral Tiny - Fastest response, provided by Mistral AI
+                      </SelectItem>
+                      <SelectItem value="mistral-small">
+                        Mistral Small - Faster response, provided by Mistral AI
+                      </SelectItem>
+                      <SelectItem value="mistral-medium">
+                        Mistral Medium - Accurate response, provided by Mistral
+                        AI
+                      </SelectItem>
                       <SelectItem value="gpt-3.5-turbo-1106">
                         GPT-3.5 Turbo - Capable of generating realistic text,
                         16,384 Context Length, provided by OpenAI
@@ -475,14 +488,6 @@ export default function CharacterForm() {
                       <SelectItem value="gpt-4-1106-preview">
                         GPT-4 Turbo - Capable of generating realistic text,
                         32,768 Context Length, provided by OpenAI
-                      </SelectItem>
-                      <SelectItem value="mistral-7b-instruct">
-                        Mistral 7B Instruct - Not for chat, Fastest response,
-                        4096 Context Length, provided by Perplexity AI
-                      </SelectItem>
-                      <SelectItem value="mixtral-8x7b-instruct">
-                        Mixtral 8x7B Instruct - Not for chat, Faster response,
-                        4096 Context Length, provided by Perplexity AI
                       </SelectItem>
                       <SelectItem value="pplx-7b-online">
                         Perplexity 7B Online - Latest Internet Knowledge, Faster

@@ -5,6 +5,7 @@ export const OPENAI_API_URL = "https://api.openai.com/v1";
 export const FIREWORK_API_URL = "https://api.fireworks.ai/inference/v1";
 export const STABILITY_AI_API_URL =
   "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image";
+export const MISTRAL_AI_API_URL = "https://api.mistral.ai/v1";
 
 export const getBaseURL = (modelName: string) => {
   switch (modelName) {
@@ -17,6 +18,10 @@ export const getBaseURL = (modelName: string) => {
       return PERPLEXITY_API_URL;
     case "accounts/fireworks/models/qwen-14b-chat":
       return FIREWORK_API_URL;
+    case "mistral-tiny":
+    case "mistral-small":
+    case "mistral-medium":
+      return MISTRAL_AI_API_URL;
     default:
       return OPENAI_API_URL;
   }
@@ -33,6 +38,10 @@ export const getAPIKey = (modelName: string) => {
       return process.env.PERPLEXITY_API_KEY;
     case "accounts/fireworks/models/qwen-14b-chat":
       return process.env.FIREWORKS_API_KEY;
+    case "mistral-tiny":
+    case "mistral-small":
+    case "mistral-medium":
+      return process.env.MISTRAL_API_KEY;
     default:
       return process.env.OPENAI_API_KEY;
   }
@@ -49,6 +58,10 @@ export const getRemindInstructionInterval = (modelName: string) => {
     case "pplx-70b-online":
     case "pplx-70b-chat":
       return 64;
+    case "mistral-tiny":
+    case "mistral-small":
+    case "mistral-medium":
+      return 128;
     case "gpt-4-1106-preview":
       return 128;
     default:
@@ -80,6 +93,12 @@ export const getCrystalPrice = (modelName: string) => {
       return 30;
     case "dalle-3":
       return 100;
+    case "mistral-tiny":
+      return 5;
+    case "mistral-small":
+      return 10;
+    case "mistral-medium":
+      return 15;
     default:
       return 5;
   }

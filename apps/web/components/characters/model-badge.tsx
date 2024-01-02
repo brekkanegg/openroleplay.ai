@@ -24,41 +24,22 @@ const ModelBadge = ({
   );
 
   const modelData = {
-    "mixtral-8x7b-instruct": {
+    mistral: {
       src: "/models/mistral.png",
       alt: "Company logo of Mistral AI",
     },
-    "mistral-7b-instruct": {
-      src: "/models/mistral.png",
-      alt: "Company logo of Mistral AI",
-    },
-    "pplx-7b-online": {
+    perplexity: {
       src: "/models/perplexity.png",
       alt: "Company logo of Perplexity AI",
     },
-    "pplx-70b-online": {
-      src: "/models/perplexity.png",
-      alt: "Company logo of Perplexity AI",
-    },
-    "pplx-7b-chat": {
-      src: "/models/perplexity.png",
-      alt: "Company logo of Perplexity AI",
-    },
-    "pplx-70b-chat": {
-      src: "/models/perplexity.png",
-      alt: "Company logo of Perplexity AI",
-    },
-    "gpt-3.5-turbo-1106": {
-      src: "/models/openai.png",
-      alt: "Company logo of Open AI",
-    },
-    "gpt-4-1106-preview": {
+    openai: {
       src: "/models/openai.png",
       alt: "Company logo of Open AI",
     },
   };
 
-  const { src, alt } = modelData[model as keyof typeof modelData] || {
+  const modelCompany = model.split("-")[0];
+  const { src, alt } = modelData[modelCompany as keyof typeof modelData] || {
     src: null,
     alt: null,
   };

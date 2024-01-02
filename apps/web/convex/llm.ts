@@ -358,7 +358,7 @@ export const getMessages = internalQuery(
     return await ctx.db
       .query("messages")
       .withIndex("byChatId", (q) => q.eq("chatId", chatId))
-      .collect();
+      .take(256);
   }
 );
 

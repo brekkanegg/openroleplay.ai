@@ -43,7 +43,10 @@ export default defineSchema({
         v.literal("pplx-7b-online"),
         v.literal("pplx-70b-chat"),
         v.literal("pplx-70b-online"),
-        v.literal("accounts/fireworks/models/qwen-14b-chat")
+        v.literal("accounts/fireworks/models/qwen-14b-chat"),
+        v.literal("mistral-tiny"),
+        v.literal("mistral-small"),
+        v.literal("mistral-medium")
       )
     ),
     updatedAt: v.string(),
