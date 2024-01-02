@@ -73,7 +73,7 @@ export default function Page({ params }: { params: { id: string } }) {
               <p
                 className={`${
                   data?.cardImageUrl ? "text-white" : "text-foreground"
-                } z-[1] lg:line-clamp-5 line-clamp-3 text-sm`}
+                } z-[1] lg:line-clamp-5 line-clamp-3 hover:line-clamp-none text-sm`}
               >
                 {data?.description}
               </p>

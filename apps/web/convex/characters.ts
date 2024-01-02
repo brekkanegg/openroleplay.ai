@@ -120,6 +120,7 @@ export const list = query({
       .filter((q) => q.eq(q.field("isBlacklisted"), false))
       .filter((q) => q.neq(q.field("isArchived"), true))
       .filter((q) => q.neq(q.field("isNSFW"), true))
+      .filter((q) => q.neq(q.field("visibility"), "private"))
       .order("desc")
       .paginate(args.paginationOpts);
   },

@@ -106,6 +106,7 @@ export default function CharacterForm() {
   const archive = useMutation(api.characters.archive);
   const generateImage = useMutation(api.characterCard.request);
   const generateUploadUrl = useMutation(api.characters.generateUploadUrl);
+  const [visibility, setVisibility] = useState("public");
 
   const [characterId, setCharacterId] = useState<Id<"characters"> | undefined>(
     id
@@ -466,7 +467,12 @@ export default function CharacterForm() {
         >
           <PopoverContent asChild>
             <div className="w-full rounded-lg bg-white p-4 sm:w-40">
-              <RadioGroup defaultValue="public" className="p-1">
+              <RadioGroup
+                defaultValue="public"
+                className="p-1"
+                value={visibility}
+                onValueChange={(value) => setVisibility(value)}
+              >
                 <span className="text-muted-foreground text-sm font-medium">
                   Publish to
                 </span>
@@ -491,7 +497,7 @@ export default function CharacterForm() {
                       (() => {
                         const promise = publish({
                           id: characterId,
-                          visibility: "public",
+                          visibility: visibility as any,
                         });
                         toast.promise(promise, {
                           loading: "Publishing character...",
