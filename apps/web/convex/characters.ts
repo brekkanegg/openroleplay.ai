@@ -3,6 +3,7 @@ import { ConvexError, v } from "convex/values";
 import { getUser } from "./users";
 import { embedText } from "./ingest/embed";
 import { paginationOptsValidator } from "convex/server";
+import { internal } from "./_generated/api";
 
 export const upsert = mutation({
   args: {
@@ -95,7 +96,7 @@ export const publish = mutation({
     }
     if (!character.name || !character.description || !character.instructions) {
       throw new ConvexError({
-        message: "Character must have a name, description, and instructions.",
+        message: "Character must have a name and instructions.",
       });
     }
     const updatedAt = new Date().toISOString();
@@ -183,5 +184,24 @@ export const generateUploadUrl = mutation({
   args: {},
   handler: async (ctx, args) => {
     return await ctx.storage.generateUploadUrl();
+  },
+});
+
+export const generateInstruction = mutation({
+  args: {
+    name: v.string(),
+    description: v.string(),
+    characterId: v.id("characters"),
+  },
+  handler: async (ctx, { name, description, characterId }) => {
+    const user = await getUser(ctx);
+    await ctx.scheduler.runAfter(0, internal.llm.generateInstruction, {
+      userId: user._id,
+      characterId,
+      name,
+      description,
+    });
+    const character = await ctx.db.get(characterId);
+    return character?.instructions;
   },
 });

@@ -59,7 +59,10 @@ export const answer = internalAction({
       const instruction = `You are 
             {
               name: ${character?.name}
-              description: ${character?.description}
+              ${
+                character?.description &&
+                `description: ${character.description}`
+              }
               instruction: ${character?.instructions}
             }
 
@@ -154,6 +157,78 @@ export const answer = internalAction({
   },
 });
 
+export const generateInstruction = internalAction({
+  args: {
+    userId: v.id("users"),
+    name: v.string(),
+    description: v.string(),
+    characterId: v.id("characters"),
+  },
+  handler: async (ctx, { userId, name, description, characterId }) => {
+    try {
+      const model = DEFAULT_MODEL;
+      const baseURL = getBaseURL(model);
+      const apiKey = getAPIKey(model);
+      const openai = new OpenAI({
+        baseURL,
+        apiKey,
+      });
+      const instruction = `Create specific and detailed character instruction (what does the character do, how does they behave, what should they avoid doing) for ${name} (description: ${description}). `;
+      const { currentCrystals } = await ctx.runMutation(
+        internal.serve.useCrystal,
+        {
+          userId,
+          name: model,
+        }
+      );
+      try {
+        const stream = await openai.chat.completions.create({
+          model,
+          stream: true,
+          messages: [
+            {
+              role: "system",
+              content: instruction,
+            },
+          ],
+        });
+
+        let text = "";
+        for await (const { choices } of stream) {
+          const replyDelta = choices[0] && choices[0].delta.content;
+          if (typeof replyDelta === "string" && replyDelta.length > 0) {
+            text += replyDelta;
+            await ctx.runMutation(internal.llm.updateCharacterInstruction, {
+              characterId,
+              text,
+            });
+          }
+        }
+      } catch (error) {
+        await ctx.runMutation(internal.serve.refundCrystal, {
+          userId,
+          currentCrystals,
+          name: model,
+        });
+        throw Error;
+      }
+    } catch (error) {
+      if (error instanceof ConvexError) {
+        await ctx.runMutation(internal.llm.updateCharacterInstruction, {
+          characterId,
+          text: error.data,
+        });
+      } else {
+        await ctx.runMutation(internal.llm.updateCharacterInstruction, {
+          characterId,
+          text: "I cannot generate instruction at this time.",
+        });
+      }
+      throw error;
+    }
+  },
+});
+
 export const getMessages = internalQuery(
   async (ctx, { chatId }: { chatId: Id<"chats"> }) => {
     return await ctx.db
@@ -185,5 +260,14 @@ export const updateCharacterMessage = internalMutation(
     { messageId, text }: { messageId: Id<"messages">; text: string }
   ) => {
     await ctx.db.patch(messageId, { text });
+  }
+);
+
+export const updateCharacterInstruction = internalMutation(
+  async (
+    ctx,
+    { characterId, text }: { characterId: Id<"characters">; text: string }
+  ) => {
+    await ctx.db.patch(characterId, { instructions: text });
   }
 );

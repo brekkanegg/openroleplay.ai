@@ -105,6 +105,7 @@ export default function CharacterForm() {
   const publish = useMutation(api.characters.publish);
   const archive = useMutation(api.characters.archive);
   const generateImage = useMutation(api.characterCard.request);
+  const generateInstruction = useMutation(api.characters.generateInstruction);
   const generateUploadUrl = useMutation(api.characters.generateUploadUrl);
   const [visibility, setVisibility] = useState("public");
 
@@ -112,6 +113,8 @@ export default function CharacterForm() {
     id
   );
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  const [isGeneratingInstructions, setIsGeneratingInstructions] =
+    useState(false);
 
   const imageInput = useRef<HTMLInputElement>(null);
   const [openPopover, setOpenPopover] = useState(false);
@@ -139,6 +142,10 @@ export default function CharacterForm() {
   useEffect(() => {
     cardImageUrl && setIsGeneratingImage(false);
   }, [cardImageUrl]);
+
+  useEffect(() => {
+    instructions && setIsGeneratingInstructions(false);
+  }, [instructions]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { greetings, ...otherValues } = values;
@@ -193,6 +200,11 @@ export default function CharacterForm() {
     !form.getValues().description ||
     !characterId ||
     isGeneratingImage;
+  const isInstructionGenerationDisabled =
+    !form.getValues().name ||
+    !form.getValues().description ||
+    !characterId ||
+    isGeneratingInstructions;
   return (
     <Card className="w-full shadow-none lg:shadow-xl border-transparent lg:border-border overflow-hidden h-full rounded-b-none">
       <CardHeader>
@@ -363,7 +375,42 @@ export default function CharacterForm() {
               name="instructions"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Instructions</FormLabel>
+                  <div className="flex justify-between items-center">
+                    <FormLabel>Instructions</FormLabel>
+                    <Tooltip
+                      content={
+                        isInstructionGenerationDisabled
+                          ? "Write character name and description to generate instruction"
+                          : "Generate character instruction"
+                      }
+                    >
+                      <Button
+                        className="flex gap-1 h-8"
+                        variant="ghost"
+                        disabled={isInstructionGenerationDisabled}
+                        onClick={async () => {
+                          setIsGeneratingInstructions(true);
+                          await generateInstruction({
+                            characterId: characterId as Id<"characters">,
+                            name: form.getValues().name,
+                            description: form.getValues().description,
+                          });
+                        }}
+                      >
+                        {isGeneratingInstructions ? (
+                          <>
+                            <Spinner />
+                            Generating...
+                          </>
+                        ) : (
+                          <>
+                            Generate
+                            <Crystal className="w-4 h-4" /> x 5
+                          </>
+                        )}
+                      </Button>
+                    </Tooltip>
+                  </div>
                   <FormControl>
                     <Textarea
                       className="min-h-[100px]"
