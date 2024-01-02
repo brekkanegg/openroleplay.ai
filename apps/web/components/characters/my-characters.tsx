@@ -12,19 +12,18 @@ import CharacterCardPlaceholder from "../cards/character-card-placeholder";
 import CharacterCard from "../cards/character-card";
 import { AspectRatio } from "@repo/ui/src/components/aspect-ratio";
 import { Plus } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { InfoTooltip, TooltipContent } from "@repo/ui/src/components/tooltip";
 import { useInView } from "framer-motion";
 import Link from "next/link";
 
-const NewCharacter = ({ onClick }: { onClick: any }) => {
+const NewCharacter = () => {
   return (
     <Link href="/my-characters/create">
       <AspectRatio
         ratio={1 / 1.75}
         className="group w-full h-full hover:-translate-y-1 duration-200 border border-dashed hover:shadow-lg place-content-center rounded-lg"
         role="button"
-        onClick={onClick}
       >
         <Card className="rounded-lg p-2 w-full h-full flex items-center justify-center border-none gap-2">
           <Plus /> Create character
