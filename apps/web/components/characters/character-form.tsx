@@ -317,6 +317,7 @@ export default function CharacterForm() {
               onClick={async () => {
                 setIsGeneratingImage(true);
                 const formValues = form.getValues();
+                onSubmit(formValues);
                 await generateImage({
                   characterId: characterId as Id<"characters">,
                   name: formValues.name ? formValues.name : name,
@@ -400,6 +401,7 @@ export default function CharacterForm() {
                         onClick={async () => {
                           setIsGeneratingInstructions(true);
                           const formValues = form.getValues();
+                          onSubmit(formValues);
                           await generateInstruction({
                             characterId: characterId as Id<"characters">,
                             name: formValues.name ? formValues.name : name,
