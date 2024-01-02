@@ -9,6 +9,8 @@ import { usePaginatedQuery, useQuery } from "convex/react";
 import { formatDistanceToNow } from "date-fns";
 import { Id } from "../../convex/_generated/dataModel";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
+import { useInView } from "framer-motion";
 
 const Chat = ({
   name,
@@ -73,6 +75,14 @@ export default function Chats() {
     {},
     { initialNumItems: 5 }
   );
+  const ref = useRef(null);
+  const inView = useInView(ref);
+
+  useEffect(() => {
+    if (inView) {
+      loadMore(10);
+    }
+  }, [inView, loadMore]);
   return (
     <Card className="w-full shadow-none lg:shadow-xl border-transparent lg:border-border overflow-hidden h-full rounded-b-none">
       <CardHeader>
@@ -96,6 +106,7 @@ export default function Chats() {
             </Link>
           </div>
         )}
+        <div ref={ref} />
       </ul>
     </Card>
   );
