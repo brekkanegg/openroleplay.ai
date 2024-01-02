@@ -323,8 +323,10 @@ export const generateFollowups = internalAction({
           response_format: { type: "json_object" },
           functions,
         });
-        const responseMessage = response.choices[0].message;
-        if (responseMessage.function_call) {
+        const responseMessage = (response &&
+          response?.choices &&
+          response.choices[0]?.message) as any;
+        if (responseMessage?.function_call) {
           const functionArgs = JSON.parse(
             responseMessage.function_call.arguments
           );
