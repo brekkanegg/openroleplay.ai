@@ -9,6 +9,7 @@ import {
 import { usePathname } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger } from "@repo/ui/src/components/tabs";
 import Link from "next/link";
+import { Discord } from "@repo/ui/src/components/social-icons";
 
 function TabsController() {
   const pathname = usePathname();
@@ -61,6 +62,15 @@ function TabsController() {
           >
             <Store className="w-5 h-5 p-1" />
             Shop
+          </TabsTrigger>
+        </Link>
+        <Link href="/discord">
+          <TabsTrigger
+            className="w-full rounded-full lg:flex gap-0.5 flex-col items-center lg:items-start lg:flex-row hidden"
+            value="/discord"
+          >
+            <Discord className="w-5 h-5 p-1" />
+            Community
           </TabsTrigger>
         </Link>
       </TabsList>
