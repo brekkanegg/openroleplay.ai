@@ -119,17 +119,27 @@ export const generateWithDalle3 = internalAction(
       size: "1024x1792",
       response_format: "b64_json",
     });
-    const base64Data = response.data[0].b64_json as string;
+    const base64Data =
+      response && response.data && response.data[0]
+        ? (response.data[0].b64_json as string)
+        : "";
     const binaryData = Buffer.from(base64Data, "base64");
     const image = new Blob([binaryData], { type: "image/png" });
 
-    // Update storage.store to accept whatever kind of Blob is returned from node-fetch
-    const cardImageStorageId = await ctx.storage.store(image as Blob);
-
-    // Write storageId as the body of the message to the Convex database.
-    await ctx.runMutation(internal.characterCard.uploadImage, {
-      characterId,
-      cardImageStorageId,
-    });
+    try {
+      // Update storage.store to accept whatever kind of Blob is returned from node-fetch
+      const cardImageStorageId = await ctx.storage.store(image as Blob);
+      // Write storageId as the body of the message to the Convex database.
+      await ctx.runMutation(internal.characterCard.uploadImage, {
+        characterId,
+        cardImageStorageId,
+      });
+    } catch (error) {
+      await ctx.runMutation(internal.serve.refundCrystal, {
+        userId,
+        name: "dalle-3",
+        currentCrystals,
+      });
+    }
   }
 );
