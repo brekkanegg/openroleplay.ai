@@ -60,7 +60,7 @@ export function MyPersonas() {
                 content={
                   <TooltipContent
                     title={
-                      "You can be anyone you want to be. By updating your profile settings with specific personality traits, preferences, and physical characteristics, your interactions with characters become more personalized and immersive. Whether you want to explore new identities, immerse yourself in your favorite fictional stories, or simply add a creative twist to your conversations, Personas are the way to go."
+                      "You can be anyone you want to be. By updating your persona with specific personality traits, preferences, and physical characteristics, your interactions with characters become more personalized and immersive. Whether you want to explore new identities, immerse yourself in your favorite fictional stories, or simply add a creative twist to your conversations, Personas are the way to go."
                     }
                   />
                 }
