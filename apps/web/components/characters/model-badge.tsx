@@ -24,6 +24,10 @@ const ModelBadge = ({
   );
 
   const modelData = {
+    mixtral: {
+      src: "/models/mistral.png",
+      alt: "Company logo of Mistral AI",
+    },
     mistral: {
       src: "/models/mistral.png",
       alt: "Company logo of Mistral AI",
