@@ -59,7 +59,10 @@ export const answer = internalAction({
       const instruction = `You are 
             {
               name: ${character?.name}
-              description: ${character?.description}
+              ${
+                character?.description &&
+                `description: ${character.description}`
+              }
               instruction: ${character?.instructions}
             }
 

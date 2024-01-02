@@ -96,7 +96,7 @@ export const publish = mutation({
     }
     if (!character.name || !character.description || !character.instructions) {
       throw new ConvexError({
-        message: "Character must have a name, description, and instructions.",
+        message: "Character must have a name and instructions.",
       });
     }
     const updatedAt = new Date().toISOString();
