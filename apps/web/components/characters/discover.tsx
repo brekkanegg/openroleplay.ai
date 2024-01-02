@@ -41,9 +41,13 @@ const Discover = () => {
                   />
                 )
             )
-          : Array.from({ length: 12 }).map((_, index) => (
+          : Array.from({ length: 10 }).map((_, index) => (
               <CharacterCardPlaceholder key={index} />
             ))}
+        {status === "LoadingMore" &&
+          Array.from({ length: 10 }).map((_, index) => (
+            <CharacterCardPlaceholder key={index} />
+          ))}
         <div ref={ref} />
       </div>
     </>
