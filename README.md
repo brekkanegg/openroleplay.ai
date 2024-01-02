@@ -57,6 +57,7 @@ This is where Open Roleplay steps in. Whether self-hosted or hosted by us, it's 
 - Perplexity pplx-7b-online (4k context window, provided by Perplexity AI)
 - Perplexity pplx-7b-chat (8k context window, provided by Perplexity AI)
 - Alibaba qwen-14b-chat (English and Chinese, provided by Fireworks AI)
+- Anthropic Claude Instant (Coming Soon, 128k context window, proivded by OpenAI)
 - ...and more!
 
 ### Larger, Accurate Models
